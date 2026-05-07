@@ -1,0 +1,27 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  font-size: 14px;
+  color: #222;
+  background: #fff;
+}
+
+#root {
+  height: 100vh;
+}
+
+h1, h2, h3 {
+  margin: 0 0 8px;
+}
+
+button {
+  cursor: pointer;
+}
+
+p {
+  margin: 0;
+}
