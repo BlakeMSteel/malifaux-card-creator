@@ -39,6 +39,7 @@ const defaultCrewCard: CrewCardData = {
   imageUrl: '',
   crewAbility: '',
   abilityGroups: [],
+  triggerGroups: [],
   actionGroups: [],
   markers: [],
   tokens: [],

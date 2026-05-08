@@ -1,5 +1,5 @@
 import type {
-  CrewCardData, AbilityGroup, ActionGroup,
+  CrewCardData, AbilityGroup, ActionGroup, TriggerGroup, TriggerActionType,
   Ability, Action, ActionType, Trigger, Suit, RstValue,
   Marker, Token, TerrainFeature,
 } from '../../types'
@@ -172,6 +172,29 @@ export default function CrewCardForm({ card, onChange }: Props) {
     updateAction(groupId, actionId, { triggers: a.triggers.filter(t => t.id !== triggerId) })
   }
 
+  // — Trigger group helpers —
+  const updateTriggerGroup = (groupId: string, patch: Partial<TriggerGroup>) =>
+    update({ triggerGroups: card.triggerGroups.map(g => g.id === groupId ? { ...g, ...patch } : g) })
+
+  const addTriggerGroup = () => {
+    const g: TriggerGroup = {
+      id: crypto.randomUUID(),
+      uniqueOnly: false,
+      excludePeon: false,
+      excludeSummonToken: false,
+      actionType: 'attack',
+      printedOnStatCard: false,
+      trigger: { id: crypto.randomUUID(), suit: '🐏', name: '', requirement: '', effect: '' },
+    }
+    update({ triggerGroups: [...card.triggerGroups, g] })
+  }
+
+  const removeTriggerGroup = (groupId: string) =>
+    update({ triggerGroups: card.triggerGroups.filter(g => g.id !== groupId) })
+
+  const updateGroupTrigger = (groupId: string, patch: Partial<Trigger>) =>
+    update({ triggerGroups: card.triggerGroups.map(g => g.id === groupId ? { ...g, trigger: { ...g.trigger, ...patch } } : g) })
+
   // — Marker helpers —
   const addMarker = () => {
     const m: Marker = { id: crypto.randomUUID(), name: '', size: '30mm', terrainFeatures: [], effect: '' }
@@ -297,6 +320,61 @@ export default function CrewCardForm({ card, onChange }: Props) {
           </div>
         ))}
         <button type="button" onClick={addAbilityGroup}>+ Add Ability Group</button>
+      </section>
+
+      <section>
+        <h3>Trigger Groups</h3>
+        {card.triggerGroups.map((group, gi) => (
+          <div key={group.id} className="action-entry">
+            <div className="row gap-sm">
+              <span className="label-text">Group {gi + 1}</span>
+              <button type="button" onClick={() => removeTriggerGroup(group.id)}>× Remove Group</button>
+            </div>
+            <label className="inline">
+              <input type="checkbox" checked={group.uniqueOnly}
+                onChange={e => updateTriggerGroup(group.id, { uniqueOnly: e.target.checked })} />
+              Unique models only
+            </label>
+            <label className="inline">
+              <input type="checkbox" checked={group.excludePeon}
+                onChange={e => updateTriggerGroup(group.id, { excludePeon: e.target.checked })} />
+              Non-Peon only
+            </label>
+            <label className="inline">
+              <input type="checkbox" checked={group.excludeSummonToken}
+                onChange={e => updateTriggerGroup(group.id, { excludeSummonToken: e.target.checked })} />
+              Exclude Summon token
+            </label>
+            <label>Action type
+              <select value={group.actionType} onChange={e => updateTriggerGroup(group.id, { actionType: e.target.value as TriggerActionType })}>
+                <option value="attack">all attack actions</option>
+                <option value="all">all actions</option>
+                <option value="🔫">their 🔫 actions</option>
+                <option value="✨">their ✨ actions</option>
+                <option value="🗡️">their 🗡️ actions</option>
+              </select>
+            </label>
+            <label className="inline">
+              <input type="checkbox" checked={group.printedOnStatCard}
+                onChange={e => updateTriggerGroup(group.id, { printedOnStatCard: e.target.checked })} />
+              Printed on their stat card
+            </label>
+            <div className="subsection">
+              <p className="label-text">Trigger</p>
+              <div className="trigger-entry">
+                <div className="row gap-sm">
+                  <select value={group.trigger.suit} onChange={e => updateGroupTrigger(group.id, { suit: e.target.value as Suit })}>
+                    {SUITS.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                  <input value={group.trigger.name} onChange={e => updateGroupTrigger(group.id, { name: e.target.value })} placeholder="Trigger name" />
+                </div>
+                <input value={group.trigger.requirement} onChange={e => updateGroupTrigger(group.id, { requirement: e.target.value })} placeholder="Requirement (italic, optional)" />
+                <textarea value={group.trigger.effect} onChange={e => updateGroupTrigger(group.id, { effect: e.target.value })} rows={2} placeholder="Effect" />
+              </div>
+            </div>
+          </div>
+        ))}
+        <button type="button" onClick={addTriggerGroup}>+ Add Trigger Group</button>
       </section>
 
       <section>

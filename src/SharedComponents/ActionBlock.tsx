@@ -1,7 +1,7 @@
 import type { Action, Trigger } from '../types'
 import './ActionBlock.css'
 
-function TriggerRow({ trigger }: { trigger: Trigger }) {
+export function TriggerRow({ trigger }: { trigger: Trigger }) {
   return (
     <div className="act-trigger">
       <span className="act-suit">{trigger.suit}</span>

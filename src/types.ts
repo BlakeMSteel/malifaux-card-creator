@@ -49,6 +49,18 @@ export interface ActionGroup {
   actions: Action[]
 }
 
+export type TriggerActionType = '🔫' | '✨' | '🗡️' | 'attack' | 'all'
+
+export interface TriggerGroup {
+  id: string
+  uniqueOnly: boolean
+  excludePeon: boolean
+  excludeSummonToken: boolean
+  actionType: TriggerActionType
+  printedOnStatCard: boolean
+  trigger: Trigger
+}
+
 export interface TerrainFeature {
   id: string
   feature: string
@@ -76,6 +88,7 @@ export interface CrewCardData {
   imageUrl: string
   crewAbility: string
   abilityGroups: AbilityGroup[]
+  triggerGroups: TriggerGroup[]
   actionGroups: ActionGroup[]
   markers: Marker[]
   tokens: Token[]
