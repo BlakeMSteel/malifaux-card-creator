@@ -1,5 +1,5 @@
-import type { CardData } from './types'
-import { getFaction } from './factions'
+import type { CardData } from '../../types'
+import { getFaction } from '../../factions'
 
 function buildCharacteristics(card: CardData): string {
   const parts: string[] = []

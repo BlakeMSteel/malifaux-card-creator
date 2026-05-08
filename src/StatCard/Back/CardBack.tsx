@@ -1,5 +1,5 @@
-import type { CardData, Action, Trigger } from './types'
-import { getFaction } from './factions'
+import type { CardData, Action, Trigger } from '../../types'
+import { getFaction } from '../../factions'
 
 const STAT_COLS = ['Rg', 'Skl', 'Rst', 'TN', 'Dmg'] as const
 

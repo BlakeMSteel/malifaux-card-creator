@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { CardData } from './types'
-import CardForm from './CardForm'
-import CardPreview from './CardPreview'
-import CardBack from './CardBack'
+import StatCard from './StatCard/StatCard'
 import './App.css'
 
 const defaultCard: CardData = {
@@ -48,17 +46,5 @@ export default function App() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(card))
   }, [card])
 
-  return (
-    <div className="app">
-      <div className="form-panel">
-        <CardForm card={card} onChange={setCard} />
-      </div>
-      <div className="preview-panel">
-        <div className="cards-container">
-          <CardPreview card={card} />
-          <CardBack card={card} />
-        </div>
-      </div>
-    </div>
-  )
+  return <StatCard card={card} onChange={setCard} />
 }
