@@ -66,7 +66,6 @@
   background: white;
   padding: 10px 14px;
   overflow-y: auto;
-  line-height: 1.45;
 }
 
 .cc-feature-group {
@@ -79,87 +78,12 @@
   color: #333;
 }
 
-.cc-ability {
-  margin: 0 0 6px;
-  font-size: 13px;
-}
-
-/* Action section (mirrors card back) */
-.cc-section {
-  margin-bottom: 8px;
-}
-
-.cc-section-header {
-  display: grid;
-  grid-template-columns: 1fr 30px 30px 30px 30px 30px;
-  gap: 0 2px;
-  align-items: baseline;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.cc-col-headers {
-  display: contents;
-}
-
-.cc-col-headers span {
-  text-align: center;
-  font-size: 10px;
-}
-
-.cc-hr {
-  border: none;
-  border-top: 1px solid #aaa;
-  margin: 3px 0 5px;
-}
-
-.cc-action {
-  margin-bottom: 7px;
-}
-
-.cc-stat-row {
-  display: grid;
-  grid-template-columns: 1fr 30px 30px 30px 30px 30px;
-  gap: 0 2px;
-  align-items: start;
-  font-size: 12px;
-}
-
-.cc-stat-row span:not(:first-child) {
-  text-align: center;
-}
-
-.cc-sig {
-  font-size: 10px;
-}
-
-.cc-italic {
-  margin: 2px 0 0;
-  font-style: italic;
-  font-size: 12px;
-}
-
-.cc-action-text {
-  margin: 2px 0 0;
-  font-size: 12px;
-}
-
-.cc-trigger {
-  margin: 2px 0 0 8px;
-  font-size: 11px;
-}
-
-.cc-suit {
-  font-size: 10px;
-}
-
 .cc-back-body {
   flex: 1;
   background: white;
   padding: 12px 14px;
   overflow-y: auto;
   font-size: 13px;
-  line-height: 1.5;
 }
 
 .cc-ref-section {

@@ -1,5 +1,6 @@
 import type { CardData } from '../../types'
 import { getFaction } from '../../factions'
+import { AbilityRow } from '../../SharedComponents/AbilityRow'
 
 function buildCharacteristics(card: CardData): string {
   const parts: string[] = []
@@ -73,11 +74,7 @@ export default function CardPreview({ card }: { card: CardData }) {
       )}
 
       <div className="card-abilities">
-        {card.abilities.map(ab => (
-          <p key={ab.id}>
-            <strong>{ab.name}:</strong> {ab.text}
-          </p>
-        ))}
+        {card.abilities.map(ab => <AbilityRow key={ab.id} ability={ab} />)}
       </div>
 
       <div className="card-health">

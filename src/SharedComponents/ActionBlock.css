@@ -1,0 +1,39 @@
+.act-action {
+  margin-bottom: 8px;
+}
+
+.act-stat-row {
+  display: grid;
+  grid-template-columns: 1fr 30px 30px 30px 30px 30px;
+  gap: 0 2px;
+  align-items: start;
+  font-size: 12px;
+}
+
+.act-stat-row span:not(:first-child) {
+  text-align: center;
+}
+
+.act-sig {
+  font-size: 10px;
+}
+
+.act-italic {
+  margin: 2px 0 0;
+  font-style: italic;
+  font-size: 12px;
+}
+
+.act-text {
+  margin: 2px 0 0;
+  font-size: 12px;
+}
+
+.act-trigger {
+  margin: 2px 0 0 8px;
+  font-size: 11px;
+}
+
+.act-suit {
+  font-size: 10px;
+}
