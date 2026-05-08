@@ -1,8 +1,6 @@
 import type { UpgradeCardData, TriggerActionType } from '../types'
 import { getFaction } from '../factions'
-import { AbilityRow } from '../SharedComponents/AbilityRow'
-import { ActionSection } from '../SharedComponents/ActionSection'
-import { TriggerRow } from '../SharedComponents/ActionBlock'
+import { AbilityRow, ActionSection, TriggerRow } from '../SharedComponents/DisplayComponents'
 import './UpgradeCard.css'
 
 function triggerPreamble(actionType: TriggerActionType, statCard: boolean, count: number): string {

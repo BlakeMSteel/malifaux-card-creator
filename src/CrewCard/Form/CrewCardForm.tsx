@@ -1,13 +1,11 @@
 import type {
   CrewCardData, AbilityGroup, ActionGroup, TriggerGroup, TriggerActionType,
-  Ability, Action, ActionType, Trigger, Suit, RstValue,
+  Ability, Action, ActionType, Trigger,
   Marker, Token, TerrainFeature,
 } from '../../types'
 import { FACTIONS } from '../../factions'
-import '../../SharedComponents/FormStyles.css'
-
-const SUITS: Suit[] = ['🐏', '🪶', '📖', '🎭', '💎']
-const RST_VALUES: RstValue[] = ['Df', 'Wp', 'Sp', 'Sz', 'X', '*', '-']
+import { AbilityEntry, ActionEntry, TriggerEntry, GroupHeader } from '../../SharedComponents/FormComponents'
+import '../../SharedComponents/FormComponents/FormStyles.css'
 
 const TOKEN_PRESETS: Record<string, string> = {
   'Abandoned': "During the end phase, if this model does not have more models (other than itself) it considers friendly within 3\" of it than models it considers enemy, this model is dealt 2 irreducible damage. Then, if this token did not damage this model, remove this token.",
@@ -153,25 +151,6 @@ export default function CrewCardForm({ card, onChange }: Props) {
     updateActionGroup(groupId, { actions: g.actions.filter(a => a.id !== actionId) })
   }
 
-  const addTrigger = (groupId: string, actionId: string) => {
-    const t: Trigger = { id: crypto.randomUUID(), suit: '🐏', name: '', requirement: '', effect: '' }
-    const g = card.actionGroups.find(g => g.id === groupId)!
-    const a = g.actions.find(a => a.id === actionId)!
-    updateAction(groupId, actionId, { triggers: [...a.triggers, t] })
-  }
-
-  const updateTrigger = (groupId: string, actionId: string, triggerId: string, patch: Partial<Trigger>) => {
-    const g = card.actionGroups.find(g => g.id === groupId)!
-    const a = g.actions.find(a => a.id === actionId)!
-    updateAction(groupId, actionId, { triggers: a.triggers.map(t => t.id === triggerId ? { ...t, ...patch } : t) })
-  }
-
-  const removeTrigger = (groupId: string, actionId: string, triggerId: string) => {
-    const g = card.actionGroups.find(g => g.id === groupId)!
-    const a = g.actions.find(a => a.id === actionId)!
-    updateAction(groupId, actionId, { triggers: a.triggers.filter(t => t.id !== triggerId) })
-  }
-
   // — Trigger group helpers —
   const updateTriggerGroup = (groupId: string, patch: Partial<TriggerGroup>) =>
     update({ triggerGroups: card.triggerGroups.map(g => g.id === groupId ? { ...g, ...patch } : g) })
@@ -285,35 +264,17 @@ export default function CrewCardForm({ card, onChange }: Props) {
         <h3>Ability Groups</h3>
         {card.abilityGroups.map((group, gi) => (
           <div key={group.id} className="action-entry">
-            <div className="row gap-sm">
-              <span className="label-text">Group {gi + 1}</span>
-              <button type="button" onClick={() => removeAbilityGroup(group.id)}>× Remove Group</button>
-            </div>
-            <label className="inline">
-              <input type="checkbox" checked={group.uniqueOnly}
-                onChange={e => updateAbilityGroup(group.id, { uniqueOnly: e.target.checked })} />
-              Unique models only
-            </label>
-            <label className="inline">
-              <input type="checkbox" checked={group.excludePeon}
-                onChange={e => updateAbilityGroup(group.id, { excludePeon: e.target.checked })} />
-              Non-Peon only
-            </label>
-            <label className="inline">
-              <input type="checkbox" checked={group.excludeSummonToken}
-                onChange={e => updateAbilityGroup(group.id, { excludeSummonToken: e.target.checked })} />
-              Exclude Summon token
-            </label>
+            <GroupHeader index={gi}
+              uniqueOnly={group.uniqueOnly} excludePeon={group.excludePeon} excludeSummonToken={group.excludeSummonToken}
+              onChange={patch => updateAbilityGroup(group.id, patch)}
+              onRemove={() => removeAbilityGroup(group.id)}
+            />
             <div className="subsection">
               {group.abilities.map((ab, i) => (
-                <div key={ab.id} className="ability-entry">
-                  <div className="row gap-sm">
-                    <span className="label-text">{i + 1}.</span>
-                    <input value={ab.name} onChange={e => updateAbility(group.id, ab.id, { name: e.target.value })} placeholder="Name" />
-                    <button type="button" onClick={() => removeAbility(group.id, ab.id)}>×</button>
-                  </div>
-                  <textarea value={ab.text} onChange={e => updateAbility(group.id, ab.id, { text: e.target.value })} placeholder="Ability text" rows={2} />
-                </div>
+                <AbilityEntry key={ab.id} ability={ab} index={i}
+                  onChange={patch => updateAbility(group.id, ab.id, patch)}
+                  onRemove={() => removeAbility(group.id, ab.id)}
+                />
               ))}
               <button type="button" onClick={() => addAbility(group.id)}>+ Add Ability</button>
             </div>
@@ -326,25 +287,11 @@ export default function CrewCardForm({ card, onChange }: Props) {
         <h3>Trigger Groups</h3>
         {card.triggerGroups.map((group, gi) => (
           <div key={group.id} className="action-entry">
-            <div className="row gap-sm">
-              <span className="label-text">Group {gi + 1}</span>
-              <button type="button" onClick={() => removeTriggerGroup(group.id)}>× Remove Group</button>
-            </div>
-            <label className="inline">
-              <input type="checkbox" checked={group.uniqueOnly}
-                onChange={e => updateTriggerGroup(group.id, { uniqueOnly: e.target.checked })} />
-              Unique models only
-            </label>
-            <label className="inline">
-              <input type="checkbox" checked={group.excludePeon}
-                onChange={e => updateTriggerGroup(group.id, { excludePeon: e.target.checked })} />
-              Non-Peon only
-            </label>
-            <label className="inline">
-              <input type="checkbox" checked={group.excludeSummonToken}
-                onChange={e => updateTriggerGroup(group.id, { excludeSummonToken: e.target.checked })} />
-              Exclude Summon token
-            </label>
+            <GroupHeader index={gi}
+              uniqueOnly={group.uniqueOnly} excludePeon={group.excludePeon} excludeSummonToken={group.excludeSummonToken}
+              onChange={patch => updateTriggerGroup(group.id, patch)}
+              onRemove={() => removeTriggerGroup(group.id)}
+            />
             <label>Action type
               <select value={group.actionType} onChange={e => updateTriggerGroup(group.id, { actionType: e.target.value as TriggerActionType })}>
                 <option value="attack">all attack actions</option>
@@ -361,16 +308,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
             </label>
             <div className="subsection">
               <p className="label-text">Trigger</p>
-              <div className="trigger-entry">
-                <div className="row gap-sm">
-                  <select value={group.trigger.suit} onChange={e => updateGroupTrigger(group.id, { suit: e.target.value as Suit })}>
-                    {SUITS.map(s => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                  <input value={group.trigger.name} onChange={e => updateGroupTrigger(group.id, { name: e.target.value })} placeholder="Trigger name" />
-                </div>
-                <input value={group.trigger.requirement} onChange={e => updateGroupTrigger(group.id, { requirement: e.target.value })} placeholder="Requirement (italic, optional)" />
-                <textarea value={group.trigger.effect} onChange={e => updateGroupTrigger(group.id, { effect: e.target.value })} rows={2} placeholder="Effect" />
-              </div>
+              <TriggerEntry trigger={group.trigger} onChange={patch => updateGroupTrigger(group.id, patch)} />
             </div>
           </div>
         ))}
@@ -381,78 +319,17 @@ export default function CrewCardForm({ card, onChange }: Props) {
         <h3>Action Groups</h3>
         {card.actionGroups.map((group, gi) => (
           <div key={group.id} className="action-entry">
-            <div className="row gap-sm">
-              <span className="label-text">Group {gi + 1}</span>
-              <button type="button" onClick={() => removeActionGroup(group.id)}>× Remove Group</button>
-            </div>
-            <label className="inline">
-              <input type="checkbox" checked={group.uniqueOnly}
-                onChange={e => updateActionGroup(group.id, { uniqueOnly: e.target.checked })} />
-              Unique models only
-            </label>
-            <label className="inline">
-              <input type="checkbox" checked={group.excludePeon}
-                onChange={e => updateActionGroup(group.id, { excludePeon: e.target.checked })} />
-              Non-Peon only
-            </label>
-            <label className="inline">
-              <input type="checkbox" checked={group.excludeSummonToken}
-                onChange={e => updateActionGroup(group.id, { excludeSummonToken: e.target.checked })} />
-              Exclude Summon token
-            </label>
+            <GroupHeader index={gi}
+              uniqueOnly={group.uniqueOnly} excludePeon={group.excludePeon} excludeSummonToken={group.excludeSummonToken}
+              onChange={patch => updateActionGroup(group.id, patch)}
+              onRemove={() => removeActionGroup(group.id)}
+            />
             <div className="subsection">
               {group.actions.map(action => (
-                <div key={action.id} className="action-entry">
-                  <div className="row gap-sm">
-                    <select value={action.type} onChange={e => updateAction(group.id, action.id, { type: e.target.value as ActionType })}>
-                      <option value="Attack">Attack</option>
-                      <option value="Tactical">Tactical</option>
-                    </select>
-                    <label className="inline">
-                      <input type="checkbox" checked={action.signature}
-                        onChange={e => updateAction(group.id, action.id, { signature: e.target.checked })} />
-                      ⚡ Signature?
-                    </label>
-                    <button type="button" onClick={() => removeAction(group.id, action.id)}>× Remove</button>
-                  </div>
-                  <label>Name
-                    <input value={action.name} onChange={e => updateAction(group.id, action.id, { name: e.target.value })} />
-                  </label>
-                  <div className="row gap-sm wrap">
-                    <label>Rg <input className="input-narrow" value={action.rg} onChange={e => updateAction(group.id, action.id, { rg: e.target.value })} /></label>
-                    <label>Skl <input className="input-narrow" value={action.skl} onChange={e => updateAction(group.id, action.id, { skl: e.target.value })} /></label>
-                    <label>Rst
-                      <select value={action.rst} onChange={e => updateAction(group.id, action.id, { rst: e.target.value as RstValue })}>
-                        {RST_VALUES.map(v => <option key={v} value={v}>{v}</option>)}
-                      </select>
-                    </label>
-                    <label>TN <input className="input-narrow" value={action.tn} onChange={e => updateAction(group.id, action.id, { tn: e.target.value })} /></label>
-                    <label>Dmg <input className="input-narrow" value={action.dmg} onChange={e => updateAction(group.id, action.id, { dmg: e.target.value })} /></label>
-                  </div>
-                  <label>Requirement
-                    <input value={action.requirement} onChange={e => updateAction(group.id, action.id, { requirement: e.target.value })} placeholder="Italic text (optional)" />
-                  </label>
-                  <label>Effect
-                    <textarea value={action.effect} onChange={e => updateAction(group.id, action.id, { effect: e.target.value })} rows={2} placeholder="Effect text" />
-                  </label>
-                  <div className="subsection">
-                    <p className="label-text">Triggers</p>
-                    {action.triggers.map(t => (
-                      <div key={t.id} className="trigger-entry">
-                        <div className="row gap-sm">
-                          <select value={t.suit} onChange={e => updateTrigger(group.id, action.id, t.id, { suit: e.target.value as Suit })}>
-                            {SUITS.map(s => <option key={s} value={s}>{s}</option>)}
-                          </select>
-                          <input value={t.name} onChange={e => updateTrigger(group.id, action.id, t.id, { name: e.target.value })} placeholder="Trigger name" />
-                          <button type="button" onClick={() => removeTrigger(group.id, action.id, t.id)}>×</button>
-                        </div>
-                        <input value={t.requirement} onChange={e => updateTrigger(group.id, action.id, t.id, { requirement: e.target.value })} placeholder="Requirement (italic, optional)" />
-                        <textarea value={t.effect} onChange={e => updateTrigger(group.id, action.id, t.id, { effect: e.target.value })} rows={2} placeholder="Effect" />
-                      </div>
-                    ))}
-                    <button type="button" onClick={() => addTrigger(group.id, action.id)}>+ Add Trigger</button>
-                  </div>
-                </div>
+                <ActionEntry key={action.id} action={action}
+                  onChange={patch => updateAction(group.id, action.id, patch)}
+                  onRemove={() => removeAction(group.id, action.id)}
+                />
               ))}
               <div className="row gap-sm">
                 <button type="button" onClick={() => addAction(group.id, 'Attack')}>+ Attack Action</button>

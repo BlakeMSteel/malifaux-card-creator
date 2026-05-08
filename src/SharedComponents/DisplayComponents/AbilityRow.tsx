@@ -1,4 +1,4 @@
-import type { Ability } from '../types'
+import type { Ability } from '../../types'
 import './AbilityRow.css'
 
 export function AbilityRow({ ability }: { ability: Ability }) {

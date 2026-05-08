@@ -1,6 +1,6 @@
 import type { CardData } from '../../types'
 import { getFaction } from '../../factions'
-import { AbilityRow } from '../../SharedComponents/AbilityRow'
+import { AbilityRow } from '../../SharedComponents/DisplayComponents'
 import './StatCardFront.css'
 
 function buildCharacteristics(card: CardData): string {

@@ -1,6 +1,6 @@
 import type { CardData } from '../../types'
 import { getFaction } from '../../factions'
-import { ActionSection } from '../../SharedComponents/ActionSection'
+import { ActionSection } from '../../SharedComponents/DisplayComponents'
 import './StatCardBack.css'
 
 export default function StatCardBack({ card }: { card: CardData }) {

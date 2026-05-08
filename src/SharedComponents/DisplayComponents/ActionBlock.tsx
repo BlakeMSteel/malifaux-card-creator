@@ -1,4 +1,4 @@
-import type { Action, Trigger } from '../types'
+import type { Action, Trigger } from '../../types'
 import './ActionBlock.css'
 
 export function TriggerRow({ trigger }: { trigger: Trigger }) {

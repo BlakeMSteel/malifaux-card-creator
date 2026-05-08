@@ -1,9 +1,7 @@
 import type { CrewCardData, AbilityGroup, ActionGroup, TriggerGroup, TriggerActionType } from '../../types'
 import { getFaction } from '../../factions'
 import CrewCardHeader from '../CrewCardHeader'
-import { AbilityRow } from '../../SharedComponents/AbilityRow'
-import { ActionSection } from '../../SharedComponents/ActionSection'
-import { TriggerRow } from '../../SharedComponents/ActionBlock'
+import { AbilityRow, ActionSection, TriggerRow } from '../../SharedComponents/DisplayComponents'
 import '../CrewCard.css'
 import './CrewCardFront.css'
 

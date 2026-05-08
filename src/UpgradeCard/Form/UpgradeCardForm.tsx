@@ -1,11 +1,9 @@
 import type {
-  UpgradeCardData, Ability, Trigger, Suit, Action, ActionType, RstValue, TriggerActionType,
+  UpgradeCardData, Ability, Trigger, Action, ActionType, TriggerActionType,
 } from '../../types'
 import { FACTIONS } from '../../factions'
-import '../../SharedComponents/FormStyles.css'
-
-const SUITS: Suit[] = ['🐏', '🪶', '📖', '🎭', '💎']
-const RST_VALUES: RstValue[] = ['Df', 'Wp', 'Sp', 'Sz', 'X', '*', '-']
+import { AbilityEntry, ActionEntry, TriggerEntry } from '../../SharedComponents/FormComponents'
+import '../../SharedComponents/FormComponents/FormStyles.css'
 const TRIGGER_ACTION_TYPES: { value: TriggerActionType; label: string }[] = [
   { value: 'attack', label: 'all its attack actions' },
   { value: 'all',    label: 'all actions' },
@@ -52,20 +50,6 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
   const removeAction = (id: string) =>
     update({ actions: card.actions.filter(a => a.id !== id) })
 
-  const addActionTrigger = (actionId: string) => {
-    const t: Trigger = { id: crypto.randomUUID(), suit: '🐏', name: '', requirement: '', effect: '' }
-    const action = card.actions.find(a => a.id === actionId)!
-    updateAction(actionId, { triggers: [...action.triggers, t] })
-  }
-  const updateActionTrigger = (actionId: string, triggerId: string, patch: Partial<Trigger>) => {
-    const action = card.actions.find(a => a.id === actionId)!
-    updateAction(actionId, { triggers: action.triggers.map(t => t.id === triggerId ? { ...t, ...patch } : t) })
-  }
-  const removeActionTrigger = (actionId: string, triggerId: string) => {
-    const action = card.actions.find(a => a.id === actionId)!
-    updateAction(actionId, { triggers: action.triggers.filter(t => t.id !== triggerId) })
-  }
-
   // — Limitation helpers —
   const isPlentiful = card.limitation.startsWith('Plentiful')
   const plentifulN = card.limitation.match(/\d+/)?.[0] ?? '2'
@@ -102,14 +86,10 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
       <section>
         <h3>Granted Abilities</h3>
         {card.abilities.map((ab, i) => (
-          <div key={ab.id} className="ability-entry">
-            <div className="row gap-sm">
-              <span className="label-text">{i + 1}.</span>
-              <input value={ab.name} onChange={e => updateAbility(ab.id, { name: e.target.value })} placeholder="Name" />
-              <button type="button" onClick={() => removeAbility(ab.id)}>×</button>
-            </div>
-            <textarea value={ab.text} onChange={e => updateAbility(ab.id, { text: e.target.value })} placeholder="Ability text" rows={2} />
-          </div>
+          <AbilityEntry key={ab.id} ability={ab} index={i}
+            onChange={patch => updateAbility(ab.id, patch)}
+            onRemove={() => removeAbility(ab.id)}
+          />
         ))}
         <button type="button" onClick={addAbility}>+ Add Ability</button>
       </section>
@@ -127,18 +107,11 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
           Printed on their stat card
         </label>
         <div className="subsection">
-          {card.triggers.map((t, i) => (
-            <div key={t.id} className="trigger-entry">
-              <div className="row gap-sm">
-                <select value={t.suit} onChange={e => updateTrigger(t.id, { suit: e.target.value as Suit })}>
-                  {SUITS.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
-                <input value={t.name} onChange={e => updateTrigger(t.id, { name: e.target.value })} placeholder={`Trigger ${i + 1} name`} />
-                <button type="button" onClick={() => removeTrigger(t.id)}>×</button>
-              </div>
-              <input value={t.requirement} onChange={e => updateTrigger(t.id, { requirement: e.target.value })} placeholder="Requirement (italic, optional)" />
-              <textarea value={t.effect} onChange={e => updateTrigger(t.id, { effect: e.target.value })} rows={2} placeholder="Effect" />
-            </div>
+          {card.triggers.map(t => (
+            <TriggerEntry key={t.id} trigger={t}
+              onChange={patch => updateTrigger(t.id, patch)}
+              onRemove={() => removeTrigger(t.id)}
+            />
           ))}
           <button type="button" onClick={addTrigger}>+ Add Trigger</button>
         </div>
@@ -147,57 +120,10 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
       <section>
         <h3>Granted Actions</h3>
         {card.actions.map(action => (
-          <div key={action.id} className="action-entry">
-            <div className="row gap-sm">
-              <select value={action.type} onChange={e => updateAction(action.id, { type: e.target.value as ActionType })}>
-                <option value="Attack">Attack</option>
-                <option value="Tactical">Tactical</option>
-              </select>
-              <label className="inline">
-                <input type="checkbox" checked={action.signature}
-                  onChange={e => updateAction(action.id, { signature: e.target.checked })} />
-                ⚡ Signature?
-              </label>
-              <button type="button" onClick={() => removeAction(action.id)}>× Remove</button>
-            </div>
-            <label>Name
-              <input value={action.name} onChange={e => updateAction(action.id, { name: e.target.value })} />
-            </label>
-            <div className="row gap-sm wrap">
-              <label>Rg <input className="input-narrow" value={action.rg} onChange={e => updateAction(action.id, { rg: e.target.value })} /></label>
-              <label>Skl <input className="input-narrow" value={action.skl} onChange={e => updateAction(action.id, { skl: e.target.value })} /></label>
-              <label>Rst
-                <select value={action.rst} onChange={e => updateAction(action.id, { rst: e.target.value as RstValue })}>
-                  {RST_VALUES.map(v => <option key={v} value={v}>{v}</option>)}
-                </select>
-              </label>
-              <label>TN <input className="input-narrow" value={action.tn} onChange={e => updateAction(action.id, { tn: e.target.value })} /></label>
-              <label>Dmg <input className="input-narrow" value={action.dmg} onChange={e => updateAction(action.id, { dmg: e.target.value })} /></label>
-            </div>
-            <label>Requirement
-              <input value={action.requirement} onChange={e => updateAction(action.id, { requirement: e.target.value })} placeholder="Italic text (optional)" />
-            </label>
-            <label>Effect
-              <textarea value={action.effect} onChange={e => updateAction(action.id, { effect: e.target.value })} rows={2} placeholder="Effect text" />
-            </label>
-            <div className="subsection">
-              <p className="label-text">Triggers</p>
-              {action.triggers.map(t => (
-                <div key={t.id} className="trigger-entry">
-                  <div className="row gap-sm">
-                    <select value={t.suit} onChange={e => updateActionTrigger(action.id, t.id, { suit: e.target.value as Suit })}>
-                      {SUITS.map(s => <option key={s} value={s}>{s}</option>)}
-                    </select>
-                    <input value={t.name} onChange={e => updateActionTrigger(action.id, t.id, { name: e.target.value })} placeholder="Trigger name" />
-                    <button type="button" onClick={() => removeActionTrigger(action.id, t.id)}>×</button>
-                  </div>
-                  <input value={t.requirement} onChange={e => updateActionTrigger(action.id, t.id, { requirement: e.target.value })} placeholder="Requirement (italic, optional)" />
-                  <textarea value={t.effect} onChange={e => updateActionTrigger(action.id, t.id, { effect: e.target.value })} rows={2} placeholder="Effect" />
-                </div>
-              ))}
-              <button type="button" onClick={() => addActionTrigger(action.id)}>+ Add Trigger</button>
-            </div>
-          </div>
+          <ActionEntry key={action.id} action={action}
+            onChange={patch => updateAction(action.id, patch)}
+            onRemove={() => removeAction(action.id)}
+          />
         ))}
         <div className="row gap-sm">
           <button type="button" onClick={() => addAction('Attack')}>+ Attack Action</button>

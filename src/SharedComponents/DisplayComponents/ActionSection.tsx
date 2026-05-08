@@ -1,4 +1,4 @@
-import type { Action, ActionType } from '../types'
+import type { Action, ActionType } from '../../types'
 import { ActionBlock } from './ActionBlock'
 import './ActionSection.css'
 
