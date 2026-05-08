@@ -127,6 +127,7 @@ export interface SavedCardEntry {
 
 export interface CardData {
   name: string
+  title: string
   cost: string
   df: string
   wp: string

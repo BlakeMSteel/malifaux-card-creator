@@ -81,6 +81,9 @@ export default function StatCardForm({ card, onChange }: Props) {
         <label>Name
           <input value={card.name} onChange={e => update({ name: e.target.value })} />
         </label>
+        <label>Title
+          <input value={card.title} onChange={e => update({ title: e.target.value })} placeholder="e.g. Fast Asleep (optional)" />
+        </label>
         <label>Cost
           <input value={card.cost} onChange={e => update({ cost: e.target.value })} placeholder='# or "-"' className="input-narrow" />
         </label>

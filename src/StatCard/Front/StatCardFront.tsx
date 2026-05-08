@@ -42,6 +42,9 @@ export default function StatCardFront({ card }: { card: CardData }) {
       </div>
 
       <div className="card-image-wrapper">
+        {card.title && (
+          <div className="card-title-badge">{card.title.toUpperCase()}</div>
+        )}
         <div className="stat-bubble top-left">
           <span className="stat-value">{card.df}</span>
           <span className="stat-label">DF</span>

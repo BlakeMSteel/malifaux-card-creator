@@ -8,6 +8,7 @@ import './App.css'
 
 export const defaultCard: CardData = {
   name: '',
+  title: '',
   cost: '',
   df: '',
   wp: '',
