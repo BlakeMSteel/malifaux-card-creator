@@ -33,6 +33,36 @@ export interface Action {
   triggers: Trigger[]
 }
 
+export interface AbilityGroup {
+  id: string
+  uniqueOnly: boolean
+  excludeSummonToken: boolean
+  abilities: Ability[]
+}
+
+export interface ActionGroup {
+  id: string
+  uniqueOnly: boolean
+  excludeSummonToken: boolean
+  actions: Action[]
+}
+
+export interface CrewCardData {
+  name: string
+  master: string
+  keyword: string
+  faction: string
+  imageUrl: string
+  abilityGroups: AbilityGroup[]
+  actionGroups: ActionGroup[]
+}
+
+export interface SavedCrewCardEntry {
+  id: string
+  label: string
+  card: CrewCardData
+}
+
 export interface SavedCardEntry {
   id: string
   label: string

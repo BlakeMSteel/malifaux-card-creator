@@ -1,7 +1,5 @@
-import type { SavedCardEntry } from '../types'
-
 interface Props {
-  savedCards: SavedCardEntry[]
+  savedCards: Array<{ id: string; label: string }>
   currentId: string | null
   onSave: () => void
   onNew: () => void

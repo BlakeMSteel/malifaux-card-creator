@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import type { CardData, SavedCardEntry } from './types'
+import type { CardData, SavedCardEntry, CrewCardData, SavedCrewCardEntry } from './types'
 import StatCard from './StatCard/StatCard'
+import CrewCard from './CrewCard/CrewCard'
 import CardLibrary from './CardLibrary/CardLibrary'
 import './App.css'
 
@@ -30,8 +31,19 @@ export const defaultCard: CardData = {
   baseSize: '30mm',
 }
 
+const defaultCrewCard: CrewCardData = {
+  name: '',
+  master: '',
+  keyword: '',
+  faction: '',
+  imageUrl: '',
+  abilityGroups: [],
+  actionGroups: [],
+}
+
 const SAVES_KEY = 'malifaux-saved-cards'
 const LEGACY_KEY = 'malifaux-card'
+const CREW_SAVES_KEY = 'malifaux-saved-crew-cards'
 
 function loadSavedCards(): SavedCardEntry[] {
   try {
@@ -48,15 +60,36 @@ function loadSavedCards(): SavedCardEntry[] {
   return []
 }
 
+function loadSavedCrewCards(): SavedCrewCardEntry[] {
+  try {
+    const existing = localStorage.getItem(CREW_SAVES_KEY)
+    if (existing) return JSON.parse(existing)
+  } catch {}
+  return []
+}
+
 export default function App() {
+  const [activeTab, setActiveTab] = useState<'stat' | 'crew'>('stat')
+
+  // Stat card state
   const [savedCards, setSavedCards] = useState<SavedCardEntry[]>(loadSavedCards)
   const [currentId, setCurrentId] = useState<string | null>(null)
   const [card, setCard] = useState<CardData>(defaultCard)
+
+  // Crew card state
+  const [savedCrewCards, setSavedCrewCards] = useState<SavedCrewCardEntry[]>(loadSavedCrewCards)
+  const [currentCrewId, setCurrentCrewId] = useState<string | null>(null)
+  const [crewCard, setCrewCard] = useState<CrewCardData>(defaultCrewCard)
 
   useEffect(() => {
     localStorage.setItem(SAVES_KEY, JSON.stringify(savedCards))
   }, [savedCards])
 
+  useEffect(() => {
+    localStorage.setItem(CREW_SAVES_KEY, JSON.stringify(savedCrewCards))
+  }, [savedCrewCards])
+
+  // Stat card handlers
   const handleSave = () => {
     if (currentId) {
       setSavedCards(prev => prev.map(e => e.id === currentId ? { ...e, label: card.name, card } : e))
@@ -67,17 +100,11 @@ export default function App() {
     }
   }
 
-  const handleNew = () => {
-    setCard(defaultCard)
-    setCurrentId(null)
-  }
+  const handleNew = () => { setCard(defaultCard); setCurrentId(null) }
 
   const handleLoad = (id: string) => {
     const entry = savedCards.find(e => e.id === id)
-    if (entry) {
-      setCard(entry.card)
-      setCurrentId(id)
-    }
+    if (entry) { setCard(entry.card); setCurrentId(id) }
   }
 
   const handleDelete = () => {
@@ -86,17 +113,49 @@ export default function App() {
     handleNew()
   }
 
+  // Crew card handlers
+  const handleCrewSave = () => {
+    const label = crewCard.name || 'Untitled'
+    if (currentCrewId) {
+      setSavedCrewCards(prev => prev.map(e => e.id === currentCrewId ? { ...e, label, card: crewCard } : e))
+    } else {
+      const entry: SavedCrewCardEntry = { id: crypto.randomUUID(), label, card: crewCard }
+      setSavedCrewCards(prev => [...prev, entry])
+      setCurrentCrewId(entry.id)
+    }
+  }
+
+  const handleCrewNew = () => { setCrewCard(defaultCrewCard); setCurrentCrewId(null) }
+
+  const handleCrewLoad = (id: string) => {
+    const entry = savedCrewCards.find(e => e.id === id)
+    if (entry) { setCrewCard(entry.card); setCurrentCrewId(id) }
+  }
+
+  const handleCrewDelete = () => {
+    if (!currentCrewId) return
+    setSavedCrewCards(prev => prev.filter(e => e.id !== currentCrewId))
+    handleCrewNew()
+  }
+
   return (
     <div className="app-root">
-      <CardLibrary
-        savedCards={savedCards}
-        currentId={currentId}
-        onSave={handleSave}
-        onNew={handleNew}
-        onLoad={handleLoad}
-        onDelete={handleDelete}
-      />
-      <StatCard card={card} onChange={setCard} />
+      <div className="tabs">
+        <button className={`tab${activeTab === 'stat' ? ' active' : ''}`} onClick={() => setActiveTab('stat')}>Stat Card</button>
+        <button className={`tab${activeTab === 'crew' ? ' active' : ''}`} onClick={() => setActiveTab('crew')}>Crew Card</button>
+      </div>
+      {activeTab === 'stat' && (
+        <>
+          <CardLibrary savedCards={savedCards} currentId={currentId} onSave={handleSave} onNew={handleNew} onLoad={handleLoad} onDelete={handleDelete} />
+          <StatCard card={card} onChange={setCard} />
+        </>
+      )}
+      {activeTab === 'crew' && (
+        <>
+          <CardLibrary savedCards={savedCrewCards} currentId={currentCrewId} onSave={handleCrewSave} onNew={handleCrewNew} onLoad={handleCrewLoad} onDelete={handleCrewDelete} />
+          <CrewCard card={crewCard} onChange={setCrewCard} />
+        </>
+      )}
     </div>
   )
 }
