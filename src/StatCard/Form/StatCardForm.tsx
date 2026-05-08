@@ -102,6 +102,10 @@ export default function StatCardForm({ card, onChange }: Props) {
                 onChange={e => update({ [stat]: e.target.value })} className="input-narrow" />
             </label>
           ))}
+          <label>STN
+            <input type="number" min={1} max={14} value={card.stn}
+              onChange={e => update({ stn: e.target.value })} placeholder="—" className="input-narrow" />
+          </label>
         </div>
       </section>
 

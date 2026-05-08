@@ -13,6 +13,7 @@ export const defaultCard: CardData = {
   wp: '',
   sp: '',
   sz: '',
+  stn: '',
   station: '',
   stationCount: '',
   isTotem: false,

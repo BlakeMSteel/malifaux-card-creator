@@ -55,6 +55,9 @@ export default function StatCardFront({ card }: { card: CardData }) {
             <img src={card.imageUrl} alt="" className="card-image" />
           )}
         </div>
+        {card.stn && (
+          <div className="stn-bubble">STN: {card.stn}</div>
+        )}
         <div className="stat-bubble bottom-left">
           <span className="stat-value">{card.wp}</span>
           <span className="stat-label">WP</span>

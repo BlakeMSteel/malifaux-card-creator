@@ -132,6 +132,7 @@ export interface CardData {
   wp: string
   sp: string
   sz: string
+  stn: string
   station: Station
   stationCount: string
   isTotem: boolean

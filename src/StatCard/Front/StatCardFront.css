@@ -100,6 +100,22 @@
 .stat-bubble.bottom-left { bottom: 8px; left: -16px; }
 .stat-bubble.bottom-right{ bottom: 8px; right: -16px; }
 
+.stn-bubble {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: black;
+  border: 2px solid #777;
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  white-space: nowrap;
+  z-index: 1;
+}
+
 .stat-value { font-size: 20px; font-weight: bold; line-height: 1; }
 .stat-label { font-size: 8px; letter-spacing: 0.5px; }
 
