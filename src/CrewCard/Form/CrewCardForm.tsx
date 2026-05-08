@@ -4,6 +4,7 @@ import type {
   Marker, Token, TerrainFeature,
 } from '../../types'
 import { FACTIONS } from '../../factions'
+import '../../SharedComponents/FormStyles.css'
 
 const SUITS: Suit[] = ['🐏', '🪶', '📖', '🎭', '💎']
 const RST_VALUES: RstValue[] = ['Df', 'Wp', 'Sp', 'Sz', 'X', '*', '-']

@@ -3,6 +3,7 @@ import { getFaction } from '../../factions'
 import CrewCardHeader from '../CrewCardHeader'
 import { AbilityRow } from '../../SharedComponents/AbilityRow'
 import { ActionSection } from '../../SharedComponents/ActionSection'
+import '../CrewCard.css'
 import './CrewCardFront.css'
 
 function buildPreamble(keyword: string, uniqueOnly: boolean, excludeSummon: boolean, type: 'ability' | 'action', count: number): string {

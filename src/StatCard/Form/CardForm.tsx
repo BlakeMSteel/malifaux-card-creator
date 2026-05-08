@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import type { CardData, Station, Ability, Action, ActionType, Trigger, Suit, RstValue, BaseSize } from '../../types'
 import { FACTIONS } from '../../factions'
+import '../../SharedComponents/FormStyles.css'
+import './CardForm.css'
 
 const SUITS: Suit[] = ['🐏', '🪶', '📖', '🎭', '💎']
 const RST_VALUES: RstValue[] = ['Df', 'Wp', 'Sp', 'Sz', 'X', '*', '-']

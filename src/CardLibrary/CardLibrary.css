@@ -1,0 +1,30 @@
+.card-library {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-bottom: 1px solid #ccc;
+  background: #fafafa;
+  flex-shrink: 0;
+}
+
+.card-library select {
+  padding: 4px 6px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-width: 180px;
+}
+
+.card-library button {
+  padding: 4px 12px;
+  font-size: 14px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.card-library button:hover {
+  background: #f0f0f0;
+}

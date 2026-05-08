@@ -1,6 +1,7 @@
 import type { CardData } from '../../types'
 import { getFaction } from '../../factions'
 import { ActionSection } from '../../SharedComponents/ActionSection'
+import './CardBack.css'
 
 export default function CardBack({ card }: { card: CardData }) {
   const faction = getFaction(card.faction)

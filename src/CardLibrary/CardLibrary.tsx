@@ -1,3 +1,5 @@
+import './CardLibrary.css'
+
 interface Props {
   savedCards: Array<{ id: string; label: string }>
   currentId: string | null

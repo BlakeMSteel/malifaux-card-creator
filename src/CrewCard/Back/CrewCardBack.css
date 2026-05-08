@@ -1,0 +1,30 @@
+.cc-back-body {
+  flex: 1;
+  background: white;
+  padding: 12px 14px;
+  overflow-y: auto;
+  font-size: 13px;
+}
+
+.cc-ref-section {
+  margin-bottom: 14px;
+}
+
+.cc-ref-heading {
+  font-size: 15px;
+  font-weight: bold;
+  margin: 0 0 2px;
+  text-align: center;
+}
+
+.cc-ref-heading-underline {
+  border: none;
+  border-top: 2px solid currentColor;
+  width: 40px;
+  margin: 0 auto 8px;
+}
+
+.cc-ref-entry {
+  margin: 0 0 8px;
+  font-size: 13px;
+}

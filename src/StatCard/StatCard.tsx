@@ -1,4 +1,5 @@
 import type { CardData } from '../types'
+import './StatCard.css'
 import CardForm from './Form/CardForm'
 import CardPreview from './Front/CardPreview'
 import CardBack from './Back/CardBack'

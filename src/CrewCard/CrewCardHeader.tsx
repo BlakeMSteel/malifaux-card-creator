@@ -1,4 +1,5 @@
 import { getFaction } from '../factions'
+import './CrewCardHeader.css'
 
 interface Props {
   faction: string

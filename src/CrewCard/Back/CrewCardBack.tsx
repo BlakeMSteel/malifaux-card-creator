@@ -1,7 +1,8 @@
 import type { CrewCardData, Marker, Token } from '../../types'
 import { getFaction } from '../../factions'
 import CrewCardHeader from '../CrewCardHeader'
-import '../Front/CrewCardFront.css'
+import '../CrewCard.css'
+import './CrewCardBack.css'
 
 function buildMarkerDescriptor(marker: Marker): string {
   const parts: string[] = []

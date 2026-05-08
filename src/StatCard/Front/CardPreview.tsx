@@ -1,6 +1,7 @@
 import type { CardData } from '../../types'
 import { getFaction } from '../../factions'
 import { AbilityRow } from '../../SharedComponents/AbilityRow'
+import './CardPreview.css'
 
 function buildCharacteristics(card: CardData): string {
   const parts: string[] = []
