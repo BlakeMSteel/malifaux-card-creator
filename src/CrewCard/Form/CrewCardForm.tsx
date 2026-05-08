@@ -36,7 +36,7 @@ const TOKEN_PRESETS: Record<string, string> = {
   'Chi': "Before performing a duel, this model may remove this token to receive +1 to its duel total.",
   'Convert': "The Dmg stat of this model's attack actions is reduced by 1.",
   'Craven': "This model cannot declare the Interact action and is ignored for strategies and schemes. When this model ends its activation, remove this token.",
-  'Death': "When this model succeeds in an attack action that deals damage, it may remove this token. If it does so, the target must either discard a card, drain a soulstone, or be killed.",
+  'Death': "When this model succeeds in an attack action that deals damage, it may remove this token. If it does so, the target must either discard a card, drain a 💎, or be killed.",
   'Distracted': "When this model targets a friendly model, it must remove this token and suffer a - to that action's duel. Canceled by Focused.",
   'Drift': "When this model activates, it may remove this token to place into base contact with a friendly Tide marker within 5\".",
   'Entranced': "This model's actions that target a friendly model cannot be cheated. After this model resolves an action targeting a friendly model, remove this token.",
@@ -47,7 +47,7 @@ const TOKEN_PRESETS: Record<string, string> = {
   'Flicker': "During the end phase, kill this model. This token cannot be removed.",
   'Focused': "Before performing a duel, this model may remove this token to receive a + to the duel. Canceled by Distracted.",
   'Fragile Ego': "After another enemy model is chosen to activate, if this model has not activated this turn, the crew that applied this token may remove it to force this model to activate instead.",
-  'Fright': "This model considers its Unimpeded abilities blank. After a friendly model succeeds in a healing action targeting this model, it may choose to receive one additional raise; if it does, remove this token after resolving the action.",
+  'Fright': "This model considers its 🛡️ abilities blank. After a friendly model succeeds in a ✨ action targeting this model, it may choose to receive one additional raise; if it does, remove this token after resolving the action.",
   'Frozen Solid': "This model may not be moved by enemy effects. After either this model suffers damage or an enemy model targets this model with the Interact action, remove this token (this model may target itself with the Interact action).",
   'Glowy': "Attacks that target this model are unaffected by concealing terrain. During the end phase, remove this token.",
   'Glutted': "When this model ends its activation, it may remove this token to heal 1.",
@@ -65,13 +65,13 @@ const TOKEN_PRESETS: Record<string, string> = {
   'Interesting Parts': "This model is affected by the enemy crew card as if it were a unique model allied to the enemy leader, but it may not affect or use power bars. This model considers enemy non-Scheme, non-Strategy markers to be friendly.",
   'Life': "When this model suffers damage, it may remove this token. If it does so, it may not be reduced to below 1 health.",
   'New Blood': "This model gains the Family keyword.",
-  'Numb': "This model loses its Don't Turn Your Back ability (if any) and does not prevent friendly models from declaring the Interact action due to: being engaged with this model, this model being in base contact with a marker, or leaving this model's engagement range. During the end phase, remove this token.",
+  'Numb': "This model loses its Don't Turn Your Back ability (if any) and does not prevent friendly models from declaring the Interact action due to:\n■ Being engaged with this model.\n■ This model being in base contact with a marker.\n■ Leaving this model's engagement range. During the end phase, remove this token.",
   'Paranoia': "When this token is removed, the crew that applied it may move this model up to 4\" and then make a Scheme marker into base contact with it, after resolving the current action (if any). During the end phase, this model must either discard a card or remove this token.",
-  'Parasite': "When this model is killed, the crew that applied this token infuses a soulstone.",
+  'Parasite': "When this model is killed, the crew that applied this token infuses a 💎.",
   'Perforated': "After this model resolves the Walk or Charge action, deal 1 damage to it per inch it moved (to a maximum of 3). Other models may target this model with the Interact action to remove this token.",
   'Poison': "During the end phase deal 1 irreducible damage to this model.",
   'Promoted': "If this model is non-unique it receives +1 Skl when declaring attack actions.",
-  'Reload': "When a model in this model's LoS ends its activation, this model may remove this token to declare a ranged attack targeting that model. If it does so, no other models in this crew may use a Reload token until the next model activates.",
+  'Reload': "When a model in this model's LoS ends its activation, this model may remove this token to declare a 🔫 targeting that model. If it does so, no other models in this crew may use a Reload token until the next model activates.",
   'Replica': "After this model discards an upgrade, it may remove this token to attach the discarded upgrade.",
   'Shame': "This model cannot be targeted by the actions of other enemy models. When this model ends its activation, it may choose to deal 1 damage to itself to remove this token.",
   'Shielded': "When this model is dealt non-irreducible damage, it must remove this token to reduce that damage by 1. This token may reduce damage to 0.",
@@ -79,9 +79,9 @@ const TOKEN_PRESETS: Record<string, string> = {
   'Slow': "Reduce this model's action limit by 1 (to a minimum of 1). When this model ends its activation, remove this token. Canceled by Fast.",
   'Spiritual Chains': "When this model flips, cheats, or discards the black joker, it is dealt 2 damage and then this token is removed.",
   'Staggered': "This model suffers -2 Sp and cannot be moved by other enemy models. When this model ends its activation, remove this token. Canceled by Hastened.",
-  'Stunned': "This model cannot declare triggers and it counts all suit symbols on its card as blank. When this model ends its activation, remove this token.",
-  'Summon': "This model cannot declare the Interact action. This model does not infuse a soulstone for its crew when it is killed. This token cannot be removed.",
-  'Suppressed': "When this model declares a healing action, it must drain a soulstone or the action fails. After this model resolves a healing action, remove this token.",
+  'Stunned': "This model cannot declare triggers and it counts all ⚡ symbols on its card as blank. When this model ends its activation, remove this token.",
+  'Summon': "This model cannot declare the Interact action. This model does not infuse a 💎 for its crew when it is killed. This token cannot be removed.",
+  'Suppressed': "When this model declares a ✨ action, it must drain a 💎 or the action fails. After this model resolves a ✨ action, remove this token.",
   'Voyage': "When this model would be moved by an enemy effect, it may remove this token. If it does so, this model controls the move.",
 }
 
@@ -98,7 +98,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
     update({ abilityGroups: card.abilityGroups.map(g => g.id === groupId ? { ...g, ...patch } : g) })
 
   const addAbilityGroup = () => {
-    const g: AbilityGroup = { id: crypto.randomUUID(), uniqueOnly: false, excludeSummonToken: false, abilities: [] }
+    const g: AbilityGroup = { id: crypto.randomUUID(), uniqueOnly: false, excludePeon: false, excludeSummonToken: false, abilities: [] }
     update({ abilityGroups: [...card.abilityGroups, g] })
   }
 
@@ -126,7 +126,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
     update({ actionGroups: card.actionGroups.map(g => g.id === groupId ? { ...g, ...patch } : g) })
 
   const addActionGroup = () => {
-    const g: ActionGroup = { id: crypto.randomUUID(), uniqueOnly: false, excludeSummonToken: false, actions: [] }
+    const g: ActionGroup = { id: crypto.randomUUID(), uniqueOnly: false, excludePeon: false, excludeSummonToken: false, actions: [] }
     update({ actionGroups: [...card.actionGroups, g] })
   }
 
@@ -249,6 +249,16 @@ export default function CrewCardForm({ card, onChange }: Props) {
       </section>
 
       <section>
+        <h3>Crew Ability</h3>
+        <textarea
+          value={card.crewAbility}
+          onChange={e => update({ crewAbility: e.target.value })}
+          placeholder="e.g. During the start phase of turn 1..."
+          rows={3}
+        />
+      </section>
+
+      <section>
         <h3>Ability Groups</h3>
         {card.abilityGroups.map((group, gi) => (
           <div key={group.id} className="action-entry">
@@ -260,6 +270,11 @@ export default function CrewCardForm({ card, onChange }: Props) {
               <input type="checkbox" checked={group.uniqueOnly}
                 onChange={e => updateAbilityGroup(group.id, { uniqueOnly: e.target.checked })} />
               Unique models only
+            </label>
+            <label className="inline">
+              <input type="checkbox" checked={group.excludePeon}
+                onChange={e => updateAbilityGroup(group.id, { excludePeon: e.target.checked })} />
+              Non-Peon only
             </label>
             <label className="inline">
               <input type="checkbox" checked={group.excludeSummonToken}
@@ -296,6 +311,11 @@ export default function CrewCardForm({ card, onChange }: Props) {
               <input type="checkbox" checked={group.uniqueOnly}
                 onChange={e => updateActionGroup(group.id, { uniqueOnly: e.target.checked })} />
               Unique models only
+            </label>
+            <label className="inline">
+              <input type="checkbox" checked={group.excludePeon}
+                onChange={e => updateActionGroup(group.id, { excludePeon: e.target.checked })} />
+              Non-Peon only
             </label>
             <label className="inline">
               <input type="checkbox" checked={group.excludeSummonToken}

@@ -37,6 +37,7 @@ const defaultCrewCard: CrewCardData = {
   keyword: '',
   faction: '',
   imageUrl: '',
+  crewAbility: '',
   abilityGroups: [],
   actionGroups: [],
   markers: [],

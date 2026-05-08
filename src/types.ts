@@ -36,6 +36,7 @@ export interface Action {
 export interface AbilityGroup {
   id: string
   uniqueOnly: boolean
+  excludePeon: boolean
   excludeSummonToken: boolean
   abilities: Ability[]
 }
@@ -43,6 +44,7 @@ export interface AbilityGroup {
 export interface ActionGroup {
   id: string
   uniqueOnly: boolean
+  excludePeon: boolean
   excludeSummonToken: boolean
   actions: Action[]
 }
@@ -72,6 +74,7 @@ export interface CrewCardData {
   keyword: string
   faction: string
   imageUrl: string
+  crewAbility: string
   abilityGroups: AbilityGroup[]
   actionGroups: ActionGroup[]
   markers: Marker[]
