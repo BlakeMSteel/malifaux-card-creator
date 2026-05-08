@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import type { CardData } from './types'
+import type { CardData, SavedCardEntry } from './types'
 import StatCard from './StatCard/StatCard'
+import CardLibrary from './CardLibrary/CardLibrary'
 import './App.css'
 
-const defaultCard: CardData = {
+export const defaultCard: CardData = {
   name: 'ABOMINATION',
   cost: '4',
   df: '5',
@@ -29,22 +30,73 @@ const defaultCard: CardData = {
   baseSize: '30mm',
 }
 
-const STORAGE_KEY = 'malifaux-card'
+const SAVES_KEY = 'malifaux-saved-cards'
+const LEGACY_KEY = 'malifaux-card'
 
-function loadCard(): CardData {
+function loadSavedCards(): SavedCardEntry[] {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY)
-    if (saved) return { ...defaultCard, ...JSON.parse(saved) }
+    const legacy = localStorage.getItem(LEGACY_KEY)
+    const existing = localStorage.getItem(SAVES_KEY)
+    if (legacy && !existing) {
+      const card = { ...defaultCard, ...JSON.parse(legacy) }
+      const entry: SavedCardEntry = { id: crypto.randomUUID(), label: card.name || 'Imported', card }
+      localStorage.removeItem(LEGACY_KEY)
+      return [entry]
+    }
+    if (existing) return JSON.parse(existing)
   } catch {}
-  return defaultCard
+  return []
 }
 
 export default function App() {
-  const [card, setCard] = useState<CardData>(loadCard)
+  const [savedCards, setSavedCards] = useState<SavedCardEntry[]>(loadSavedCards)
+  const [currentId, setCurrentId] = useState<string | null>(null)
+  const [card, setCard] = useState<CardData>(defaultCard)
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(card))
-  }, [card])
+    localStorage.setItem(SAVES_KEY, JSON.stringify(savedCards))
+  }, [savedCards])
 
-  return <StatCard card={card} onChange={setCard} />
+  const handleSave = () => {
+    if (currentId) {
+      setSavedCards(prev => prev.map(e => e.id === currentId ? { ...e, label: card.name, card } : e))
+    } else {
+      const entry: SavedCardEntry = { id: crypto.randomUUID(), label: card.name, card }
+      setSavedCards(prev => [...prev, entry])
+      setCurrentId(entry.id)
+    }
+  }
+
+  const handleNew = () => {
+    setCard(defaultCard)
+    setCurrentId(null)
+  }
+
+  const handleLoad = (id: string) => {
+    const entry = savedCards.find(e => e.id === id)
+    if (entry) {
+      setCard(entry.card)
+      setCurrentId(id)
+    }
+  }
+
+  const handleDelete = () => {
+    if (!currentId) return
+    setSavedCards(prev => prev.filter(e => e.id !== currentId))
+    handleNew()
+  }
+
+  return (
+    <div className="app-root">
+      <CardLibrary
+        savedCards={savedCards}
+        currentId={currentId}
+        onSave={handleSave}
+        onNew={handleNew}
+        onLoad={handleLoad}
+        onDelete={handleDelete}
+      />
+      <StatCard card={card} onChange={setCard} />
+    </div>
+  )
 }

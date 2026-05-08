@@ -33,6 +33,12 @@ export interface Action {
   triggers: Trigger[]
 }
 
+export interface SavedCardEntry {
+  id: string
+  label: string
+  card: CardData
+}
+
 export interface CardData {
   name: string
   cost: string
