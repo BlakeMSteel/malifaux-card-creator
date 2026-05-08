@@ -100,6 +100,25 @@ export interface SavedCrewCardEntry {
   card: CrewCardData
 }
 
+export interface UpgradeCardData {
+  faction: string
+  upgradeType: string
+  name: string
+  upgradeEffect: string
+  abilities: Ability[]
+  triggerActionType: TriggerActionType
+  triggerPrintedOnStatCard: boolean
+  triggers: Trigger[]
+  actions: Action[]
+  limitation: string
+}
+
+export interface SavedUpgradeCardEntry {
+  id: string
+  label: string
+  card: UpgradeCardData
+}
+
 export interface SavedCardEntry {
   id: string
   label: string

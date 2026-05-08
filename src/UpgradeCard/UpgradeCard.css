@@ -1,0 +1,139 @@
+.upgrade-card {
+  width: 360px;
+  height: 622px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  border: 1px solid #888;
+  background: #f9f8f6;
+}
+
+/* ── Header ── */
+.uc-header {
+  padding: 8px 14px;
+  flex-shrink: 0;
+}
+
+.uc-header-band {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.uc-header-band::before,
+.uc-header-band::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.uc-type {
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+/* ── Content ── */
+.uc-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.uc-name {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 14px 16px 2px;
+  line-height: 1.15;
+}
+
+.uc-ornament {
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 3px;
+  margin: 0 0 6px;
+  opacity: 0.7;
+}
+
+.uc-body {
+  flex: 1;
+  padding: 0 14px 8px;
+  overflow-y: auto;
+}
+
+.uc-effect {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: #222;
+}
+
+.uc-block {
+  margin-bottom: 8px;
+}
+
+.uc-preamble {
+  margin: 0 0 4px;
+  font-size: 12px;
+  color: #222;
+}
+
+/* ── Limitations ── */
+.uc-limitations {
+  text-align: center;
+  padding: 6px 20px 10px;
+  flex-shrink: 0;
+}
+
+.uc-lim-heading {
+  font-weight: bold;
+  font-size: 13px;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.uc-lim-hr {
+  border: none;
+  border-top: 1px solid currentColor;
+  margin: 3px 20px;
+}
+
+.uc-lim-value {
+  font-weight: bold;
+  font-size: 13px;
+  margin: 3px 0 0;
+}
+
+/* ── Footer ── */
+.uc-footer {
+  padding: 6px 14px;
+  flex-shrink: 0;
+}
+
+.uc-footer-band {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.uc-footer-band::before,
+.uc-footer-band::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.uc-footer-label {
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+  white-space: nowrap;
+}

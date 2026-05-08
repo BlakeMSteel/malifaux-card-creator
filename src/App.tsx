@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import type { CardData, SavedCardEntry, CrewCardData, SavedCrewCardEntry } from './types'
+import type { CardData, SavedCardEntry, CrewCardData, SavedCrewCardEntry, UpgradeCardData, SavedUpgradeCardEntry } from './types'
 import StatCard from './StatCard/StatCard'
 import CrewCard from './CrewCard/CrewCard'
+import UpgradeCard from './UpgradeCard/UpgradeCard'
 import CardLibrary from './CardLibrary/CardLibrary'
 import './App.css'
 
@@ -45,9 +46,23 @@ const defaultCrewCard: CrewCardData = {
   tokens: [],
 }
 
+const defaultUpgradeCard: UpgradeCardData = {
+  faction: '',
+  upgradeType: 'M',
+  name: '',
+  upgradeEffect: '',
+  abilities: [],
+  triggerActionType: 'attack',
+  triggerPrintedOnStatCard: false,
+  triggers: [],
+  actions: [],
+  limitation: '-',
+}
+
 const SAVES_KEY = 'malifaux-saved-cards'
 const LEGACY_KEY = 'malifaux-card'
 const CREW_SAVES_KEY = 'malifaux-saved-crew-cards'
+const UPGRADE_SAVES_KEY = 'malifaux-saved-upgrade-cards'
 
 function loadSavedCards(): SavedCardEntry[] {
   try {
@@ -72,8 +87,16 @@ function loadSavedCrewCards(): SavedCrewCardEntry[] {
   return []
 }
 
+function loadSavedUpgradeCards(): SavedUpgradeCardEntry[] {
+  try {
+    const existing = localStorage.getItem(UPGRADE_SAVES_KEY)
+    if (existing) return JSON.parse(existing)
+  } catch {}
+  return []
+}
+
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'stat' | 'crew'>('stat')
+  const [activeTab, setActiveTab] = useState<'stat' | 'crew' | 'upgrade'>('stat')
 
   // Stat card state
   const [savedCards, setSavedCards] = useState<SavedCardEntry[]>(loadSavedCards)
@@ -85,6 +108,11 @@ export default function App() {
   const [currentCrewId, setCurrentCrewId] = useState<string | null>(null)
   const [crewCard, setCrewCard] = useState<CrewCardData>(defaultCrewCard)
 
+  // Upgrade card state
+  const [savedUpgradeCards, setSavedUpgradeCards] = useState<SavedUpgradeCardEntry[]>(loadSavedUpgradeCards)
+  const [currentUpgradeId, setCurrentUpgradeId] = useState<string | null>(null)
+  const [upgradeCard, setUpgradeCard] = useState<UpgradeCardData>(defaultUpgradeCard)
+
   useEffect(() => {
     localStorage.setItem(SAVES_KEY, JSON.stringify(savedCards))
   }, [savedCards])
@@ -92,6 +120,10 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem(CREW_SAVES_KEY, JSON.stringify(savedCrewCards))
   }, [savedCrewCards])
+
+  useEffect(() => {
+    localStorage.setItem(UPGRADE_SAVES_KEY, JSON.stringify(savedUpgradeCards))
+  }, [savedUpgradeCards])
 
   // Stat card handlers
   const handleSave = () => {
@@ -142,11 +174,37 @@ export default function App() {
     handleCrewNew()
   }
 
+  // Upgrade card handlers
+  const handleUpgradeSave = () => {
+    const label = upgradeCard.name || 'Untitled'
+    if (currentUpgradeId) {
+      setSavedUpgradeCards(prev => prev.map(e => e.id === currentUpgradeId ? { ...e, label, card: upgradeCard } : e))
+    } else {
+      const entry: SavedUpgradeCardEntry = { id: crypto.randomUUID(), label, card: upgradeCard }
+      setSavedUpgradeCards(prev => [...prev, entry])
+      setCurrentUpgradeId(entry.id)
+    }
+  }
+
+  const handleUpgradeNew = () => { setUpgradeCard(defaultUpgradeCard); setCurrentUpgradeId(null) }
+
+  const handleUpgradeLoad = (id: string) => {
+    const entry = savedUpgradeCards.find(e => e.id === id)
+    if (entry) { setUpgradeCard({ ...defaultUpgradeCard, ...entry.card }); setCurrentUpgradeId(id) }
+  }
+
+  const handleUpgradeDelete = () => {
+    if (!currentUpgradeId) return
+    setSavedUpgradeCards(prev => prev.filter(e => e.id !== currentUpgradeId))
+    handleUpgradeNew()
+  }
+
   return (
     <div className="app-root">
       <div className="tabs">
         <button className={`tab${activeTab === 'stat' ? ' active' : ''}`} onClick={() => setActiveTab('stat')}>Stat Card</button>
         <button className={`tab${activeTab === 'crew' ? ' active' : ''}`} onClick={() => setActiveTab('crew')}>Crew Card</button>
+        <button className={`tab${activeTab === 'upgrade' ? ' active' : ''}`} onClick={() => setActiveTab('upgrade')}>Upgrade Card</button>
       </div>
       {activeTab === 'stat' && (
         <>
@@ -158,6 +216,12 @@ export default function App() {
         <>
           <CardLibrary savedCards={savedCrewCards} currentId={currentCrewId} onSave={handleCrewSave} onNew={handleCrewNew} onLoad={handleCrewLoad} onDelete={handleCrewDelete} />
           <CrewCard card={crewCard} onChange={setCrewCard} />
+        </>
+      )}
+      {activeTab === 'upgrade' && (
+        <>
+          <CardLibrary savedCards={savedUpgradeCards} currentId={currentUpgradeId} onSave={handleUpgradeSave} onNew={handleUpgradeNew} onLoad={handleUpgradeLoad} onDelete={handleUpgradeDelete} />
+          <UpgradeCard card={upgradeCard} onChange={setUpgradeCard} />
         </>
       )}
     </div>
