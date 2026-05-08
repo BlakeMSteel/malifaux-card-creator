@@ -1,5 +1,6 @@
 import type { CrewCardData, AbilityGroup, ActionGroup, Action, Trigger } from '../../types'
 import { getFaction } from '../../factions'
+import CrewCardHeader from '../CrewCardHeader'
 import './CrewCardFront.css'
 
 const STAT_COLS = ['Rg', 'Skl', 'Rst', 'TN', 'Dmg'] as const
@@ -94,13 +95,7 @@ export default function CrewCardFront({ card }: { card: CrewCardData }) {
 
   return (
     <div className="crew-card">
-      <div className="cc-top">
-        <div className="cc-faction-symbol" style={{ color: faction.color, borderColor: faction.color }}>
-          {faction.letter}
-        </div>
-        <h1 className="cc-name" style={{ color: faction.color }}>{card.name || 'CREW NAME'}</h1>
-        <p className="cc-master">{card.master}</p>
-      </div>
+      <CrewCardHeader faction={card.faction} name={card.name} master={card.master} />
 
       <div className="cc-image-area">
         {card.imageUrl && <img src={card.imageUrl} alt="master image" className="cc-image" />}

@@ -39,6 +39,8 @@ const defaultCrewCard: CrewCardData = {
   imageUrl: '',
   abilityGroups: [],
   actionGroups: [],
+  markers: [],
+  tokens: [],
 }
 
 const SAVES_KEY = 'malifaux-saved-cards'
@@ -129,7 +131,7 @@ export default function App() {
 
   const handleCrewLoad = (id: string) => {
     const entry = savedCrewCards.find(e => e.id === id)
-    if (entry) { setCrewCard(entry.card); setCurrentCrewId(id) }
+    if (entry) { setCrewCard({ ...defaultCrewCard, ...entry.card }); setCurrentCrewId(id) }
   }
 
   const handleCrewDelete = () => {

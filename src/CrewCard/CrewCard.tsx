@@ -1,5 +1,6 @@
 import type { CrewCardData } from '../types'
 import CrewCardFront from './Front/CrewCardFront'
+import CrewCardBack from './Back/CrewCardBack'
 import CrewCardForm from './Form/CrewCardForm'
 
 interface Props {
@@ -14,7 +15,10 @@ export default function CrewCard({ card, onChange }: Props) {
         <CrewCardForm card={card} onChange={onChange} />
       </div>
       <div className="preview-panel">
-        <CrewCardFront card={card} />
+        <div className="cards-container">
+          <CrewCardFront card={card} />
+          <CrewCardBack card={card} />
+        </div>
       </div>
     </div>
   )

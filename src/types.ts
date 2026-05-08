@@ -47,6 +47,25 @@ export interface ActionGroup {
   actions: Action[]
 }
 
+export interface TerrainFeature {
+  id: string
+  feature: string
+}
+
+export interface Marker {
+  id: string
+  name: string
+  size: '30mm' | '40mm' | '50mm'
+  terrainFeatures: TerrainFeature[]
+  effect: string
+}
+
+export interface Token {
+  id: string
+  name: string
+  effect: string
+}
+
 export interface CrewCardData {
   name: string
   master: string
@@ -55,6 +74,8 @@ export interface CrewCardData {
   imageUrl: string
   abilityGroups: AbilityGroup[]
   actionGroups: ActionGroup[]
+  markers: Marker[]
+  tokens: Token[]
 }
 
 export interface SavedCrewCardEntry {
