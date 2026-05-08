@@ -1,7 +1,7 @@
 import type { CardData } from '../../types'
 import { getFaction } from '../../factions'
 import { AbilityRow } from '../../SharedComponents/AbilityRow'
-import './CardPreview.css'
+import './StatCardFront.css'
 
 function buildCharacteristics(card: CardData): string {
   const parts: string[] = []
@@ -25,7 +25,7 @@ function buildCharacteristics(card: CardData): string {
   return card.keyword ? `${chars} • ${card.keyword}` : chars
 }
 
-export default function CardPreview({ card }: { card: CardData }) {
+export default function StatCardFront({ card }: { card: CardData }) {
   const isPeon = card.station === 'Peon'
   const isMaster = card.station === 'Master'
   const faction = getFaction(card.faction)
@@ -34,9 +34,9 @@ export default function CardPreview({ card }: { card: CardData }) {
     <div className="card" style={{ background: faction.color }}>
       <div className="card-top">
         <div className="faction-circle">{faction.letter}</div>
-        <div className="card-name">{card.name}</div>
+        <div className="card-name">{card.name || 'MODEL NAME'}</div>
         <div className="cost-box">
-          <span className="cost-value">{card.cost}</span>
+          <span className="cost-value">{card.cost || '-'}</span>
           <span className="cost-label">COST</span>
         </div>
       </div>

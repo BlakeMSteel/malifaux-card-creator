@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { CardData, Station, Ability, Action, ActionType, Trigger, Suit, RstValue, BaseSize } from '../../types'
 import { FACTIONS } from '../../factions'
 import '../../SharedComponents/FormStyles.css'
-import './CardForm.css'
+import './StatCardForm.css'
 
 const SUITS: Suit[] = ['🐏', '🪶', '📖', '🎭', '💎']
 const RST_VALUES: RstValue[] = ['Df', 'Wp', 'Sp', 'Sz', 'X', '*', '-']
@@ -21,7 +21,7 @@ interface Props {
   onChange: (card: CardData) => void
 }
 
-export default function CardForm({ card, onChange }: Props) {
+export default function StatCardForm({ card, onChange }: Props) {
   const [customCharInput, setCustomCharInput] = useState('')
   const [newAbility, setNewAbility] = useState({ name: '', text: '' })
 

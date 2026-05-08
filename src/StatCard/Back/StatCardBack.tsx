@@ -1,15 +1,15 @@
 import type { CardData } from '../../types'
 import { getFaction } from '../../factions'
 import { ActionSection } from '../../SharedComponents/ActionSection'
-import './CardBack.css'
+import './StatCardBack.css'
 
-export default function CardBack({ card }: { card: CardData }) {
+export default function StatCardBack({ card }: { card: CardData }) {
   const faction = getFaction(card.faction)
 
   return (
     <div className="card card-back">
       <div className="cb-top">
-        <strong>{card.name}</strong>
+        <strong>{card.name || 'Model Name'}</strong>
       </div>
       <div className="cb-body">
         <ActionSection actions={card.actions} color={faction.color} />

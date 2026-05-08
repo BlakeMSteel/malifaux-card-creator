@@ -30,10 +30,15 @@
 }
 
 .act-trigger {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  gap: 0 3px;
+  align-items: start;
   margin: 2px 0 0 8px;
   font-size: 11px;
 }
 
 .act-suit {
   font-size: 10px;
+  padding-top: 1px;
 }

@@ -5,9 +5,11 @@ export function TriggerRow({ trigger }: { trigger: Trigger }) {
   return (
     <div className="act-trigger">
       <span className="act-suit">{trigger.suit}</span>
-      {' '}<strong><em>{trigger.name}:</em></strong>
-      {trigger.requirement && <em> {trigger.requirement}</em>}
-      {trigger.effect && ` ${trigger.effect}`}
+      <span>
+        <strong><em>{trigger.name}:</em></strong>
+        {trigger.requirement && <em> {trigger.requirement}</em>}
+        {trigger.effect && ` ${trigger.effect}`}
+      </span>
     </div>
   )
 }
