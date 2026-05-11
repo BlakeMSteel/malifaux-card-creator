@@ -7,6 +7,7 @@ export type BaseSize = '30mm' | '40mm' | '50mm'
 export interface Ability {
   id: string
   name: string
+  requirement: string
   text: string
 }
 

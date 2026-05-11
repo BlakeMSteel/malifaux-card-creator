@@ -21,8 +21,6 @@ interface Props {
 
 export default function StatCardForm({ card, onChange }: Props) {
   const [customCharInput, setCustomCharInput] = useState('')
-  const [newAbility, setNewAbility] = useState({ name: '', text: '' })
-
   const update = (patch: Partial<CardData>) => onChange({ ...card, ...patch })
 
   const togglePreset = (char: string) => {
@@ -41,10 +39,8 @@ export default function StatCardForm({ card, onChange }: Props) {
   }
 
   const addAbility = () => {
-    if (!newAbility.name.trim()) return
-    const ability: Ability = { id: crypto.randomUUID(), name: newAbility.name.trim(), text: newAbility.text.trim() }
+    const ability: Ability = { id: crypto.randomUUID(), name: '', requirement: '', text: '' }
     update({ abilities: [...card.abilities, ability] })
-    setNewAbility({ name: '', text: '' })
   }
 
   const updateAbility = (id: string, patch: Partial<Ability>) =>
@@ -175,11 +171,7 @@ export default function StatCardForm({ card, onChange }: Props) {
             onRemove={() => update({ abilities: card.abilities.filter(a => a.id !== ab.id) })}
           />
         ))}
-        <div className="ability-entry">
-          <input value={newAbility.name} onChange={e => setNewAbility(p => ({ ...p, name: e.target.value }))} placeholder="New ability name" />
-          <textarea value={newAbility.text} onChange={e => setNewAbility(p => ({ ...p, text: e.target.value }))} placeholder="New ability text" rows={2} />
-          <button type="button" onClick={addAbility}>Add Ability</button>
-        </div>
+        <button type="button" onClick={addAbility}>+ Add Ability</button>
       </section>
 
       <section>
