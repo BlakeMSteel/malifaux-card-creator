@@ -29,8 +29,10 @@ export function ActionBlock({ action }: { action: Action }) {
         <span>{action.tn}</span>
         <span>{action.dmg}</span>
       </div>
-      {action.requirement && <p className="act-italic">{action.requirement}</p>}
-      {action.effect && <p className="act-text">{action.effect}</p>}
+      <div className="act-text">
+        {action.requirement && <em> {action.requirement} </em>}
+        {action.effect && ` ${action.effect}`}
+      </div>
       {action.triggers.map(t => <TriggerRow key={t.id} trigger={t} />)}
     </div>
   )

@@ -15,12 +15,6 @@
 }
 
 .act-sig {
-  font-size: 10px;
-}
-
-.act-italic {
-  margin: 2px 0 0;
-  font-style: italic;
   font-size: 12px;
 }
 
@@ -35,7 +29,7 @@
   gap: 0 3px;
   align-items: start;
   margin: 2px 0 0 8px;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .act-suit {
