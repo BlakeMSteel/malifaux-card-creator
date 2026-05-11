@@ -1,6 +1,6 @@
 export type Station = 'Master' | 'Henchman' | 'Minion' | 'Peon' | ''
 export type ActionType = 'Attack' | 'Tactical'
-export type Suit = '🐏' | '🪶' | '📖' | '🎭' | '💎'
+export type Suit = '🐏' | '🦅' | '📖' | '🎭' | '💎'
 export type RstValue = 'Df' | 'Wp' | 'Sp' | 'Sz' | 'X' | '*' | '-'
 export type BaseSize = '30mm' | '40mm' | '50mm'
 

@@ -1,6 +1,6 @@
 import type { Trigger, Suit } from '../../types'
 
-export const SUITS: Suit[] = ['🐏', '🪶', '📖', '🎭', '💎']
+export const SUITS: Suit[] = ['🐏', '🦅', '📖', '🎭', '💎']
 
 export function TriggerEntry({ trigger, onChange, onRemove }: {
   trigger: Trigger
