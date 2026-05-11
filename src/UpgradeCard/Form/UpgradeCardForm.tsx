@@ -22,7 +22,7 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
 
   // — Ability helpers —
   const addAbility = () => {
-    const a: Ability = { id: crypto.randomUUID(), name: '', requirement: '', text: '' }
+    const a: Ability = { id: crypto.randomUUID(), defensiveSymbol: '', name: '', requirement: '', text: '' }
     update({ abilities: [...card.abilities, a] })
   }
   const updateAbility = (id: string, patch: Partial<Ability>) =>

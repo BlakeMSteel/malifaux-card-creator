@@ -39,7 +39,7 @@ export default function StatCardForm({ card, onChange }: Props) {
   }
 
   const addAbility = () => {
-    const ability: Ability = { id: crypto.randomUUID(), name: '', requirement: '', text: '' }
+    const ability: Ability = { id: crypto.randomUUID(), defensiveSymbol: '', name: '', requirement: '', text: '' }
     update({ abilities: [...card.abilities, ability] })
   }
 

@@ -104,7 +104,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
     update({ abilityGroups: card.abilityGroups.filter(g => g.id !== groupId) })
 
   const addAbility = (groupId: string) => {
-    const ab: Ability = { id: crypto.randomUUID(), name: '', requirement: '', text: '' }
+    const ab: Ability = { id: crypto.randomUUID(), defensiveSymbol: '', name: '', requirement: '', text: '' }
     const g = card.abilityGroups.find(g => g.id === groupId)!
     updateAbilityGroup(groupId, { abilities: [...g.abilities, ab] })
   }
