@@ -1,5 +1,6 @@
 import type { CrewCardData } from '../types'
 import './CrewCard.css'
+import CardLayout from '../SharedComponents/CardLayout'
 import CrewCardFront from './Front/CrewCardFront'
 import CrewCardBack from './Back/CrewCardBack'
 import CrewCardForm from './Form/CrewCardForm'
@@ -11,16 +12,14 @@ interface Props {
 
 export default function CrewCard({ card, onChange }: Props) {
   return (
-    <div className="app">
-      <div className="form-panel">
-        <CrewCardForm card={card} onChange={onChange} />
-      </div>
-      <div className="preview-panel">
+    <CardLayout
+      form={<CrewCardForm card={card} onChange={onChange} />}
+      preview={
         <div className="cards-container">
           <CrewCardFront card={card} />
           <CrewCardBack card={card} />
         </div>
-      </div>
-    </div>
+      }
+    />
   )
 }

@@ -1,5 +1,5 @@
 import type { UpgradeCardData } from '../types'
-import '../CrewCard/CrewCard.css'
+import CardLayout from '../SharedComponents/CardLayout'
 import UpgradeCardFront from './UpgradeCardFront'
 import UpgradeCardForm from './Form/UpgradeCardForm'
 
@@ -10,15 +10,13 @@ interface Props {
 
 export default function UpgradeCard({ card, onChange }: Props) {
   return (
-    <div className="app">
-      <div className="form-panel">
-        <UpgradeCardForm card={card} onChange={onChange} />
-      </div>
-      <div className="preview-panel">
+    <CardLayout
+      form={<UpgradeCardForm card={card} onChange={onChange} />}
+      preview={
         <div className="cards-container">
           <UpgradeCardFront card={card} />
         </div>
-      </div>
-    </div>
+      }
+    />
   )
 }

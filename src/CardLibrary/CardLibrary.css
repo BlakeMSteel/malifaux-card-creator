@@ -13,7 +13,7 @@
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  min-width: 180px;
+  flex: 1;
 }
 
 .card-library button {

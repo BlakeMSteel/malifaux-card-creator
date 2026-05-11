@@ -1,0 +1,57 @@
+.card-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.cl-form-panel {
+  width: 380px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-right: 1px solid #ccc;
+  padding: 16px;
+  box-sizing: border-box;
+  transition: max-width 0.25s ease, padding 0.25s ease;
+}
+
+.card-layout.collapsed .cl-form-panel {
+  max-width: 0;
+  padding: 0;
+}
+
+.cl-toggle {
+  width: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e8e8e8;
+  border: none;
+  border-right: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+  padding: 0;
+  user-select: none;
+}
+
+.cl-toggle:hover {
+  background: #d4d4d4;
+  color: #222;
+}
+
+.cl-preview-panel {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  background: #f0f0f0;
+}
+
+.cards-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
