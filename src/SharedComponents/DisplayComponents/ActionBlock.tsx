@@ -1,21 +1,23 @@
-import type { Action, Trigger } from '../../types'
-import './ActionBlock.css'
+import type { Action, Trigger } from "../../types";
+import "./ActionBlock.css";
 
 export function TriggerRow({ trigger }: { trigger: Trigger }) {
   return (
     <div className="act-trigger">
       <span className="act-suit">{trigger.suit}</span>
       <span>
-        <strong><em>{trigger.name}:</em></strong>
+        <strong>
+          <em>{trigger.name}:</em>
+        </strong>
         {trigger.requirement && <em> {trigger.requirement}</em>}
         {trigger.effect && ` ${trigger.effect}`}
       </span>
     </div>
-  )
+  );
 }
 
 export function ActionBlock({ action }: { action: Action }) {
-  const rg = action.rg === '-' ? '-' : `${action.rg}"`
+  const rg = action.rg === "-" ? "-" : `${action.rg}"`;
   return (
     <div className="act-action">
       <div className="act-stat-row">
@@ -33,7 +35,9 @@ export function ActionBlock({ action }: { action: Action }) {
         {action.requirement && <em> {action.requirement} </em>}
         {action.effect && ` ${action.effect}`}
       </div>
-      {action.triggers.map(t => <TriggerRow key={t.id} trigger={t} />)}
+      {action.triggers.map((t) => (
+        <TriggerRow key={t.id} trigger={t} />
+      ))}
     </div>
-  )
+  );
 }

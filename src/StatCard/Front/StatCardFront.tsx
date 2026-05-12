@@ -1,42 +1,46 @@
-import type { CardData } from '../../types'
-import { getFaction } from '../../factions'
-import { AbilityRow } from '../../SharedComponents/DisplayComponents'
-import './StatCardFront.css'
+import type { CardData } from "../../types";
+import { getFaction } from "../../factions";
+import { AbilityRow } from "../../SharedComponents/DisplayComponents";
+import "./StatCardFront.css";
 
 function buildCharacteristics(card: CardData): string {
-  const parts: string[] = []
+  const parts: string[] = [];
 
-  if (card.station === 'Minion' || card.station === 'Peon') {
-    const count = card.stationCount ? ` (${card.stationCount})` : ''
-    parts.push(`${card.station}${count}`)
+  if (card.station === "Minion" || card.station === "Peon") {
+    const count = card.stationCount ? ` (${card.stationCount})` : "";
+    parts.push(`${card.station}${count}`);
   } else if (card.station) {
-    parts.push(card.station)
+    parts.push(card.station);
   }
 
-  if (card.station === 'Master' || card.station === 'Henchman' || card.station === '') {
-    parts.push('Unique')
+  if (
+    card.station === "Master" ||
+    card.station === "Henchman" ||
+    card.station === ""
+  ) {
+    parts.push("Unique");
   }
 
-  if (card.isTotem) parts.push('Totem')
+  if (card.isTotem) parts.push("Totem");
 
-  parts.push(...card.characteristics)
+  parts.push(...card.characteristics);
 
-  const chars = parts.join(', ')
-  return card.keyword ? `${chars} • ${card.keyword}` : chars
+  const chars = parts.join(", ");
+  return card.keyword ? `${chars} • ${card.keyword}` : chars;
 }
 
 export default function StatCardFront({ card }: { card: CardData }) {
-  const isPeon = card.station === 'Peon'
-  const isMaster = card.station === 'Master'
-  const faction = getFaction(card.faction)
+  const isPeon = card.station === "Peon";
+  const isMaster = card.station === "Master";
+  const faction = getFaction(card.faction);
 
   return (
     <div className="card" style={{ background: faction.color }}>
       <div className="card-top">
         <div className="faction-circle">{faction.letter}</div>
-        <div className="card-name">{card.name || 'MODEL NAME'}</div>
+        <div className="card-name">{card.name || "MODEL NAME"}</div>
         <div className="cost-box">
-          <span className="cost-value">{card.cost || '-'}</span>
+          <span className="cost-value">{card.cost || "-"}</span>
           <span className="cost-label">COST</span>
         </div>
       </div>
@@ -58,9 +62,7 @@ export default function StatCardFront({ card }: { card: CardData }) {
             <img src={card.imageUrl} alt="" className="card-image" />
           )}
         </div>
-        {card.stn && (
-          <div className="stn-bubble">STN: {card.stn}</div>
-        )}
+        {card.stn && <div className="stn-bubble">STN: {card.stn}</div>}
         <div className="stat-bubble bottom-left">
           <span className="stat-value">{card.wp}</span>
           <span className="stat-label">WP</span>
@@ -81,15 +83,19 @@ export default function StatCardFront({ card }: { card: CardData }) {
       )}
 
       <div className="card-abilities">
-        {card.abilities.map(ab => <AbilityRow key={ab.id} ability={ab} />)}
+        {card.abilities.map((ab) => (
+          <AbilityRow key={ab.id} ability={ab} />
+        ))}
       </div>
 
       <div className="card-health">
         {!isPeon && <div className="health-circle soulstone">💎</div>}
         {Array.from({ length: card.health }, (_, i) => (
-          <div key={i} className="health-circle">{i + 1}</div>
+          <div key={i} className="health-circle">
+            {i + 1}
+          </div>
         ))}
       </div>
     </div>
-  )
+  );
 }

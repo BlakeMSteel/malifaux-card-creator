@@ -52,8 +52,15 @@
   justify-content: center;
 }
 
-.cost-value { font-size: 20px; font-weight: bold; line-height: 1; }
-.cost-label { font-size: 8px; letter-spacing: 0.5px; }
+.cost-value {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1;
+}
+.cost-label {
+  font-size: 8px;
+  letter-spacing: 0.5px;
+}
 
 .card-title-badge {
   position: absolute;
@@ -112,10 +119,22 @@
   z-index: 1;
 }
 
-.stat-bubble.top-left    { top: 8px;    left: -16px; }
-.stat-bubble.top-right   { top: 8px;    right: -16px; }
-.stat-bubble.bottom-left { bottom: 8px; left: -16px; }
-.stat-bubble.bottom-right{ bottom: 8px; right: -16px; }
+.stat-bubble.top-left {
+  top: 8px;
+  left: -16px;
+}
+.stat-bubble.top-right {
+  top: 8px;
+  right: -16px;
+}
+.stat-bubble.bottom-left {
+  bottom: 8px;
+  left: -16px;
+}
+.stat-bubble.bottom-right {
+  bottom: 8px;
+  right: -16px;
+}
 
 .stn-bubble {
   position: absolute;
@@ -133,8 +152,15 @@
   z-index: 1;
 }
 
-.stat-value { font-size: 20px; font-weight: bold; line-height: 1; }
-.stat-label { font-size: 8px; letter-spacing: 0.5px; }
+.stat-value {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1;
+}
+.stat-label {
+  font-size: 8px;
+  letter-spacing: 0.5px;
+}
 
 .card-chars {
   padding: 8px 24px;

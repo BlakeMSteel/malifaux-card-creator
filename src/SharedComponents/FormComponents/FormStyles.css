@@ -61,10 +61,19 @@
   margin: 0;
 }
 
-.row { display: flex; align-items: center; }
-.wrap { flex-wrap: wrap; }
-.gap { gap: 12px; }
-.gap-sm { gap: 6px; }
+.row {
+  display: flex;
+  align-items: center;
+}
+.wrap {
+  flex-wrap: wrap;
+}
+.gap {
+  gap: 12px;
+}
+.gap-sm {
+  gap: 6px;
+}
 
 .ability-entry {
   display: flex;

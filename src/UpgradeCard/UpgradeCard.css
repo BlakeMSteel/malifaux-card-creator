@@ -25,7 +25,7 @@
 
 .uc-header-band::before,
 .uc-header-band::after {
-  content: '';
+  content: "";
   flex: 1;
   height: 1px;
   background: rgba(255, 255, 255, 0.45);
@@ -125,7 +125,7 @@
 
 .uc-footer-band::before,
 .uc-footer-band::after {
-  content: '';
+  content: "";
   flex: 1;
   height: 1px;
   background: rgba(255, 255, 255, 0.45);

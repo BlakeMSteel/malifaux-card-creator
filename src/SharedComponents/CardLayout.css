@@ -11,7 +11,9 @@
   border-right: 1px solid #ccc;
   padding: 16px;
   box-sizing: border-box;
-  transition: max-width 0.25s ease, padding 0.25s ease;
+  transition:
+    max-width 0.25s ease,
+    padding 0.25s ease;
 }
 
 .card-layout.collapsed .cl-form-panel {
