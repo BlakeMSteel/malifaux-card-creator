@@ -5,6 +5,11 @@ import "./index.css";
 import App from "./App.tsx";
 
 const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#5aa348",
+    },
+  },
   components: {
     MuiButton: {
       styleOverrides: {

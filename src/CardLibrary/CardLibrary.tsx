@@ -1,4 +1,12 @@
-import { Box, Button, FormControl, MenuItem, Select } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  IconButton,
+  MenuItem,
+  Select,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface Props {
   savedCards: Array<{ id: string; label: string }>;
@@ -29,7 +37,6 @@ export default function CardLibrary({
         borderColor: "divider",
         bgcolor: "grey.50",
         flexShrink: 0,
-        flexWrap: "wrap",
       }}
     >
       <FormControl size="small" sx={{ flex: 1, minWidth: 150 }}>
@@ -62,14 +69,9 @@ export default function CardLibrary({
         New
       </Button>
       {currentId && (
-        <Button
-          size="small"
-          variant="outlined"
-          color="error"
-          onClick={onDelete}
-        >
-          Delete
-        </Button>
+        <IconButton size="small" color="error" onClick={onDelete}>
+          <DeleteIcon fontSize="small" />
+        </IconButton>
       )}
     </Box>
   );

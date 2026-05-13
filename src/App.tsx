@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { AppBar, Box, Tab, Tabs, Toolbar, Typography } from "@mui/material";
+import { FaIdCard } from "react-icons/fa";
 import type {
   CardData,
   SavedCardEntry,
@@ -53,7 +54,7 @@ const defaultCrewCard: CrewCardData = {
 
 const defaultUpgradeCard: UpgradeCardData = {
   faction: "",
-  upgradeType: "M",
+  upgradeType: "",
   name: "",
   upgradeEffect: "",
   abilities: [],
@@ -268,21 +269,35 @@ export default function App() {
         sx={{ flexShrink: 0 }}
       >
         <Toolbar variant="dense" disableGutters sx={{ pl: 2 }}>
-          <Typography
-            variant="subtitle1"
-            sx={{ fontWeight: 700, mr: 3, letterSpacing: 0, flexShrink: 0 }}
+          <Box
+            sx={{ display: { xs: "none", sm: "block" }, mr: 3, flexShrink: 0 }}
           >
-            Malifaux Card Creator
-          </Typography>
+            <Typography
+              variant="subtitle1"
+              sx={{ fontWeight: 700, letterSpacing: 0, color: "#5aa348" }}
+            >
+              Malifaux Card Creator
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: { xs: "flex", sm: "none" },
+              mr: 2,
+              alignItems: "center",
+              flexShrink: 0,
+            }}
+          >
+            <FaIdCard size={24} color="#5aa348" />
+          </Box>
           <Tabs
             value={activeTab}
             onChange={(_, v: "stat" | "crew" | "upgrade") => setActiveTab(v)}
             textColor="primary"
             indicatorColor="primary"
           >
-            <Tab label="Stat Card" value="stat" />
-            <Tab label="Crew Card" value="crew" />
-            <Tab label="Upgrade Card" value="upgrade" />
+            <Tab label="Model" value="stat" />
+            <Tab label="Crew" value="crew" />
+            <Tab label="Upgrade" value="upgrade" />
           </Tabs>
         </Toolbar>
       </AppBar>

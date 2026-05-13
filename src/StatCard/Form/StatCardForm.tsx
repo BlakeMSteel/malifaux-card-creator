@@ -137,21 +137,31 @@ export default function StatCardForm({ card, onChange }: Props) {
     <Box component="form" onSubmit={(e) => e.preventDefault()} sx={{ p: 2 }}>
       <Section title="Basic Info">
         <Stack spacing={1.5}>
-          <FormControl size="small" fullWidth>
-            <InputLabel>Faction</InputLabel>
-            <Select
-              label="Faction"
-              value={card.faction}
-              onChange={(e) => update({ faction: e.target.value })}
-            >
-              <MenuItem value="">(none)</MenuItem>
-              {FACTIONS.map((f) => (
-                <MenuItem key={f.name} value={f.name}>
-                  {f.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <FormControl size="small" fullWidth>
+              <InputLabel>Faction</InputLabel>
+              <Select
+                label="Faction"
+                value={card.faction}
+                onChange={(e) => update({ faction: e.target.value })}
+              >
+                <MenuItem value="">(none)</MenuItem>
+                {FACTIONS.map((f) => (
+                  <MenuItem key={f.name} value={f.name}>
+                    {f.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              size="small"
+              label="Cost"
+              placeholder='# or "-"'
+              value={card.cost}
+              onChange={(e) => update({ cost: e.target.value })}
+              sx={{ width: 80 }}
+            />
+          </Box>
           <TextField
             size="small"
             fullWidth
@@ -167,14 +177,6 @@ export default function StatCardForm({ card, onChange }: Props) {
             placeholder="Trigger Happy"
             value={card.title}
             onChange={(e) => update({ title: e.target.value })}
-          />
-          <TextField
-            size="small"
-            label="Cost"
-            placeholder='# or "-"'
-            value={card.cost}
-            onChange={(e) => update({ cost: e.target.value })}
-            sx={{ width: 80 }}
           />
         </Stack>
       </Section>
@@ -197,7 +199,7 @@ export default function StatCardForm({ card, onChange }: Props) {
           useFlexGap
           sx={{ flexWrap: "wrap", rowGap: 1.5 }}
         >
-          {(["df", "wp", "sp", "sz", "stn"] as const).map((stat) => (
+          {(["df", "wp", "sp", "sz", "stn", "health"] as const).map((stat) => (
             <TextField
               key={stat}
               size="small"
@@ -339,22 +341,6 @@ export default function StatCardForm({ card, onChange }: Props) {
         >
           Add Ability
         </Button>
-      </Section>
-
-      <Section title="Health">
-        <TextField
-          size="small"
-          label="Max Health (1–15)"
-          type="number"
-          slotProps={{ htmlInput: { min: 1, max: 15 } }}
-          value={card.health}
-          onChange={(e) =>
-            update({
-              health: Math.min(15, Math.max(1, Number(e.target.value))),
-            })
-          }
-          sx={{ width: 140 }}
-        />
       </Section>
 
       {card.station === "Master" && (
