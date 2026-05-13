@@ -541,7 +541,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
                 startIcon={<AddIcon />}
                 onClick={() => addAbility(group.id)}
               >
-                Add Ability
+                Ability
               </Button>
             </Box>
           </Box>
@@ -552,7 +552,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
           startIcon={<AddIcon />}
           onClick={addAbilityGroup}
         >
-          Add Ability Group
+          Ability Group
         </Button>
       </Section>
 
@@ -632,7 +632,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
           startIcon={<AddIcon />}
           onClick={addTriggerGroup}
         >
-          Add Trigger Group
+          Trigger Group
         </Button>
       </Section>
 
@@ -693,7 +693,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
           startIcon={<AddIcon />}
           onClick={addActionGroup}
         >
-          Add Action Group
+          Action Group
         </Button>
       </Section>
 
@@ -798,7 +798,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
                   startIcon={<AddIcon />}
                   onClick={() => addTerrainFeature(marker.id)}
                 >
-                  Add Feature
+                  Feature
                 </Button>
               </Box>
               <TextField
@@ -822,7 +822,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
           startIcon={<AddIcon />}
           onClick={addMarker}
         >
-          Add Marker
+          Marker
         </Button>
       </Section>
 
@@ -890,7 +890,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
           startIcon={<AddIcon />}
           onClick={addToken}
         >
-          Add Token
+          Token
         </Button>
       </Section>
     </Box>

@@ -339,7 +339,7 @@ export default function StatCardForm({ card, onChange }: Props) {
           startIcon={<AddIcon />}
           onClick={addAbility}
         >
-          Add Ability
+          Ability
         </Button>
       </Section>
 

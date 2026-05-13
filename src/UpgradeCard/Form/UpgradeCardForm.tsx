@@ -204,7 +204,7 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
           startIcon={<AddIcon />}
           onClick={addAbility}
         >
-          Add Ability
+          Ability
         </Button>
       </Section>
 
@@ -255,7 +255,7 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
               startIcon={<AddIcon />}
               onClick={addTrigger}
             >
-              Add Trigger
+              Trigger
             </Button>
           </Box>
         </Stack>

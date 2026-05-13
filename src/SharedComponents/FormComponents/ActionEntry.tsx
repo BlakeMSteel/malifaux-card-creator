@@ -97,7 +97,12 @@ export function ActionEntry({
         onChange={(e) => onChange({ name: e.target.value })}
       />
 
-      <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", rowGap: 1.5 }}>
+      <Stack
+        direction="row"
+        spacing={1}
+        useFlexGap
+        sx={{ flexWrap: "wrap", rowGap: 1.5 }}
+      >
         <TextField
           size="small"
           label="Rg"
@@ -183,7 +188,7 @@ export function ActionEntry({
           startIcon={<AddIcon />}
           onClick={addTrigger}
         >
-          Add Trigger
+          Trigger
         </Button>
       </Box>
     </Box>
