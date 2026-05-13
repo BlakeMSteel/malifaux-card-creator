@@ -12,8 +12,20 @@ import {
   AbilityEntry,
   ActionEntry,
 } from "../../SharedComponents/FormComponents";
-import "../../SharedComponents/FormComponents/FormStyles.css";
-import "./StatCardForm.css";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Chip,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 const PRESET_CHARACTERISTICS = ["Living", "Construct", "Beast", "Undead"];
 const STATIONS: { value: Station; label: string }[] = [
@@ -27,6 +39,32 @@ const STATIONS: { value: Station; label: string }[] = [
 interface Props {
   card: CardData;
   onChange: (card: CardData) => void;
+}
+
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <Box sx={{ mb: 2.5, pb: 2, borderBottom: 1, borderColor: "divider" }}>
+      <Typography
+        variant="overline"
+        sx={{
+          display: "block",
+          fontWeight: 600,
+          mb: 1.5,
+          color: "text.secondary",
+          lineHeight: 1.5,
+        }}
+      >
+        {title}
+      </Typography>
+      {children}
+    </Box>
+  );
 }
 
 export default function StatCardForm({ card, onChange }: Props) {
@@ -95,192 +133,183 @@ export default function StatCardForm({ card, onChange }: Props) {
     });
 
   return (
-    <form onSubmit={(e) => e.preventDefault()} className="card-form">
-      <section>
-        <h3>Basic Info</h3>
-        <label>
-          Faction
-          <select
-            value={card.faction}
-            onChange={(e) => update({ faction: e.target.value })}
-          >
-            <option value="">(none)</option>
-            {FACTIONS.map((f) => (
-              <option key={f.name} value={f.name}>
-                {f.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Name
-          <input
+    <Box component="form" onSubmit={(e) => e.preventDefault()} sx={{ p: 2 }}>
+      <Section title="Basic Info">
+        <Stack spacing={1.5}>
+          <FormControl size="small" fullWidth>
+            <InputLabel>Faction</InputLabel>
+            <Select
+              label="Faction"
+              value={card.faction}
+              onChange={(e) => update({ faction: e.target.value })}
+            >
+              <MenuItem value="">(none)</MenuItem>
+              {FACTIONS.map((f) => (
+                <MenuItem key={f.name} value={f.name}>
+                  {f.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            size="small"
+            fullWidth
+            label="Name"
             value={card.name}
             onChange={(e) => update({ name: e.target.value })}
           />
-        </label>
-        <label>
-          Title
-          <input
+          <TextField
+            size="small"
+            fullWidth
+            label="Title"
+            placeholder="e.g. Fast Asleep (optional)"
             value={card.title}
             onChange={(e) => update({ title: e.target.value })}
-            placeholder="e.g. Fast Asleep (optional)"
           />
-        </label>
-        <label>
-          Cost
-          <input
+          <TextField
+            size="small"
+            label="Cost"
+            placeholder='# or "-"'
             value={card.cost}
             onChange={(e) => update({ cost: e.target.value })}
-            placeholder='# or "-"'
-            className="input-narrow"
+            sx={{ width: 80 }}
           />
-        </label>
-      </section>
+        </Stack>
+      </Section>
 
-      <section>
-        <h3>Image</h3>
-        <label>
-          URL
-          <input
-            value={card.imageUrl}
-            onChange={(e) => update({ imageUrl: e.target.value })}
-            placeholder="https://..."
-          />
-        </label>
-      </section>
+      <Section title="Image">
+        <TextField
+          size="small"
+          fullWidth
+          label="URL"
+          placeholder="https://..."
+          value={card.imageUrl}
+          onChange={(e) => update({ imageUrl: e.target.value })}
+        />
+      </Section>
 
-      <section>
-        <h3>Stats</h3>
-        <div className="row gap wrap">
-          {(["df", "wp", "sp", "sz"] as const).map((stat) => (
-            <label key={stat}>
-              {stat.toUpperCase()}
-              <input
-                type="number"
-                min={0}
-                max={9}
-                value={card[stat]}
-                onChange={(e) => update({ [stat]: e.target.value })}
-                className="input-narrow"
-              />
-            </label>
-          ))}
-          <label>
-            STN
-            <input
+      <Section title="Stats">
+        <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap" }}>
+          {(["df", "wp", "sp", "sz", "stn"] as const).map((stat) => (
+            <TextField
+              key={stat}
+              size="small"
+              label={stat.toUpperCase()}
               type="number"
-              min={1}
-              max={14}
-              value={card.stn}
-              onChange={(e) => update({ stn: e.target.value })}
-              placeholder="—"
-              className="input-narrow"
+              slotProps={{ htmlInput: { min: 0 } }}
+              value={card[stat]}
+              onChange={(e) => update({ [stat]: e.target.value })}
+              sx={{ width: 90 }}
             />
-          </label>
-        </div>
-      </section>
+          ))}
+        </Stack>
+      </Section>
 
-      <section>
-        <h3>Station &amp; Characteristics</h3>
-        <label>
-          Station
-          <select
-            value={card.station}
-            onChange={(e) => update({ station: e.target.value as Station })}
-          >
-            {STATIONS.map((s) => (
-              <option key={s.value} value={s.value}>
-                {s.label}
-              </option>
-            ))}
-          </select>
-        </label>
+      <Section title="Station & Characteristics">
+        <Stack spacing={1.5}>
+          <FormControl size="small" fullWidth>
+            <InputLabel>Station</InputLabel>
+            <Select
+              label="Station"
+              value={card.station}
+              onChange={(e) => update({ station: e.target.value as Station })}
+            >
+              {STATIONS.map((s) => (
+                <MenuItem key={s.value} value={s.value}>
+                  {s.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-        {showCount && (
-          <label>
-            Count
-            <input
+          {showCount && (
+            <TextField
+              size="small"
+              label="Count"
               type="number"
-              min={1}
-              max={9}
+              slotProps={{ htmlInput: { min: 1, max: 9 } }}
               value={card.stationCount}
               onChange={(e) => update({ stationCount: e.target.value })}
-              className="input-narrow"
+              sx={{ width: 100 }}
             />
-          </label>
-        )}
+          )}
 
-        {card.station !== "Master" && (
-          <label>
-            <input
-              type="checkbox"
-              checked={card.isTotem}
-              onChange={(e) => update({ isTotem: e.target.checked })}
-            />
-            Totem
-          </label>
-        )}
-
-        <div className="subsection">
-          <p className="label-text">Other Characteristics</p>
-          <div className="row wrap gap-sm">
-            {PRESET_CHARACTERISTICS.map((c) => (
-              <label key={c} className="inline">
-                <input
-                  type="checkbox"
-                  checked={card.characteristics.includes(c)}
-                  onChange={() => togglePreset(c)}
+          {card.station !== "Master" && (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  size="small"
+                  checked={card.isTotem}
+                  onChange={(e) => update({ isTotem: e.target.checked })}
                 />
-                {c}
-              </label>
-            ))}
-          </div>
-          {customChars.length > 0 && (
-            <div className="row wrap gap-sm">
-              {customChars.map((c) => (
-                <span key={c} className="tag">
-                  {c}
-                  <button
-                    type="button"
-                    onClick={() =>
+              }
+              label="Totem"
+            />
+          )}
+
+          <Box>
+            <Typography variant="caption" color="text.secondary">
+              Other Characteristics
+            </Typography>
+            <Box sx={{ display: "flex", flexWrap: "wrap", mt: 0.5 }}>
+              {PRESET_CHARACTERISTICS.map((c) => (
+                <FormControlLabel
+                  key={c}
+                  control={
+                    <Checkbox
+                      size="small"
+                      checked={card.characteristics.includes(c)}
+                      onChange={() => togglePreset(c)}
+                    />
+                  }
+                  label={<Typography variant="body2">{c}</Typography>}
+                />
+              ))}
+            </Box>
+            {customChars.length > 0 && (
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mb: 1 }}>
+                {customChars.map((c) => (
+                  <Chip
+                    key={c}
+                    label={c}
+                    size="small"
+                    onDelete={() =>
                       update({
                         characteristics: card.characteristics.filter(
                           (x) => x !== c,
                         ),
                       })
                     }
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
-            </div>
-          )}
-          <div className="row gap-sm">
-            <input
-              value={customCharInput}
-              onChange={(e) => setCustomCharInput(e.target.value)}
-              placeholder="Custom characteristic"
-              onKeyDown={(e) => e.key === "Enter" && addCustomChar()}
-            />
-            <button type="button" onClick={addCustomChar}>
-              Add
-            </button>
-          </div>
-        </div>
+                  />
+                ))}
+              </Box>
+            )}
+            <Box sx={{ display: "flex", gap: 1 }}>
+              <TextField
+                size="small"
+                value={customCharInput}
+                onChange={(e) => setCustomCharInput(e.target.value)}
+                placeholder="Custom characteristic"
+                onKeyDown={(e) => e.key === "Enter" && addCustomChar()}
+                sx={{ flex: 1 }}
+              />
+              <Button size="small" variant="outlined" onClick={addCustomChar}>
+                Add
+              </Button>
+            </Box>
+          </Box>
 
-        <label>
-          Keyword
-          <input
+          <TextField
+            size="small"
+            fullWidth
+            label="Keyword"
             value={card.keyword}
             onChange={(e) => update({ keyword: e.target.value })}
           />
-        </label>
-      </section>
+        </Stack>
+      </Section>
 
-      <section>
-        <h3>Abilities</h3>
+      <Section title="Abilities">
         {card.abilities.map((ab, i) => (
           <AbilityEntry
             key={ab.id}
@@ -294,52 +323,49 @@ export default function StatCardForm({ card, onChange }: Props) {
             }
           />
         ))}
-        <button type="button" onClick={addAbility}>
+        <Button size="small" variant="outlined" onClick={addAbility}>
           + Add Ability
-        </button>
-      </section>
+        </Button>
+      </Section>
 
-      <section>
-        <h3>Health</h3>
-        <label>
-          Max Health (1–15)
-          <input
-            type="number"
-            min={1}
-            max={15}
-            value={card.health}
-            onChange={(e) =>
-              update({
-                health: Math.min(15, Math.max(1, Number(e.target.value))),
-              })
-            }
-            className="input-narrow"
-          />
-        </label>
-      </section>
+      <Section title="Health">
+        <TextField
+          size="small"
+          label="Max Health (1–15)"
+          type="number"
+          slotProps={{ htmlInput: { min: 1, max: 15 } }}
+          value={card.health}
+          onChange={(e) =>
+            update({
+              health: Math.min(15, Math.max(1, Number(e.target.value))),
+            })
+          }
+          sx={{ width: 140 }}
+        />
+      </Section>
 
       {card.station === "Master" && (
-        <section>
-          <h3>Master Info</h3>
-          <label>
-            Left text
-            <input
+        <Section title="Master Info">
+          <Stack spacing={1.5}>
+            <TextField
+              size="small"
+              fullWidth
+              label="Left text"
               value={card.masterLeftText}
               onChange={(e) => update({ masterLeftText: e.target.value })}
             />
-          </label>
-          <label>
-            Right text
-            <input
+            <TextField
+              size="small"
+              fullWidth
+              label="Right text"
               value={card.masterRightText}
               onChange={(e) => update({ masterRightText: e.target.value })}
             />
-          </label>
-        </section>
+          </Stack>
+        </Section>
       )}
 
-      <section>
-        <h3>Actions</h3>
+      <Section title="Actions">
         {card.actions.map((action) => (
           <ActionEntry
             key={action.id}
@@ -352,30 +378,38 @@ export default function StatCardForm({ card, onChange }: Props) {
             }
           />
         ))}
-        <div className="row gap-sm">
-          <button type="button" onClick={() => addAction("Attack")}>
+        <Stack direction="row" spacing={1}>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => addAction("Attack")}
+          >
             + Attack Action
-          </button>
-          <button type="button" onClick={() => addAction("Tactical")}>
+          </Button>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => addAction("Tactical")}
+          >
             + Tactical Action
-          </button>
-        </div>
-      </section>
+          </Button>
+        </Stack>
+      </Section>
 
-      <section>
-        <h3>Base Size</h3>
-        <label>
-          Size
-          <select
+      <Section title="Base Size">
+        <FormControl size="small" sx={{ minWidth: 120 }}>
+          <InputLabel>Size</InputLabel>
+          <Select
+            label="Size"
             value={card.baseSize}
             onChange={(e) => update({ baseSize: e.target.value as BaseSize })}
           >
-            <option value="30mm">30mm</option>
-            <option value="40mm">40mm</option>
-            <option value="50mm">50mm</option>
-          </select>
-        </label>
-      </section>
-    </form>
+            <MenuItem value="30mm">30mm</MenuItem>
+            <MenuItem value="40mm">40mm</MenuItem>
+            <MenuItem value="50mm">50mm</MenuItem>
+          </Select>
+        </FormControl>
+      </Section>
+    </Box>
   );
 }

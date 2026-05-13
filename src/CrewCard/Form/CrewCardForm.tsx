@@ -19,7 +19,21 @@ import {
   TriggerEntry,
   GroupHeader,
 } from "../../SharedComponents/FormComponents";
-import "../../SharedComponents/FormComponents/FormStyles.css";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const TOKEN_PRESETS: Record<string, string> = {
   Abandoned:
@@ -161,6 +175,32 @@ const TOKEN_PRESETS: Record<string, string> = {
 interface Props {
   card: CrewCardData;
   onChange: (card: CrewCardData) => void;
+}
+
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <Box sx={{ mb: 2.5, pb: 2, borderBottom: 1, borderColor: "divider" }}>
+      <Typography
+        variant="overline"
+        sx={{
+          display: "block",
+          fontWeight: 600,
+          mb: 1.5,
+          color: "text.secondary",
+          lineHeight: 1.5,
+        }}
+      >
+        {title}
+      </Typography>
+      {children}
+    </Box>
+  );
 }
 
 export default function CrewCardForm({ card, onChange }: Props) {
@@ -395,75 +435,87 @@ export default function CrewCardForm({ card, onChange }: Props) {
   };
 
   return (
-    <form onSubmit={(e) => e.preventDefault()} className="card-form">
-      <section>
-        <h3>Basic Info</h3>
-        <label>
-          Faction
-          <select
-            value={card.faction}
-            onChange={(e) => update({ faction: e.target.value })}
-          >
-            <option value="">(none)</option>
-            {FACTIONS.map((f) => (
-              <option key={f.name} value={f.name}>
-                {f.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Name
-          <input
+    <Box component="form" onSubmit={(e) => e.preventDefault()} sx={{ p: 2 }}>
+      <Section title="Basic Info">
+        <Stack spacing={1.5}>
+          <FormControl size="small" fullWidth>
+            <InputLabel>Faction</InputLabel>
+            <Select
+              label="Faction"
+              value={card.faction}
+              onChange={(e) => update({ faction: e.target.value })}
+            >
+              <MenuItem value="">(none)</MenuItem>
+              {FACTIONS.map((f) => (
+                <MenuItem key={f.name} value={f.name}>
+                  {f.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            size="small"
+            fullWidth
+            label="Name"
+            placeholder="CREW NAME"
             value={card.name}
             onChange={(e) => update({ name: e.target.value })}
-            placeholder="CREW NAME"
           />
-        </label>
-        <label>
-          Master
-          <input
+          <TextField
+            size="small"
+            fullWidth
+            label="Master"
+            placeholder="Master Name, Title"
             value={card.master}
             onChange={(e) => update({ master: e.target.value })}
-            placeholder="Master Name, Title"
           />
-        </label>
-        <label>
-          Keyword
-          <input
+          <TextField
+            size="small"
+            fullWidth
+            label="Keyword"
+            placeholder="e.g. Nightmare"
             value={card.keyword}
             onChange={(e) => update({ keyword: e.target.value })}
-            placeholder="e.g. Nightmare"
           />
-        </label>
-      </section>
+        </Stack>
+      </Section>
 
-      <section>
-        <h3>Image</h3>
-        <label>
-          URL
-          <input
-            value={card.imageUrl}
-            onChange={(e) => update({ imageUrl: e.target.value })}
-            placeholder="https://..."
-          />
-        </label>
-      </section>
+      <Section title="Image">
+        <TextField
+          size="small"
+          fullWidth
+          label="URL"
+          placeholder="https://..."
+          value={card.imageUrl}
+          onChange={(e) => update({ imageUrl: e.target.value })}
+        />
+      </Section>
 
-      <section>
-        <h3>Crew Ability</h3>
-        <textarea
+      <Section title="Crew Ability">
+        <TextField
+          size="small"
+          fullWidth
+          multiline
+          rows={3}
+          placeholder="e.g. During the start phase of turn 1..."
           value={card.crewAbility}
           onChange={(e) => update({ crewAbility: e.target.value })}
-          placeholder="e.g. During the start phase of turn 1..."
-          rows={3}
         />
-      </section>
+      </Section>
 
-      <section>
-        <h3>Ability Groups</h3>
+      <Section title="Ability Groups">
         {card.abilityGroups.map((group, gi) => (
-          <div key={group.id} className="action-entry">
+          <Box
+            key={group.id}
+            sx={{
+              p: 1.5,
+              mb: 1.5,
+              border: 1,
+              borderColor: "grey.400",
+              borderRadius: 1,
+              bgcolor: "grey.50",
+            }}
+          >
             <GroupHeader
               index={gi}
               uniqueOnly={group.uniqueOnly}
@@ -472,7 +524,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
               onChange={(patch) => updateAbilityGroup(group.id, patch)}
               onRemove={() => removeAbilityGroup(group.id)}
             />
-            <div className="subsection">
+            <Box sx={{ mt: 1 }}>
               {group.abilities.map((ab, i) => (
                 <AbilityEntry
                   key={ab.id}
@@ -482,21 +534,34 @@ export default function CrewCardForm({ card, onChange }: Props) {
                   onRemove={() => removeAbility(group.id, ab.id)}
                 />
               ))}
-              <button type="button" onClick={() => addAbility(group.id)}>
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => addAbility(group.id)}
+              >
                 + Add Ability
-              </button>
-            </div>
-          </div>
+              </Button>
+            </Box>
+          </Box>
         ))}
-        <button type="button" onClick={addAbilityGroup}>
+        <Button size="small" variant="outlined" onClick={addAbilityGroup}>
           + Add Ability Group
-        </button>
-      </section>
+        </Button>
+      </Section>
 
-      <section>
-        <h3>Trigger Groups</h3>
+      <Section title="Trigger Groups">
         {card.triggerGroups.map((group, gi) => (
-          <div key={group.id} className="action-entry">
+          <Box
+            key={group.id}
+            sx={{
+              p: 1.5,
+              mb: 1.5,
+              border: 1,
+              borderColor: "grey.400",
+              borderRadius: 1,
+              bgcolor: "grey.50",
+            }}
+          >
             <GroupHeader
               index={gi}
               uniqueOnly={group.uniqueOnly}
@@ -505,53 +570,73 @@ export default function CrewCardForm({ card, onChange }: Props) {
               onChange={(patch) => updateTriggerGroup(group.id, patch)}
               onRemove={() => removeTriggerGroup(group.id)}
             />
-            <label>
-              Action type
-              <select
-                value={group.actionType}
-                onChange={(e) =>
-                  updateTriggerGroup(group.id, {
-                    actionType: e.target.value as TriggerActionType,
-                  })
+            <Stack spacing={1.5} sx={{ mt: 1 }}>
+              <FormControl size="small" fullWidth>
+                <InputLabel>Action type</InputLabel>
+                <Select
+                  label="Action type"
+                  value={group.actionType}
+                  onChange={(e) =>
+                    updateTriggerGroup(group.id, {
+                      actionType: e.target.value as TriggerActionType,
+                    })
+                  }
+                >
+                  <MenuItem value="attack">all attack actions</MenuItem>
+                  <MenuItem value="all">all actions</MenuItem>
+                  <MenuItem value="🔫">their 🔫 actions</MenuItem>
+                  <MenuItem value="✨">their ✨ actions</MenuItem>
+                  <MenuItem value="🗡️">their 🗡️ actions</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    size="small"
+                    checked={group.printedOnStatCard}
+                    onChange={(e) =>
+                      updateTriggerGroup(group.id, {
+                        printedOnStatCard: e.target.checked,
+                      })
+                    }
+                  />
                 }
-              >
-                <option value="attack">all attack actions</option>
-                <option value="all">all actions</option>
-                <option value="🔫">their 🔫 actions</option>
-                <option value="✨">their ✨ actions</option>
-                <option value="🗡️">their 🗡️ actions</option>
-              </select>
-            </label>
-            <label className="inline">
-              <input
-                type="checkbox"
-                checked={group.printedOnStatCard}
-                onChange={(e) =>
-                  updateTriggerGroup(group.id, {
-                    printedOnStatCard: e.target.checked,
-                  })
-                }
+                label="Printed on their stat card"
               />
-              Printed on their stat card
-            </label>
-            <div className="subsection">
-              <p className="label-text">Trigger</p>
-              <TriggerEntry
-                trigger={group.trigger}
-                onChange={(patch) => updateGroupTrigger(group.id, patch)}
-              />
-            </div>
-          </div>
+              <Box>
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ mb: 0.5, display: "block" }}
+                >
+                  Trigger
+                </Typography>
+                <TriggerEntry
+                  trigger={group.trigger}
+                  onChange={(patch) => updateGroupTrigger(group.id, patch)}
+                />
+              </Box>
+            </Stack>
+          </Box>
         ))}
-        <button type="button" onClick={addTriggerGroup}>
+        <Button size="small" variant="outlined" onClick={addTriggerGroup}>
           + Add Trigger Group
-        </button>
-      </section>
+        </Button>
+      </Section>
 
-      <section>
-        <h3>Action Groups</h3>
+      <Section title="Action Groups">
         {card.actionGroups.map((group, gi) => (
-          <div key={group.id} className="action-entry">
+          <Box
+            key={group.id}
+            sx={{
+              p: 1.5,
+              mb: 1.5,
+              border: 1,
+              borderColor: "grey.400",
+              borderRadius: 1,
+              bgcolor: "grey.50",
+            }}
+          >
             <GroupHeader
               index={gi}
               uniqueOnly={group.uniqueOnly}
@@ -560,7 +645,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
               onChange={(patch) => updateActionGroup(group.id, patch)}
               onRemove={() => removeActionGroup(group.id)}
             />
-            <div className="subsection">
+            <Box sx={{ mt: 1 }}>
               {group.actions.map((action) => (
                 <ActionEntry
                   key={action.id}
@@ -569,144 +654,215 @@ export default function CrewCardForm({ card, onChange }: Props) {
                   onRemove={() => removeAction(group.id, action.id)}
                 />
               ))}
-              <div className="row gap-sm">
-                <button
-                  type="button"
+              <Stack direction="row" spacing={1}>
+                <Button
+                  size="small"
+                  variant="outlined"
                   onClick={() => addAction(group.id, "Attack")}
                 >
                   + Attack Action
-                </button>
-                <button
-                  type="button"
+                </Button>
+                <Button
+                  size="small"
+                  variant="outlined"
                   onClick={() => addAction(group.id, "Tactical")}
                 >
                   + Tactical Action
-                </button>
-              </div>
-            </div>
-          </div>
+                </Button>
+              </Stack>
+            </Box>
+          </Box>
         ))}
-        <button type="button" onClick={addActionGroup}>
+        <Button size="small" variant="outlined" onClick={addActionGroup}>
           + Add Action Group
-        </button>
-      </section>
+        </Button>
+      </Section>
 
-      <section>
-        <h3>Markers</h3>
+      <Section title="Markers">
         {card.markers.map((marker, i) => (
-          <div key={marker.id} className="action-entry">
-            <div className="row gap-sm">
-              <span className="label-text">{i + 1}.</span>
-              <button type="button" onClick={() => removeMarker(marker.id)}>
-                × Remove
-              </button>
-            </div>
-            <label>
-              Name
-              <input
+          <Box
+            key={marker.id}
+            sx={{
+              p: 1.5,
+              mb: 1.5,
+              border: 1,
+              borderColor: "grey.400",
+              borderRadius: 1,
+              bgcolor: "grey.50",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                mb: 1,
+              }}
+            >
+              <Typography variant="body2" color="text.secondary">
+                Marker {i + 1}
+              </Typography>
+              <IconButton
+                size="small"
+                color="error"
+                onClick={() => removeMarker(marker.id)}
+              >
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </Box>
+            <Stack spacing={1.5}>
+              <TextField
+                size="small"
+                fullWidth
+                label="Name"
+                placeholder="Marker name"
                 value={marker.name}
                 onChange={(e) =>
                   updateMarker(marker.id, { name: e.target.value })
                 }
-                placeholder="Marker name"
               />
-            </label>
-            <label>
-              Size
-              <select
-                value={marker.size}
-                onChange={(e) =>
-                  updateMarker(marker.id, {
-                    size: e.target.value as Marker["size"],
-                  })
-                }
-              >
-                <option value="30mm">30mm (not stated)</option>
-                <option value="40mm">40mm</option>
-                <option value="50mm">50mm</option>
-              </select>
-            </label>
-            <div className="subsection">
-              <p className="label-text">Terrain Features</p>
-              {marker.terrainFeatures.map((tf) => (
-                <div key={tf.id} className="row gap-sm">
-                  <input
-                    value={tf.feature}
-                    onChange={(e) =>
-                      updateTerrainFeature(marker.id, tf.id, e.target.value)
-                    }
-                    placeholder="e.g. hazardous (Fright)"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeTerrainFeature(marker.id, tf.id)}
+              <FormControl size="small" sx={{ minWidth: 160 }}>
+                <InputLabel>Size</InputLabel>
+                <Select
+                  label="Size"
+                  value={marker.size}
+                  onChange={(e) =>
+                    updateMarker(marker.id, {
+                      size: e.target.value as Marker["size"],
+                    })
+                  }
+                >
+                  <MenuItem value="30mm">30mm (not stated)</MenuItem>
+                  <MenuItem value="40mm">40mm</MenuItem>
+                  <MenuItem value="50mm">50mm</MenuItem>
+                </Select>
+              </FormControl>
+              <Box>
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ mb: 0.5, display: "block" }}
+                >
+                  Terrain Features
+                </Typography>
+                {marker.terrainFeatures.map((tf) => (
+                  <Box
+                    key={tf.id}
+                    sx={{
+                      display: "flex",
+                      gap: 1,
+                      mb: 0.5,
+                      alignItems: "center",
+                    }}
                   >
-                    ×
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={() => addTerrainFeature(marker.id)}
-              >
-                + Add Feature
-              </button>
-            </div>
-            <label>
-              Effect
-              <textarea
+                    <TextField
+                      size="small"
+                      fullWidth
+                      placeholder="e.g. hazardous (Fright)"
+                      value={tf.feature}
+                      onChange={(e) =>
+                        updateTerrainFeature(marker.id, tf.id, e.target.value)
+                      }
+                    />
+                    <IconButton
+                      size="small"
+                      color="error"
+                      onClick={() => removeTerrainFeature(marker.id, tf.id)}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
+                ))}
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => addTerrainFeature(marker.id)}
+                >
+                  + Add Feature
+                </Button>
+              </Box>
+              <TextField
+                size="small"
+                fullWidth
+                multiline
+                rows={2}
+                label="Effect"
+                placeholder="Effect text (optional)"
                 value={marker.effect}
                 onChange={(e) =>
                   updateMarker(marker.id, { effect: e.target.value })
                 }
-                rows={2}
-                placeholder="Effect text (optional)"
               />
-            </label>
-          </div>
+            </Stack>
+          </Box>
         ))}
-        <button type="button" onClick={addMarker}>
+        <Button size="small" variant="outlined" onClick={addMarker}>
           + Add Marker
-        </button>
-      </section>
+        </Button>
+      </Section>
 
-      <section>
-        <h3>Tokens</h3>
+      <Section title="Tokens">
         {card.tokens.map((token, i) => (
-          <div key={token.id} className="action-entry">
-            <div className="row gap-sm">
-              <span className="label-text">{i + 1}.</span>
-              <button type="button" onClick={() => removeToken(token.id)}>
-                × Remove
-              </button>
-            </div>
-            <label>
-              Name
-              <input
+          <Box
+            key={token.id}
+            sx={{
+              p: 1.5,
+              mb: 1.5,
+              border: 1,
+              borderColor: "grey.400",
+              borderRadius: 1,
+              bgcolor: "grey.50",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                mb: 1,
+              }}
+            >
+              <Typography variant="body2" color="text.secondary">
+                Token {i + 1}
+              </Typography>
+              <IconButton
+                size="small"
+                color="error"
+                onClick={() => removeToken(token.id)}
+              >
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </Box>
+            <Stack spacing={1.5}>
+              <TextField
+                size="small"
+                fullWidth
+                label="Name"
+                placeholder="Token name"
                 value={token.name}
                 onChange={(e) =>
                   handleTokenNameChange(token.id, e.target.value)
                 }
-                placeholder="Token name"
               />
-            </label>
-            <label>
-              Effect
-              <textarea
+              <TextField
+                size="small"
+                fullWidth
+                multiline
+                rows={3}
+                label="Effect"
+                placeholder="Effect text"
                 value={token.effect}
                 onChange={(e) =>
                   updateToken(token.id, { effect: e.target.value })
                 }
-                rows={3}
-                placeholder="Effect text"
               />
-            </label>
-          </div>
+            </Stack>
+          </Box>
         ))}
-        <button type="button" onClick={addToken}>
+        <Button size="small" variant="outlined" onClick={addToken}>
           + Add Token
-        </button>
-      </section>
-    </form>
+        </Button>
+      </Section>
+    </Box>
   );
 }

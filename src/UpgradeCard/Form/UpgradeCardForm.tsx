@@ -12,7 +12,20 @@ import {
   ActionEntry,
   TriggerEntry,
 } from "../../SharedComponents/FormComponents";
-import "../../SharedComponents/FormComponents/FormStyles.css";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+
 const TRIGGER_ACTION_TYPES: { value: TriggerActionType; label: string }[] = [
   { value: "attack", label: "all its attack actions" },
   { value: "all", label: "all actions" },
@@ -24,6 +37,32 @@ const TRIGGER_ACTION_TYPES: { value: TriggerActionType; label: string }[] = [
 interface Props {
   card: UpgradeCardData;
   onChange: (card: UpgradeCardData) => void;
+}
+
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <Box sx={{ mb: 2.5, pb: 2, borderBottom: 1, borderColor: "divider" }}>
+      <Typography
+        variant="overline"
+        sx={{
+          display: "block",
+          fontWeight: 600,
+          mb: 1.5,
+          color: "text.secondary",
+          lineHeight: 1.5,
+        }}
+      >
+        {title}
+      </Typography>
+      {children}
+    </Box>
+  );
 }
 
 export default function UpgradeCardForm({ card, onChange }: Props) {
@@ -100,53 +139,56 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
   const plentifulN = card.limitation.match(/\d+/)?.[0] ?? "2";
 
   return (
-    <form onSubmit={(e) => e.preventDefault()} className="card-form">
-      <section>
-        <h3>Basic Info</h3>
-        <label>
-          Faction
-          <select
-            value={card.faction}
-            onChange={(e) => update({ faction: e.target.value })}
-          >
-            <option value="">(none)</option>
-            {FACTIONS.map((f) => (
-              <option key={f.name} value={f.name}>
-                {f.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Type
-          <input
+    <Box component="form" onSubmit={(e) => e.preventDefault()} sx={{ p: 2 }}>
+      <Section title="Basic Info">
+        <Stack spacing={1.5}>
+          <FormControl size="small" fullWidth>
+            <InputLabel>Faction</InputLabel>
+            <Select
+              label="Faction"
+              value={card.faction}
+              onChange={(e) => update({ faction: e.target.value })}
+            >
+              <MenuItem value="">(none)</MenuItem>
+              {FACTIONS.map((f) => (
+                <MenuItem key={f.name} value={f.name}>
+                  {f.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            size="small"
+            label="Type"
+            placeholder="M"
             value={card.upgradeType}
             onChange={(e) => update({ upgradeType: e.target.value })}
-            placeholder="M"
+            sx={{ width: 80 }}
           />
-        </label>
-        <label>
-          Name
-          <input
+          <TextField
+            size="small"
+            fullWidth
+            label="Name"
+            placeholder="Upgrade Name"
             value={card.name}
             onChange={(e) => update({ name: e.target.value })}
-            placeholder="Upgrade Name"
           />
-        </label>
-      </section>
+        </Stack>
+      </Section>
 
-      <section>
-        <h3>Upgrade Effect</h3>
-        <textarea
+      <Section title="Upgrade Effect">
+        <TextField
+          size="small"
+          fullWidth
+          multiline
+          rows={3}
+          placeholder="Optional free text shown before granted abilities/triggers/actions"
           value={card.upgradeEffect}
           onChange={(e) => update({ upgradeEffect: e.target.value })}
-          placeholder="Optional free text shown before granted abilities/triggers/actions"
-          rows={3}
         />
-      </section>
+      </Section>
 
-      <section>
-        <h3>Granted Abilities</h3>
+      <Section title="Granted Abilities">
         {card.abilities.map((ab, i) => (
           <AbilityEntry
             key={ab.id}
@@ -156,55 +198,60 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
             onRemove={() => removeAbility(ab.id)}
           />
         ))}
-        <button type="button" onClick={addAbility}>
+        <Button size="small" variant="outlined" onClick={addAbility}>
           + Add Ability
-        </button>
-      </section>
+        </Button>
+      </Section>
 
-      <section>
-        <h3>Granted Triggers</h3>
-        <label>
-          Action type
-          <select
-            value={card.triggerActionType}
-            onChange={(e) =>
-              update({ triggerActionType: e.target.value as TriggerActionType })
+      <Section title="Granted Triggers">
+        <Stack spacing={1.5}>
+          <FormControl size="small" fullWidth>
+            <InputLabel>Action type</InputLabel>
+            <Select
+              label="Action type"
+              value={card.triggerActionType}
+              onChange={(e) =>
+                update({
+                  triggerActionType: e.target.value as TriggerActionType,
+                })
+              }
+            >
+              {TRIGGER_ACTION_TYPES.map((o) => (
+                <MenuItem key={o.value} value={o.value}>
+                  {o.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControlLabel
+            control={
+              <Checkbox
+                size="small"
+                checked={card.triggerPrintedOnStatCard}
+                onChange={(e) =>
+                  update({ triggerPrintedOnStatCard: e.target.checked })
+                }
+              />
             }
-          >
-            {TRIGGER_ACTION_TYPES.map((o) => (
-              <option key={o.value} value={o.value}>
-                {o.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="inline">
-          <input
-            type="checkbox"
-            checked={card.triggerPrintedOnStatCard}
-            onChange={(e) =>
-              update({ triggerPrintedOnStatCard: e.target.checked })
-            }
+            label="Printed on their stat card"
           />
-          Printed on their stat card
-        </label>
-        <div className="subsection">
-          {card.triggers.map((t) => (
-            <TriggerEntry
-              key={t.id}
-              trigger={t}
-              onChange={(patch) => updateTrigger(t.id, patch)}
-              onRemove={() => removeTrigger(t.id)}
-            />
-          ))}
-          <button type="button" onClick={addTrigger}>
-            + Add Trigger
-          </button>
-        </div>
-      </section>
+          <Box>
+            {card.triggers.map((t) => (
+              <TriggerEntry
+                key={t.id}
+                trigger={t}
+                onChange={(patch) => updateTrigger(t.id, patch)}
+                onRemove={() => removeTrigger(t.id)}
+              />
+            ))}
+            <Button size="small" variant="outlined" onClick={addTrigger}>
+              + Add Trigger
+            </Button>
+          </Box>
+        </Stack>
+      </Section>
 
-      <section>
-        <h3>Granted Actions</h3>
+      <Section title="Granted Actions">
         {card.actions.map((action) => (
           <ActionEntry
             key={action.id}
@@ -213,49 +260,59 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
             onRemove={() => removeAction(action.id)}
           />
         ))}
-        <div className="row gap-sm">
-          <button type="button" onClick={() => addAction("Attack")}>
-            + Attack Action
-          </button>
-          <button type="button" onClick={() => addAction("Tactical")}>
-            + Tactical Action
-          </button>
-        </div>
-      </section>
-
-      <section>
-        <h3>Limitations</h3>
-        <label>
-          Type
-          <select
-            value={isPlentiful ? "plentiful" : "unique"}
-            onChange={(e) =>
-              update({
-                limitation:
-                  e.target.value === "plentiful"
-                    ? `Plentiful (${plentifulN})`
-                    : "-",
-              })
-            }
+        <Stack direction="row" spacing={1}>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => addAction("Attack")}
           >
-            <option value="unique">Unique (-)</option>
-            <option value="plentiful">Plentiful</option>
-          </select>
-        </label>
-        {isPlentiful && (
-          <label>
-            Count
-            <input
+            + Attack Action
+          </Button>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => addAction("Tactical")}
+          >
+            + Tactical Action
+          </Button>
+        </Stack>
+      </Section>
+
+      <Section title="Limitations">
+        <Stack spacing={1.5}>
+          <FormControl size="small" sx={{ minWidth: 160 }}>
+            <InputLabel>Type</InputLabel>
+            <Select
+              label="Type"
+              value={isPlentiful ? "plentiful" : "unique"}
+              onChange={(e) =>
+                update({
+                  limitation:
+                    e.target.value === "plentiful"
+                      ? `Plentiful (${plentifulN})`
+                      : "-",
+                })
+              }
+            >
+              <MenuItem value="unique">Unique (-)</MenuItem>
+              <MenuItem value="plentiful">Plentiful</MenuItem>
+            </Select>
+          </FormControl>
+          {isPlentiful && (
+            <TextField
+              size="small"
+              label="Count"
               type="number"
-              min={1}
+              slotProps={{ htmlInput: { min: 1 } }}
               value={plentifulN}
               onChange={(e) =>
                 update({ limitation: `Plentiful (${e.target.value})` })
               }
+              sx={{ width: 100 }}
             />
-          </label>
-        )}
-      </section>
-    </form>
+          )}
+        </Stack>
+      </Section>
+    </Box>
   );
 }

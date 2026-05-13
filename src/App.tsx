@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { AppBar, Box, Tab, Tabs, Toolbar, Typography } from "@mui/material";
 import type {
   CardData,
   SavedCardEntry,
@@ -11,7 +12,6 @@ import StatCard from "./StatCard/StatCard";
 import CrewCard from "./CrewCard/CrewCard";
 import UpgradeCard from "./UpgradeCard/UpgradeCard";
 import CardLibrary from "./CardLibrary/CardLibrary";
-import "./App.css";
 
 export const defaultCard: CardData = {
   name: "",
@@ -260,66 +260,80 @@ export default function App() {
   };
 
   return (
-    <div className="app-root">
-      <div className="tabs">
-        <button
-          className={`tab${activeTab === "stat" ? " active" : ""}`}
-          onClick={() => setActiveTab("stat")}
-        >
-          Stat Card
-        </button>
-        <button
-          className={`tab${activeTab === "crew" ? " active" : ""}`}
-          onClick={() => setActiveTab("crew")}
-        >
-          Crew Card
-        </button>
-        <button
-          className={`tab${activeTab === "upgrade" ? " active" : ""}`}
-          onClick={() => setActiveTab("upgrade")}
-        >
-          Upgrade Card
-        </button>
-      </div>
-      {activeTab === "stat" && (
-        <>
-          <CardLibrary
-            savedCards={savedCards}
-            currentId={currentId}
-            onSave={handleSave}
-            onNew={handleNew}
-            onLoad={handleLoad}
-            onDelete={handleDelete}
-          />
-          <StatCard card={card} onChange={setCard} />
-        </>
-      )}
-      {activeTab === "crew" && (
-        <>
-          <CardLibrary
-            savedCards={savedCrewCards}
-            currentId={currentCrewId}
-            onSave={handleCrewSave}
-            onNew={handleCrewNew}
-            onLoad={handleCrewLoad}
-            onDelete={handleCrewDelete}
-          />
-          <CrewCard card={crewCard} onChange={setCrewCard} />
-        </>
-      )}
-      {activeTab === "upgrade" && (
-        <>
-          <CardLibrary
-            savedCards={savedUpgradeCards}
-            currentId={currentUpgradeId}
-            onSave={handleUpgradeSave}
-            onNew={handleUpgradeNew}
-            onLoad={handleUpgradeLoad}
-            onDelete={handleUpgradeDelete}
-          />
-          <UpgradeCard card={upgradeCard} onChange={setUpgradeCard} />
-        </>
-      )}
-    </div>
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100dvh" }}>
+      <AppBar
+        position="static"
+        color="default"
+        elevation={1}
+        sx={{ flexShrink: 0 }}
+      >
+        <Toolbar variant="dense" disableGutters sx={{ pl: 2 }}>
+          <Typography
+            variant="subtitle1"
+            sx={{ fontWeight: 700, mr: 3, letterSpacing: 0, flexShrink: 0 }}
+          >
+            Malifaux Card Creator
+          </Typography>
+          <Tabs
+            value={activeTab}
+            onChange={(_, v: "stat" | "crew" | "upgrade") => setActiveTab(v)}
+            textColor="primary"
+            indicatorColor="primary"
+          >
+            <Tab label="Stat Card" value="stat" />
+            <Tab label="Crew Card" value="crew" />
+            <Tab label="Upgrade Card" value="upgrade" />
+          </Tabs>
+        </Toolbar>
+      </AppBar>
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
+      >
+        {activeTab === "stat" && (
+          <>
+            <CardLibrary
+              savedCards={savedCards}
+              currentId={currentId}
+              onSave={handleSave}
+              onNew={handleNew}
+              onLoad={handleLoad}
+              onDelete={handleDelete}
+            />
+            <StatCard card={card} onChange={setCard} />
+          </>
+        )}
+        {activeTab === "crew" && (
+          <>
+            <CardLibrary
+              savedCards={savedCrewCards}
+              currentId={currentCrewId}
+              onSave={handleCrewSave}
+              onNew={handleCrewNew}
+              onLoad={handleCrewLoad}
+              onDelete={handleCrewDelete}
+            />
+            <CrewCard card={crewCard} onChange={setCrewCard} />
+          </>
+        )}
+        {activeTab === "upgrade" && (
+          <>
+            <CardLibrary
+              savedCards={savedUpgradeCards}
+              currentId={currentUpgradeId}
+              onSave={handleUpgradeSave}
+              onNew={handleUpgradeNew}
+              onLoad={handleUpgradeLoad}
+              onDelete={handleUpgradeDelete}
+            />
+            <UpgradeCard card={upgradeCard} onChange={setUpgradeCard} />
+          </>
+        )}
+      </Box>
+    </Box>
   );
 }

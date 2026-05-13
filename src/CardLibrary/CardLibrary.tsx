@@ -1,4 +1,4 @@
-import "./CardLibrary.css";
+import { Box, Button, FormControl, MenuItem, Select } from "@mui/material";
 
 interface Props {
   savedCards: Array<{ id: string; label: string }>;
@@ -18,25 +18,59 @@ export default function CardLibrary({
   onDelete,
 }: Props) {
   return (
-    <div className="card-library">
-      <select
-        value={currentId ?? ""}
-        onChange={(e) => {
-          if (e.target.value) onLoad(e.target.value);
-        }}
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 1,
+        px: 2,
+        py: 1,
+        borderBottom: 1,
+        borderColor: "divider",
+        bgcolor: "grey.50",
+        flexShrink: 0,
+        flexWrap: "wrap",
+      }}
+    >
+      <FormControl size="small" sx={{ flex: 1, minWidth: 150 }}>
+        <Select
+          value={currentId ?? ""}
+          displayEmpty
+          onChange={(e) => {
+            if (e.target.value) onLoad(e.target.value as string);
+          }}
+        >
+          <MenuItem value="" disabled>
+            — New card —
+          </MenuItem>
+          {savedCards.map((entry) => (
+            <MenuItem key={entry.id} value={entry.id}>
+              {entry.label}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <Button
+        size="small"
+        variant="contained"
+        disableElevation
+        onClick={onSave}
       >
-        <option value="" disabled>
-          — New card —
-        </option>
-        {savedCards.map((entry) => (
-          <option key={entry.id} value={entry.id}>
-            {entry.label}
-          </option>
-        ))}
-      </select>
-      <button onClick={onSave}>{currentId ? "Overwrite" : "Save"}</button>
-      <button onClick={onNew}>New</button>
-      {currentId && <button onClick={onDelete}>Delete</button>}
-    </div>
+        {currentId ? "Overwrite" : "Save"}
+      </Button>
+      <Button size="small" variant="outlined" onClick={onNew}>
+        New
+      </Button>
+      {currentId && (
+        <Button
+          size="small"
+          variant="outlined"
+          color="error"
+          onClick={onDelete}
+        >
+          Delete
+        </Button>
+      )}
+    </Box>
   );
 }
