@@ -457,7 +457,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
             size="small"
             fullWidth
             label="Name"
-            placeholder="CREW NAME"
+            placeholder="Lucid Dreaming"
             value={card.name}
             onChange={(e) => update({ name: e.target.value })}
           />
@@ -465,7 +465,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
             size="small"
             fullWidth
             label="Master"
-            placeholder="Master Name, Title"
+            placeholder="The Dreamer, Fast Asleep"
             value={card.master}
             onChange={(e) => update({ master: e.target.value })}
           />
@@ -473,7 +473,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
             size="small"
             fullWidth
             label="Keyword"
-            placeholder="e.g. Nightmare"
+            placeholder="Nightmare"
             value={card.keyword}
             onChange={(e) => update({ keyword: e.target.value })}
           />

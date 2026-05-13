@@ -155,6 +155,7 @@ export default function StatCardForm({ card, onChange }: Props) {
             size="small"
             fullWidth
             label="Name"
+            placeholder="Rusty Alyce"
             value={card.name}
             onChange={(e) => update({ name: e.target.value })}
           />
@@ -162,7 +163,7 @@ export default function StatCardForm({ card, onChange }: Props) {
             size="small"
             fullWidth
             label="Title"
-            placeholder="e.g. Fast Asleep (optional)"
+            placeholder="Trigger Happy"
             value={card.title}
             onChange={(e) => update({ title: e.target.value })}
           />
@@ -189,7 +190,12 @@ export default function StatCardForm({ card, onChange }: Props) {
       </Section>
 
       <Section title="Stats">
-        <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap" }}>
+        <Stack
+          direction="row"
+          spacing={1}
+          useFlexGap
+          sx={{ flexWrap: "wrap", rowGap: 1.5 }}
+        >
           {(["df", "wp", "sp", "sz", "stn"] as const).map((stat) => (
             <TextField
               key={stat}
@@ -303,6 +309,7 @@ export default function StatCardForm({ card, onChange }: Props) {
             size="small"
             fullWidth
             label="Keyword"
+            placeholder="Amalgam"
             value={card.keyword}
             onChange={(e) => update({ keyword: e.target.value })}
           />

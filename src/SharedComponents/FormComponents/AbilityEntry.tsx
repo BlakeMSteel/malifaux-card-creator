@@ -27,7 +27,7 @@ export function AbilityEntry({
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: 1,
+        gap: 1.5,
         p: 1.5,
         border: 1,
         borderColor: "divider",
@@ -36,17 +36,11 @@ export function AbilityEntry({
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{ flexShrink: 0 }}
-        >
-          {index + 1}.
-        </Typography>
         <TextField
+          label="Name"
           size="small"
           fullWidth
-          placeholder="Name"
+          placeholder="Armor"
           value={ability.name}
           onChange={(e) => onChange({ name: e.target.value })}
         />
@@ -81,18 +75,20 @@ export function AbilityEntry({
         )}
       </Box>
       <TextField
+        label="Requirement"
         size="small"
         fullWidth
-        placeholder="Requirement, e.g. Once per activation. (optional)"
+        placeholder="Once per activation."
         value={ability.requirement}
         onChange={(e) => onChange({ requirement: e.target.value })}
       />
       <TextField
+        label="Ability Text"
         size="small"
         fullWidth
         multiline
-        rows={2}
-        placeholder="Ability text"
+        rows={3}
+        placeholder="This model may reduce damage dealt to it by 1."
         value={ability.text}
         onChange={(e) => onChange({ text: e.target.value })}
       />
