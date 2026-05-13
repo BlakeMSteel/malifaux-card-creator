@@ -6,14 +6,12 @@ import {
   MenuItem,
   Select,
   TextField,
-  Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import type { Ability } from "../../types";
 
 export function AbilityEntry({
   ability,
-  index,
   onChange,
   onRemove,
 }: {

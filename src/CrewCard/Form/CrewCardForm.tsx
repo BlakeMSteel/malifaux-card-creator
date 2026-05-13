@@ -34,6 +34,7 @@ import {
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 
 const TOKEN_PRESETS: Record<string, string> = {
   Abandoned:
@@ -537,15 +538,21 @@ export default function CrewCardForm({ card, onChange }: Props) {
               <Button
                 size="small"
                 variant="outlined"
+                startIcon={<AddIcon />}
                 onClick={() => addAbility(group.id)}
               >
-                + Add Ability
+                Add Ability
               </Button>
             </Box>
           </Box>
         ))}
-        <Button size="small" variant="outlined" onClick={addAbilityGroup}>
-          + Add Ability Group
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<AddIcon />}
+          onClick={addAbilityGroup}
+        >
+          Add Ability Group
         </Button>
       </Section>
 
@@ -619,8 +626,13 @@ export default function CrewCardForm({ card, onChange }: Props) {
             </Stack>
           </Box>
         ))}
-        <Button size="small" variant="outlined" onClick={addTriggerGroup}>
-          + Add Trigger Group
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<AddIcon />}
+          onClick={addTriggerGroup}
+        >
+          Add Trigger Group
         </Button>
       </Section>
 
@@ -658,23 +670,30 @@ export default function CrewCardForm({ card, onChange }: Props) {
                 <Button
                   size="small"
                   variant="outlined"
+                  startIcon={<AddIcon />}
                   onClick={() => addAction(group.id, "Attack")}
                 >
-                  + Attack Action
+                  Attack Action
                 </Button>
                 <Button
                   size="small"
                   variant="outlined"
+                  startIcon={<AddIcon />}
                   onClick={() => addAction(group.id, "Tactical")}
                 >
-                  + Tactical Action
+                  Tactical Action
                 </Button>
               </Stack>
             </Box>
           </Box>
         ))}
-        <Button size="small" variant="outlined" onClick={addActionGroup}>
-          + Add Action Group
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<AddIcon />}
+          onClick={addActionGroup}
+        >
+          Add Action Group
         </Button>
       </Section>
 
@@ -776,9 +795,10 @@ export default function CrewCardForm({ card, onChange }: Props) {
                 <Button
                   size="small"
                   variant="outlined"
+                  startIcon={<AddIcon />}
                   onClick={() => addTerrainFeature(marker.id)}
                 >
-                  + Add Feature
+                  Add Feature
                 </Button>
               </Box>
               <TextField
@@ -796,8 +816,13 @@ export default function CrewCardForm({ card, onChange }: Props) {
             </Stack>
           </Box>
         ))}
-        <Button size="small" variant="outlined" onClick={addMarker}>
-          + Add Marker
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<AddIcon />}
+          onClick={addMarker}
+        >
+          Add Marker
         </Button>
       </Section>
 
@@ -859,8 +884,13 @@ export default function CrewCardForm({ card, onChange }: Props) {
             </Stack>
           </Box>
         ))}
-        <Button size="small" variant="outlined" onClick={addToken}>
-          + Add Token
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<AddIcon />}
+          onClick={addToken}
+        >
+          Add Token
         </Button>
       </Section>
     </Box>

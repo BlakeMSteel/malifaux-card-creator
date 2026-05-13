@@ -26,6 +26,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 const PRESET_CHARACTERISTICS = ["Living", "Construct", "Beast", "Undead"];
 const STATIONS: { value: Station; label: string }[] = [
@@ -330,8 +331,13 @@ export default function StatCardForm({ card, onChange }: Props) {
             }
           />
         ))}
-        <Button size="small" variant="outlined" onClick={addAbility}>
-          + Add Ability
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<AddIcon />}
+          onClick={addAbility}
+        >
+          Add Ability
         </Button>
       </Section>
 
@@ -389,16 +395,18 @@ export default function StatCardForm({ card, onChange }: Props) {
           <Button
             size="small"
             variant="outlined"
+            startIcon={<AddIcon />}
             onClick={() => addAction("Attack")}
           >
-            + Attack Action
+            Attack Action
           </Button>
           <Button
             size="small"
             variant="outlined"
+            startIcon={<AddIcon />}
             onClick={() => addAction("Tactical")}
           >
-            + Tactical Action
+            Tactical Action
           </Button>
         </Stack>
       </Section>

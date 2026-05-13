@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 import type { Action, ActionType, Trigger, RstValue } from "../../types";
 import { TriggerEntry } from "./TriggerEntry";
 
@@ -51,7 +52,7 @@ export function ActionEntry({
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: 1,
+        gap: 1.5,
         p: 1.5,
         border: 1,
         borderColor: "grey.400",
@@ -61,7 +62,18 @@ export function ActionEntry({
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <FormControl size="small" sx={{ minWidth: 110 }}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              size="small"
+              checked={action.signature}
+              onChange={(e) => onChange({ signature: e.target.checked })}
+            />
+          }
+          label={<Typography variant="body2">⚡</Typography>}
+          sx={{ mr: 0 }}
+        />
+        <FormControl size="small" sx={{ minWidth: 110, flex: 1 }}>
           <InputLabel>Type</InputLabel>
           <Select
             label="Type"
@@ -72,17 +84,6 @@ export function ActionEntry({
             <MenuItem value="Tactical">Tactical</MenuItem>
           </Select>
         </FormControl>
-        <FormControlLabel
-          control={
-            <Checkbox
-              size="small"
-              checked={action.signature}
-              onChange={(e) => onChange({ signature: e.target.checked })}
-            />
-          }
-          label={<Typography variant="body2">⚡ Signature?</Typography>}
-          sx={{ mr: 0, flex: 1 }}
-        />
         <IconButton size="small" onClick={onRemove} color="error">
           <DeleteIcon fontSize="small" />
         </IconButton>
@@ -96,7 +97,7 @@ export function ActionEntry({
         onChange={(e) => onChange({ name: e.target.value })}
       />
 
-      <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap" }}>
+      <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", rowGap: 1.5 }}>
         <TextField
           size="small"
           label="Rg"
@@ -176,8 +177,13 @@ export function ActionEntry({
             onRemove={() => removeTrigger(t.id)}
           />
         ))}
-        <Button size="small" variant="outlined" onClick={addTrigger}>
-          + Add Trigger
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<AddIcon />}
+          onClick={addTrigger}
+        >
+          Add Trigger
         </Button>
       </Box>
     </Box>

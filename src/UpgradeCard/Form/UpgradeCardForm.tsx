@@ -25,6 +25,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 const TRIGGER_ACTION_TYPES: { value: TriggerActionType; label: string }[] = [
   { value: "attack", label: "all its attack actions" },
@@ -163,7 +164,6 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
             placeholder="M"
             value={card.upgradeType}
             onChange={(e) => update({ upgradeType: e.target.value })}
-            sx={{ width: 80 }}
           />
           <TextField
             size="small"
@@ -198,8 +198,13 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
             onRemove={() => removeAbility(ab.id)}
           />
         ))}
-        <Button size="small" variant="outlined" onClick={addAbility}>
-          + Add Ability
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<AddIcon />}
+          onClick={addAbility}
+        >
+          Add Ability
         </Button>
       </Section>
 
@@ -244,8 +249,13 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
                 onRemove={() => removeTrigger(t.id)}
               />
             ))}
-            <Button size="small" variant="outlined" onClick={addTrigger}>
-              + Add Trigger
+            <Button
+              size="small"
+              variant="outlined"
+              startIcon={<AddIcon />}
+              onClick={addTrigger}
+            >
+              Add Trigger
             </Button>
           </Box>
         </Stack>
@@ -264,16 +274,18 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
           <Button
             size="small"
             variant="outlined"
+            startIcon={<AddIcon />}
             onClick={() => addAction("Attack")}
           >
-            + Attack Action
+            Attack Action
           </Button>
           <Button
             size="small"
             variant="outlined"
+            startIcon={<AddIcon />}
             onClick={() => addAction("Tactical")}
           >
-            + Tactical Action
+            Tactical Action
           </Button>
         </Stack>
       </Section>
