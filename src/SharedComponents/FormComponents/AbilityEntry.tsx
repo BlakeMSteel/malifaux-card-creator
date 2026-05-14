@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import type { Ability } from "../../types";
+import { GoShieldLock, GoShieldX, GoShield } from "react-icons/go";
 
 export function AbilityEntry({
   ability,
@@ -66,9 +67,15 @@ export function AbilityEntry({
             value={ability.defensiveSymbol}
             onChange={(e) => onChange({ defensiveSymbol: e.target.value })}
           >
-            <MenuItem value="🛡️">🛡️</MenuItem>
-            <MenuItem value="🔮">🔮</MenuItem>
-            <MenuItem value="🪬">🪬</MenuItem>
+            <MenuItem value="🛡️">
+              <GoShieldLock />
+            </MenuItem>
+            <MenuItem value="🔮">
+              <GoShieldX />
+            </MenuItem>
+            <MenuItem value="🪬">
+              <GoShield />
+            </MenuItem>
           </Select>
         )}
       </Box>

@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import { FaBoltLightning } from "react-icons/fa6";
 import type { Action, ActionType, Trigger, RstValue } from "../../types";
 import { TriggerEntry } from "./TriggerEntry";
 
@@ -70,7 +71,7 @@ export function ActionEntry({
               onChange={(e) => onChange({ signature: e.target.checked })}
             />
           }
-          label={<Typography variant="body2">⚡</Typography>}
+          label={<FaBoltLightning />}
           sx={{ mr: 0 }}
         />
         <FormControl size="small" sx={{ minWidth: 110, flex: 1 }}>

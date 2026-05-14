@@ -1,10 +1,27 @@
 import type { Action, Trigger } from "../../types";
+import { FaBoltLightning } from "react-icons/fa6";
+import {
+  GiRamProfile,
+  GiFeatheredWing,
+  GiOpenBook,
+  GiDualityMask,
+  GiFloatingCrystal,
+} from "react-icons/gi";
+import type { Suit } from "../../types";
+
+const SUIT_ICONS: Record<Suit, React.ReactElement> = {
+  "🐏": <GiRamProfile />,
+  "🦅": <GiFeatheredWing />,
+  "📖": <GiOpenBook />,
+  "🎭": <GiDualityMask />,
+  "💎": <GiFloatingCrystal />,
+};
 import "./ActionBlock.css";
 
 export function TriggerRow({ trigger }: { trigger: Trigger }) {
   return (
     <div className="act-trigger">
-      <span className="act-suit">{trigger.suit}</span>
+      <span className="act-suit">{SUIT_ICONS[trigger.suit as Suit]}</span>
       <span>
         <strong>
           <em>{trigger.name}:</em>
@@ -22,7 +39,11 @@ export function ActionBlock({ action }: { action: Action }) {
     <div className="act-action">
       <div className="act-stat-row">
         <span>
-          {action.signature && <span className="act-sig">⚡ </span>}
+          {action.signature && (
+            <span className="act-sig">
+              <FaBoltLightning />{" "}
+            </span>
+          )}
           <strong>{action.name}</strong>
         </span>
         <span>{rg}</span>

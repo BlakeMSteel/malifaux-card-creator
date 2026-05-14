@@ -1,4 +1,5 @@
 import type { CardData } from "../../types";
+import { GiFloatingCrystal } from "react-icons/gi";
 import { getFaction } from "../../factions";
 import { AbilityRow } from "../../SharedComponents/DisplayComponents";
 import "./StatCardFront.css";
@@ -89,7 +90,11 @@ export default function StatCardFront({ card }: { card: CardData }) {
       </div>
 
       <div className="card-health">
-        {!isPeon && <div className="health-circle soulstone">💎</div>}
+        {!isPeon && (
+          <div className="health-circle soulstone">
+            <GiFloatingCrystal />
+          </div>
+        )}
         {Array.from({ length: card.health }, (_, i) => (
           <div key={i} className="health-circle">
             {i + 1}

@@ -35,6 +35,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import { GiPistolGun, GiClawSlashes, GiSparkles } from "react-icons/gi";
 
 const TOKEN_PRESETS: Record<string, string> = {
   Abandoned:
@@ -591,9 +592,48 @@ export default function CrewCardForm({ card, onChange }: Props) {
                 >
                   <MenuItem value="attack">all attack actions</MenuItem>
                   <MenuItem value="all">all actions</MenuItem>
-                  <MenuItem value="🔫">their 🔫 actions</MenuItem>
-                  <MenuItem value="✨">their ✨ actions</MenuItem>
-                  <MenuItem value="🗡️">their 🗡️ actions</MenuItem>
+                  <MenuItem value="🔫">
+                    <Box
+                      component="span"
+                      sx={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "5px",
+                      }}
+                    >
+                      <span>their</span>
+                      <GiPistolGun />
+                      <span>actions</span>
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value="✨">
+                    <Box
+                      component="span"
+                      sx={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "5px",
+                      }}
+                    >
+                      <span>their</span>
+                      <GiSparkles />
+                      <span>actions</span>
+                    </Box>
+                  </MenuItem>
+                  <MenuItem value="🗡️">
+                    <Box
+                      component="span"
+                      sx={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "5px",
+                      }}
+                    >
+                      <span>their</span>
+                      <GiClawSlashes />
+                      <span>actions</span>
+                    </Box>
+                  </MenuItem>
                 </Select>
               </FormControl>
               <FormControlLabel

@@ -26,13 +26,50 @@ import {
   Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { GiPistolGun, GiClawSlashes, GiSparkles } from "react-icons/gi";
 
-const TRIGGER_ACTION_TYPES: { value: TriggerActionType; label: string }[] = [
+const TRIGGER_ACTION_TYPES: {
+  value: TriggerActionType;
+  label: React.ReactNode;
+}[] = [
   { value: "attack", label: "all its attack actions" },
   { value: "all", label: "all actions" },
-  { value: "🔫", label: "its 🔫 actions" },
-  { value: "✨", label: "its ✨ actions" },
-  { value: "🗡️", label: "its 🗡️ actions" },
+  {
+    value: "🔫",
+    label: (
+      <Box
+        component="span"
+        sx={{ display: "inline-flex", alignItems: "center", gap: "5px" }}
+      >
+        <GiPistolGun />
+        <span>its ranged actions</span>
+      </Box>
+    ),
+  },
+  {
+    value: "✨",
+    label: (
+      <Box
+        component="span"
+        sx={{ display: "inline-flex", alignItems: "center", gap: "5px" }}
+      >
+        <GiSparkles />
+        <span>its magical actions</span>
+      </Box>
+    ),
+  },
+  {
+    value: "🗡️",
+    label: (
+      <Box
+        component="span"
+        sx={{ display: "inline-flex", alignItems: "center", gap: "5px" }}
+      >
+        <GiClawSlashes />
+        <span>its melee actions</span>
+      </Box>
+    ),
+  },
 ];
 
 interface Props {
