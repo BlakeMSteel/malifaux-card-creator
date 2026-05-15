@@ -5,6 +5,13 @@ import type {
   TriggerGroup,
   TriggerActionType,
 } from "../../types";
+import { GiPistolGun, GiClawSlashes, GiSparkles } from "react-icons/gi";
+
+const ACTION_ICONS: Partial<Record<TriggerActionType, React.ReactElement>> = {
+  "🔫": <GiPistolGun style={{ verticalAlign: "middle", margin: "0 3px" }} />,
+  "✨": <GiSparkles style={{ verticalAlign: "middle", margin: "0 3px" }} />,
+  "🗡️": <GiClawSlashes style={{ verticalAlign: "middle", margin: "0 3px" }} />,
+};
 import { getFaction } from "../../factions";
 import CrewCardHeader from "../CrewCardHeader";
 import {
@@ -44,18 +51,27 @@ function buildTriggerPreamble(
   excludeSummon: boolean,
   actionType: TriggerActionType,
   printedOnStatCard: boolean,
-): string {
+): React.ReactNode {
   const unique = uniqueOnly ? "unique " : "";
   const peon = excludePeon ? "non-Peon " : "";
   const summon = excludeSummon ? " without a Summon token" : "";
-  const actionSpec =
-    actionType === "attack"
-      ? "all attack actions"
-      : actionType === "all"
-        ? "all actions"
-        : `their ${actionType} actions`;
   const statCard = printedOnStatCard ? " printed on their stat card" : "";
-  return `Friendly ${unique}${peon}${keyword} models${summon} gain the following trigger on ${actionSpec}${statCard}:`;
+  const actionSpec: React.ReactNode =
+    actionType === "attack" ? (
+      "all attack actions"
+    ) : actionType === "all" ? (
+      "all actions"
+    ) : (
+      <>their {ACTION_ICONS[actionType]} actions</>
+    );
+  return (
+    <>
+      Friendly {unique}
+      {peon}
+      {keyword} models{summon} gain the following trigger on {actionSpec}
+      {statCard}:
+    </>
+  );
 }
 
 function TriggerGroupBlock({

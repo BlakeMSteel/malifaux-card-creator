@@ -270,7 +270,14 @@ export default function App() {
       >
         <Toolbar variant="dense" disableGutters sx={{ pl: 2 }}>
           <Box
-            sx={{ display: { xs: "none", sm: "block" }, mr: 3, flexShrink: 0 }}
+            component="a"
+            href="https://blakesteel.com"
+            sx={{
+              display: { xs: "none", sm: "block" },
+              mr: 3,
+              flexShrink: 0,
+              textDecoration: "none",
+            }}
           >
             <Typography
               variant="subtitle1"
@@ -280,6 +287,8 @@ export default function App() {
             </Typography>
           </Box>
           <Box
+            component="a"
+            href="https://blakesteel.com"
             sx={{
               display: { xs: "flex", sm: "none" },
               mr: 2,

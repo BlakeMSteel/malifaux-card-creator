@@ -41,8 +41,9 @@ const TRIGGER_ACTION_TYPES: {
         component="span"
         sx={{ display: "inline-flex", alignItems: "center", gap: "5px" }}
       >
+        <span>its</span>
         <GiPistolGun />
-        <span>its ranged actions</span>
+        <span>actions</span>
       </Box>
     ),
   },
@@ -53,8 +54,9 @@ const TRIGGER_ACTION_TYPES: {
         component="span"
         sx={{ display: "inline-flex", alignItems: "center", gap: "5px" }}
       >
+        <span>its</span>
         <GiSparkles />
-        <span>its magical actions</span>
+        <span>actions</span>
       </Box>
     ),
   },
@@ -65,8 +67,9 @@ const TRIGGER_ACTION_TYPES: {
         component="span"
         sx={{ display: "inline-flex", alignItems: "center", gap: "5px" }}
       >
+        <span>its</span>
         <GiClawSlashes />
-        <span>its melee actions</span>
+        <span>actions</span>
       </Box>
     ),
   },

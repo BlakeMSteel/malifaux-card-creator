@@ -1,4 +1,11 @@
 import type { UpgradeCardData, TriggerActionType } from "../types";
+import { GiPistolGun, GiClawSlashes, GiSparkles } from "react-icons/gi";
+
+const ACTION_ICONS: Partial<Record<TriggerActionType, React.ReactElement>> = {
+  "🔫": <GiPistolGun style={{ verticalAlign: "middle", margin: "0 3px" }} />,
+  "✨": <GiSparkles style={{ verticalAlign: "middle", margin: "0 3px" }} />,
+  "🗡️": <GiClawSlashes style={{ verticalAlign: "middle", margin: "0 3px" }} />,
+};
 import { getFaction } from "../factions";
 import {
   AbilityRow,
@@ -11,9 +18,9 @@ function triggerPreamble(
   actionType: TriggerActionType,
   statCard: boolean,
   count: number,
-): string {
+): React.ReactNode {
   const noun = count === 1 ? "trigger" : "triggers";
-  let spec: string;
+  let spec: React.ReactNode;
   switch (actionType) {
     case "attack":
       spec = "all its attack actions";
@@ -22,9 +29,13 @@ function triggerPreamble(
       spec = statCard ? "all actions printed on its stat card" : "all actions";
       break;
     default:
-      spec = `its ${actionType} actions`;
+      spec = <>its {ACTION_ICONS[actionType]} actions</>;
   }
-  return `This model gains the following ${noun} on ${spec}:`;
+  return (
+    <>
+      This model gains the following {noun} on {spec}:
+    </>
+  );
 }
 
 export default function UpgradeCardFront({ card }: { card: UpgradeCardData }) {
