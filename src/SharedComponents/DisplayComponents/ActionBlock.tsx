@@ -5,6 +5,8 @@ import {
   SIGNATURE_SYMBOL,
   renderSymbols,
 } from "../../symbols";
+
+const STONE_ICON = SUIT_SYMBOLS["[stone]"].icon;
 import "./ActionBlock.css";
 
 export function TriggerRow({ trigger }: { trigger: Trigger }) {
@@ -31,6 +33,12 @@ export function ActionBlock({ action }: { action: Action }) {
           {action.signature && (
             <span className="act-sig">{SIGNATURE_SYMBOL.icon} </span>
           )}
+          {Array.from({ length: action.stoneCost ?? 0 }, (_, i) => (
+            <span key={i} className="act-sig">
+              {STONE_ICON}
+            </span>
+          ))}
+          {(action.stoneCost ?? 0) > 0 && " "}
           <strong>{action.name}</strong>
         </span>
         <span>

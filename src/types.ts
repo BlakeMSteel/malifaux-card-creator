@@ -28,6 +28,7 @@ export interface Action {
   type: ActionType;
   signature: boolean;
   icon: ActionIcon;
+  stoneCost: number;
   name: string;
   rg: string;
   skl: string;

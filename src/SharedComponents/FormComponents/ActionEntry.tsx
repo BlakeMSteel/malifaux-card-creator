@@ -74,17 +74,6 @@ export function ActionEntry({
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <FormControlLabel
-          control={
-            <Checkbox
-              size="small"
-              checked={action.signature}
-              onChange={(e) => onChange({ signature: e.target.checked })}
-            />
-          }
-          label={SIGNATURE_SYMBOL.icon}
-          sx={{ mr: 0 }}
-        />
         <FormControl size="small" sx={{ minWidth: 110, flex: 1 }}>
           <InputLabel>Type</InputLabel>
           <Select
@@ -99,6 +88,31 @@ export function ActionEntry({
         <IconButton size="small" onClick={onRemove} color="error">
           <DeleteIcon fontSize="small" />
         </IconButton>
+      </Box>
+
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              size="small"
+              checked={action.signature}
+              onChange={(e) => onChange({ signature: e.target.checked })}
+            />
+          }
+          label={SIGNATURE_SYMBOL.icon}
+          sx={{ mr: 0 }}
+        />
+        <TextField
+          size="small"
+          label="Stones"
+          type="number"
+          value={action.stoneCost ?? 0}
+          onChange={(e) =>
+            onChange({ stoneCost: Math.max(0, Number(e.target.value) || 0) })
+          }
+          slotProps={{ htmlInput: { min: 0, max: 4 } }}
+          sx={{ width: 80 }}
+        />
       </Box>
 
       <TextField

@@ -116,6 +116,7 @@ export default function StatCardForm({ card, onChange }: Props) {
       type,
       signature: false,
       icon: "",
+      stoneCost: 0,
       name: "",
       rg: "-",
       skl: "-",
