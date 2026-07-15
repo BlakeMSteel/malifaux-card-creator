@@ -1,5 +1,6 @@
 import type { CrewCardData, Marker, Token } from "../../types";
 import { getFaction } from "../../factions";
+import { renderSymbols } from "../../symbols";
 import CrewCardHeader from "../CrewCardHeader";
 import "../CrewCard.css";
 import "./CrewCardBack.css";
@@ -24,7 +25,7 @@ function MarkerRow({ marker }: { marker: Marker }) {
           {marker.effect ? ". " : "."}
         </>
       )}
-      {marker.effect}
+      {renderSymbols(marker.effect)}
     </p>
   );
 }
@@ -32,7 +33,7 @@ function MarkerRow({ marker }: { marker: Marker }) {
 function TokenRow({ token }: { token: Token }) {
   return (
     <p className="cc-ref-entry">
-      <strong>{token.name}:</strong> {token.effect}
+      <strong>{token.name}:</strong> {renderSymbols(token.effect)}
     </p>
   );
 }

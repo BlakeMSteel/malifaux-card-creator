@@ -26,7 +26,7 @@ import {
   Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { GiPistolGun, GiClawSlashes, GiSparkles } from "react-icons/gi";
+import { SUITS, ACTION_TYPES, ACTION_TYPE_SYMBOLS } from "../../symbols";
 
 const TRIGGER_ACTION_TYPES: {
   value: TriggerActionType;
@@ -34,45 +34,20 @@ const TRIGGER_ACTION_TYPES: {
 }[] = [
   { value: "attack", label: "all its attack actions" },
   { value: "all", label: "all actions" },
-  {
-    value: "🔫",
+  ...ACTION_TYPES.map((at) => ({
+    value: at,
     label: (
       <Box
+        key={at}
         component="span"
         sx={{ display: "inline-flex", alignItems: "center", gap: "5px" }}
       >
         <span>its</span>
-        <GiPistolGun />
+        {ACTION_TYPE_SYMBOLS[at].icon}
         <span>actions</span>
       </Box>
     ),
-  },
-  {
-    value: "✨",
-    label: (
-      <Box
-        component="span"
-        sx={{ display: "inline-flex", alignItems: "center", gap: "5px" }}
-      >
-        <span>its</span>
-        <GiSparkles />
-        <span>actions</span>
-      </Box>
-    ),
-  },
-  {
-    value: "🗡️",
-    label: (
-      <Box
-        component="span"
-        sx={{ display: "inline-flex", alignItems: "center", gap: "5px" }}
-      >
-        <span>its</span>
-        <GiClawSlashes />
-        <span>actions</span>
-      </Box>
-    ),
-  },
+  })),
 ];
 
 interface Props {
@@ -134,7 +109,7 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
   const addTrigger = () => {
     const t: Trigger = {
       id: crypto.randomUUID(),
-      suit: "🐏",
+      suit: SUITS[0],
       name: "",
       requirement: "",
       effect: "",
@@ -156,6 +131,7 @@ export default function UpgradeCardForm({ card, onChange }: Props) {
       id: crypto.randomUUID(),
       type,
       signature: false,
+      icon: "",
       name: "",
       rg: "-",
       skl: "",

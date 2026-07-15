@@ -70,12 +70,44 @@ const LEGACY_KEY = "malifaux-card";
 const CREW_SAVES_KEY = "malifaux-saved-crew-cards";
 const UPGRADE_SAVES_KEY = "malifaux-saved-upgrade-cards";
 
+// Cards saved before symbols were switched from raw emoji to "[token]"
+// strings still have emoji baked into their JSON. Rewrite it in place
+// (both in dedicated fields like Suit/TriggerActionType and inline within
+// free text like ability/token descriptions) so old saves keep rendering.
+const EMOJI_TO_TOKEN: [string, string][] = [
+  ["🗡️", "[melee]"],
+  ["🗡", "[melee]"],
+  ["🛡️", "[physical]"],
+  ["🛡", "[physical]"],
+  ["🐏", "[ram]"],
+  ["🦅", "[crow]"],
+  ["📖", "[tome]"],
+  ["🎭", "[mask]"],
+  ["💎", "[stone]"],
+  ["🔫", "[missile]"],
+  ["✨", "[magic]"],
+  ["🔮", "[magical]"],
+  ["🪬", "[unusual]"],
+  ["⚡", "[signature]"],
+];
+
+function migrateEmojiSymbols(raw: string): string {
+  let result = raw;
+  for (const [emoji, token] of EMOJI_TO_TOKEN) {
+    if (result.includes(emoji)) result = result.split(emoji).join(token);
+  }
+  return result;
+}
+
 function loadSavedCards(): SavedCardEntry[] {
   try {
     const legacy = localStorage.getItem(LEGACY_KEY);
     const existing = localStorage.getItem(SAVES_KEY);
     if (legacy && !existing) {
-      const card = { ...defaultCard, ...JSON.parse(legacy) };
+      const card = {
+        ...defaultCard,
+        ...JSON.parse(migrateEmojiSymbols(legacy)),
+      };
       const entry: SavedCardEntry = {
         id: crypto.randomUUID(),
         label: card.name || "Imported",
@@ -84,7 +116,7 @@ function loadSavedCards(): SavedCardEntry[] {
       localStorage.removeItem(LEGACY_KEY);
       return [entry];
     }
-    if (existing) return JSON.parse(existing);
+    if (existing) return JSON.parse(migrateEmojiSymbols(existing));
   } catch {}
   return [];
 }
@@ -92,7 +124,7 @@ function loadSavedCards(): SavedCardEntry[] {
 function loadSavedCrewCards(): SavedCrewCardEntry[] {
   try {
     const existing = localStorage.getItem(CREW_SAVES_KEY);
-    if (existing) return JSON.parse(existing);
+    if (existing) return JSON.parse(migrateEmojiSymbols(existing));
   } catch {}
   return [];
 }
@@ -100,7 +132,7 @@ function loadSavedCrewCards(): SavedCrewCardEntry[] {
 function loadSavedUpgradeCards(): SavedUpgradeCardEntry[] {
   try {
     const existing = localStorage.getItem(UPGRADE_SAVES_KEY);
-    if (existing) return JSON.parse(existing);
+    if (existing) return JSON.parse(migrateEmojiSymbols(existing));
   } catch {}
   return [];
 }

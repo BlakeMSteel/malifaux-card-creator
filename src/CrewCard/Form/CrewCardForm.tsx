@@ -35,7 +35,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import { GiPistolGun, GiClawSlashes, GiSparkles } from "react-icons/gi";
+import { SUITS, ACTION_TYPES, ACTION_TYPE_SYMBOLS } from "../../symbols";
 
 const TOKEN_PRESETS: Record<string, string> = {
   Abandoned:
@@ -88,7 +88,7 @@ const TOKEN_PRESETS: Record<string, string> = {
   Craven:
     "This model cannot declare the Interact action and is ignored for strategies and schemes. When this model ends its activation, remove this token.",
   Death:
-    "When this model succeeds in an attack action that deals damage, it may remove this token. If it does so, the target must either discard a card, drain a 💎, or be killed.",
+    "When this model succeeds in an attack action that deals damage, it may remove this token. If it does so, the target must either discard a card, drain a [stone], or be killed.",
   Distracted:
     "When this model targets a friendly model, it must remove this token and suffer a - to that action's duel. Canceled by Focused.",
   Drift:
@@ -109,7 +109,7 @@ const TOKEN_PRESETS: Record<string, string> = {
   "Fragile Ego":
     "After another enemy model is chosen to activate, if this model has not activated this turn, the crew that applied this token may remove it to force this model to activate instead.",
   Fright:
-    "This model considers its 🛡️ abilities blank. After a friendly model succeeds in a ✨ action targeting this model, it may choose to receive one additional raise; if it does, remove this token after resolving the action.",
+    "This model considers its [physical] abilities blank. After a friendly model succeeds in a [magic] action targeting this model, it may choose to receive one additional raise; if it does, remove this token after resolving the action.",
   "Frozen Solid":
     "This model may not be moved by enemy effects. After either this model suffers damage or an enemy model targets this model with the Interact action, remove this token (this model may target itself with the Interact action).",
   Glowy:
@@ -144,14 +144,14 @@ const TOKEN_PRESETS: Record<string, string> = {
   Paranoia:
     'When this token is removed, the crew that applied it may move this model up to 4" and then make a Scheme marker into base contact with it, after resolving the current action (if any). During the end phase, this model must either discard a card or remove this token.',
   Parasite:
-    "When this model is killed, the crew that applied this token infuses a 💎.",
+    "When this model is killed, the crew that applied this token infuses a [stone].",
   Perforated:
     "After this model resolves the Walk or Charge action, deal 1 damage to it per inch it moved (to a maximum of 3). Other models may target this model with the Interact action to remove this token.",
   Poison: "During the end phase deal 1 irreducible damage to this model.",
   Promoted:
     "If this model is non-unique it receives +1 Skl when declaring attack actions.",
   Reload:
-    "When a model in this model's LoS ends its activation, this model may remove this token to declare a 🔫 targeting that model. If it does so, no other models in this crew may use a Reload token until the next model activates.",
+    "When a model in this model's LoS ends its activation, this model may remove this token to declare a [missile] targeting that model. If it does so, no other models in this crew may use a Reload token until the next model activates.",
   Replica:
     "After this model discards an upgrade, it may remove this token to attach the discarded upgrade.",
   Shame:
@@ -165,11 +165,11 @@ const TOKEN_PRESETS: Record<string, string> = {
   Staggered:
     "This model suffers -2 Sp and cannot be moved by other enemy models. When this model ends its activation, remove this token. Canceled by Hastened.",
   Stunned:
-    "This model cannot declare triggers and it counts all ⚡ symbols on its card as blank. When this model ends its activation, remove this token.",
+    "This model cannot declare triggers and it counts all [signature] symbols on its card as blank. When this model ends its activation, remove this token.",
   Summon:
-    "This model cannot declare the Interact action. This model does not infuse a 💎 for its crew when it is killed. This token cannot be removed.",
+    "This model cannot declare the Interact action. This model does not infuse a [stone] for its crew when it is killed. This token cannot be removed.",
   Suppressed:
-    "When this model declares a ✨ action, it must drain a 💎 or the action fails. After this model resolves a ✨ action, remove this token.",
+    "When this model declares a [magic] action, it must drain a [stone] or the action fails. After this model resolves a [magic] action, remove this token.",
   Voyage:
     "When this model would be moved by an enemy effect, it may remove this token. If it does so, this model controls the move.",
 };
@@ -292,6 +292,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
       id: crypto.randomUUID(),
       type,
       signature: false,
+      icon: "",
       name: "",
       rg: "-",
       skl: "-",
@@ -344,7 +345,7 @@ export default function CrewCardForm({ card, onChange }: Props) {
       printedOnStatCard: false,
       trigger: {
         id: crypto.randomUUID(),
-        suit: "🐏",
+        suit: SUITS[0],
         name: "",
         requirement: "",
         effect: "",
@@ -592,48 +593,22 @@ export default function CrewCardForm({ card, onChange }: Props) {
                 >
                   <MenuItem value="attack">all attack actions</MenuItem>
                   <MenuItem value="all">all actions</MenuItem>
-                  <MenuItem value="🔫">
-                    <Box
-                      component="span"
-                      sx={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "5px",
-                      }}
-                    >
-                      <span>their</span>
-                      <GiPistolGun />
-                      <span>actions</span>
-                    </Box>
-                  </MenuItem>
-                  <MenuItem value="✨">
-                    <Box
-                      component="span"
-                      sx={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "5px",
-                      }}
-                    >
-                      <span>their</span>
-                      <GiSparkles />
-                      <span>actions</span>
-                    </Box>
-                  </MenuItem>
-                  <MenuItem value="🗡️">
-                    <Box
-                      component="span"
-                      sx={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "5px",
-                      }}
-                    >
-                      <span>their</span>
-                      <GiClawSlashes />
-                      <span>actions</span>
-                    </Box>
-                  </MenuItem>
+                  {ACTION_TYPES.map((at) => (
+                    <MenuItem key={at} value={at}>
+                      <Box
+                        component="span"
+                        sx={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "5px",
+                        }}
+                      >
+                        <span>their</span>
+                        {ACTION_TYPE_SYMBOLS[at].icon}
+                        <span>actions</span>
+                      </Box>
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <FormControlLabel

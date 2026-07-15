@@ -1,23 +1,7 @@
 import { Box, IconButton, MenuItem, Select, TextField } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import type { Trigger, Suit } from "../../types";
-import {
-  GiRamProfile,
-  GiFeatheredWing,
-  GiOpenBook,
-  GiDualityMask,
-  GiFloatingCrystal,
-} from "react-icons/gi";
-
-export const SUITS: Suit[] = ["🐏", "🦅", "📖", "🎭", "💎"];
-
-const SUIT_ICONS: Record<Suit, React.ReactElement> = {
-  "🐏": <GiRamProfile />,
-  "🦅": <GiFeatheredWing />,
-  "📖": <GiOpenBook />,
-  "🎭": <GiDualityMask />,
-  "💎": <GiFloatingCrystal />,
-};
+import { SUITS, SUIT_SYMBOLS } from "../../symbols";
 
 export function TriggerEntry({
   trigger,
@@ -50,7 +34,7 @@ export function TriggerEntry({
         >
           {SUITS.map((s) => (
             <MenuItem key={s} value={s}>
-              {SUIT_ICONS[s]}
+              {SUIT_SYMBOLS[s].icon}
             </MenuItem>
           ))}
         </Select>

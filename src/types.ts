@@ -1,12 +1,13 @@
 export type Station = "Master" | "Henchman" | "Minion" | "Peon" | "";
 export type ActionType = "Attack" | "Tactical";
-export type Suit = "🐏" | "🦅" | "📖" | "🎭" | "💎";
+export type Suit = "[ram]" | "[crow]" | "[tome]" | "[mask]" | "[stone]";
+export type DefensiveSymbol = "[physical]" | "[magical]" | "[unusual]" | "";
 export type RstValue = "Df" | "Wp" | "Sp" | "Sz" | "X" | "*" | "-";
 export type BaseSize = "30mm" | "40mm" | "50mm";
 
 export interface Ability {
   id: string;
-  defensiveSymbol: string;
+  defensiveSymbol: DefensiveSymbol;
   name: string;
   requirement: string;
   text: string;
@@ -20,10 +21,13 @@ export interface Trigger {
   effect: string;
 }
 
+export type ActionIcon = "[missile]" | "[magic]" | "[melee]" | "[pulse]" | "";
+
 export interface Action {
   id: string;
   type: ActionType;
   signature: boolean;
+  icon: ActionIcon;
   name: string;
   rg: string;
   skl: string;
@@ -51,7 +55,13 @@ export interface ActionGroup {
   actions: Action[];
 }
 
-export type TriggerActionType = "🔫" | "✨" | "🗡️" | "attack" | "all";
+export type TriggerActionType =
+  | "[missile]"
+  | "[magic]"
+  | "[melee]"
+  | "[pulse]"
+  | "attack"
+  | "all";
 
 export interface TriggerGroup {
   id: string;

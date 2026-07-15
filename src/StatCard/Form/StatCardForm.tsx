@@ -115,6 +115,7 @@ export default function StatCardForm({ card, onChange }: Props) {
       id: crypto.randomUUID(),
       type,
       signature: false,
+      icon: "",
       name: "",
       rg: "-",
       skl: "-",

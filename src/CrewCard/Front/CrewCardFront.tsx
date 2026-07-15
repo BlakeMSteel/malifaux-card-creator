@@ -5,13 +5,7 @@ import type {
   TriggerGroup,
   TriggerActionType,
 } from "../../types";
-import { GiPistolGun, GiClawSlashes, GiSparkles } from "react-icons/gi";
-
-const ACTION_ICONS: Partial<Record<TriggerActionType, React.ReactElement>> = {
-  "🔫": <GiPistolGun style={{ verticalAlign: "middle", margin: "0 3px" }} />,
-  "✨": <GiSparkles style={{ verticalAlign: "middle", margin: "0 3px" }} />,
-  "🗡️": <GiClawSlashes style={{ verticalAlign: "middle", margin: "0 3px" }} />,
-};
+import { ACTION_TYPE_SYMBOLS, renderSymbols } from "../../symbols";
 import { getFaction } from "../../factions";
 import CrewCardHeader from "../CrewCardHeader";
 import {
@@ -62,7 +56,14 @@ function buildTriggerPreamble(
     ) : actionType === "all" ? (
       "all actions"
     ) : (
-      <>their {ACTION_ICONS[actionType]} actions</>
+      <>
+        their{" "}
+        {
+          ACTION_TYPE_SYMBOLS[actionType as keyof typeof ACTION_TYPE_SYMBOLS]
+            .icon
+        }{" "}
+        actions
+      </>
     );
   return (
     <>
@@ -172,7 +173,7 @@ export default function CrewCardFront({ card }: { card: CrewCardData }) {
 
       <div className="cc-features">
         {card.crewAbility && (
-          <p className="cc-crew-ability">{card.crewAbility}</p>
+          <p className="cc-crew-ability">{renderSymbols(card.crewAbility)}</p>
         )}
         {card.abilityGroups.map((g) => (
           <AbilityGroupBlock

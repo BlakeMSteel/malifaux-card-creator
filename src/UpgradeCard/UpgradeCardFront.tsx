@@ -1,11 +1,5 @@
 import type { UpgradeCardData, TriggerActionType } from "../types";
-import { GiPistolGun, GiClawSlashes, GiSparkles } from "react-icons/gi";
-
-const ACTION_ICONS: Partial<Record<TriggerActionType, React.ReactElement>> = {
-  "🔫": <GiPistolGun style={{ verticalAlign: "middle", margin: "0 3px" }} />,
-  "✨": <GiSparkles style={{ verticalAlign: "middle", margin: "0 3px" }} />,
-  "🗡️": <GiClawSlashes style={{ verticalAlign: "middle", margin: "0 3px" }} />,
-};
+import { ACTION_TYPE_SYMBOLS, renderSymbols } from "../symbols";
 import { getFaction } from "../factions";
 import {
   AbilityRow,
@@ -29,7 +23,16 @@ function triggerPreamble(
       spec = statCard ? "all actions printed on its stat card" : "all actions";
       break;
     default:
-      spec = <>its {ACTION_ICONS[actionType]} actions</>;
+      spec = (
+        <>
+          its{" "}
+          {
+            ACTION_TYPE_SYMBOLS[actionType as keyof typeof ACTION_TYPE_SYMBOLS]
+              .icon
+          }{" "}
+          actions
+        </>
+      );
   }
   return (
     <>
@@ -65,7 +68,7 @@ export default function UpgradeCardFront({ card }: { card: UpgradeCardData }) {
 
         <div className="uc-body">
           {card.upgradeEffect && (
-            <p className="uc-effect">{card.upgradeEffect}</p>
+            <p className="uc-effect">{renderSymbols(card.upgradeEffect)}</p>
           )}
 
           {hasAbilities && (
@@ -109,7 +112,9 @@ export default function UpgradeCardFront({ card }: { card: UpgradeCardData }) {
             LIMITATIONS
           </p>
           <hr className="uc-lim-hr" style={{ borderColor: faction.color }} />
-          <p className="uc-lim-value">{card.limitation || "-"}</p>
+          <p className="uc-lim-value">
+            {card.limitation ? renderSymbols(card.limitation) : "-"}
+          </p>
         </div>
       </div>
 

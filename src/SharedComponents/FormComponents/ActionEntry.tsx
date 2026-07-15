@@ -14,9 +14,20 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import { FaBoltLightning } from "react-icons/fa6";
-import type { Action, ActionType, Trigger, RstValue } from "../../types";
+import type {
+  Action,
+  ActionIcon,
+  ActionType,
+  Trigger,
+  RstValue,
+} from "../../types";
 import { TriggerEntry } from "./TriggerEntry";
+import {
+  SUITS,
+  ACTION_TYPES,
+  ACTION_TYPE_SYMBOLS,
+  SIGNATURE_SYMBOL,
+} from "../../symbols";
 
 export const RST_VALUES: RstValue[] = ["Df", "Wp", "Sp", "Sz", "X", "*", "-"];
 
@@ -32,7 +43,7 @@ export function ActionEntry({
   const addTrigger = () => {
     const t: Trigger = {
       id: crypto.randomUUID(),
-      suit: "🐏",
+      suit: SUITS[0],
       name: "",
       requirement: "",
       effect: "",
@@ -71,7 +82,7 @@ export function ActionEntry({
               onChange={(e) => onChange({ signature: e.target.checked })}
             />
           }
-          label={<FaBoltLightning />}
+          label={SIGNATURE_SYMBOL.icon}
           sx={{ mr: 0 }}
         />
         <FormControl size="small" sx={{ minWidth: 110, flex: 1 }}>
@@ -104,6 +115,21 @@ export function ActionEntry({
         useFlexGap
         sx={{ flexWrap: "wrap", rowGap: 1.5 }}
       >
+        <FormControl size="small" sx={{ minWidth: 64 }}>
+          <InputLabel>Icon</InputLabel>
+          <Select
+            label="Icon"
+            value={action.icon ?? ""}
+            onChange={(e) => onChange({ icon: e.target.value as ActionIcon })}
+          >
+            <MenuItem value="">(none)</MenuItem>
+            {ACTION_TYPES.map((at) => (
+              <MenuItem key={at} value={at}>
+                {ACTION_TYPE_SYMBOLS[at].icon}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <TextField
           size="small"
           label="Rg"

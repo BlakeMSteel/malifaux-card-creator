@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import type { Ability } from "../../types";
-import { GoShieldLock, GoShieldX, GoShield } from "react-icons/go";
+import { DEFENSIVE_TYPES, DEFENSIVE_SYMBOLS } from "../../symbols";
 
 export function AbilityEntry({
   ability,
@@ -54,7 +54,9 @@ export function AbilityEntry({
               size="small"
               checked={ability.defensiveSymbol !== ""}
               onChange={(e) =>
-                onChange({ defensiveSymbol: e.target.checked ? "🛡️" : "" })
+                onChange({
+                  defensiveSymbol: e.target.checked ? DEFENSIVE_TYPES[0] : "",
+                })
               }
             />
           }
@@ -65,17 +67,17 @@ export function AbilityEntry({
           <Select
             size="small"
             value={ability.defensiveSymbol}
-            onChange={(e) => onChange({ defensiveSymbol: e.target.value })}
+            onChange={(e) =>
+              onChange({
+                defensiveSymbol: e.target.value as Ability["defensiveSymbol"],
+              })
+            }
           >
-            <MenuItem value="🛡️">
-              <GoShieldLock />
-            </MenuItem>
-            <MenuItem value="🔮">
-              <GoShieldX />
-            </MenuItem>
-            <MenuItem value="🪬">
-              <GoShield />
-            </MenuItem>
+            {DEFENSIVE_TYPES.map((d) => (
+              <MenuItem key={d} value={d}>
+                {DEFENSIVE_SYMBOLS[d].icon}
+              </MenuItem>
+            ))}
           </Select>
         )}
       </Box>
