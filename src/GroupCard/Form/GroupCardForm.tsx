@@ -22,6 +22,8 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 
 interface Props {
   group: CardGroupData;
@@ -29,6 +31,8 @@ interface Props {
   statCards: SavedCardEntry[];
   crewCards: SavedCrewCardEntry[];
   upgradeCards: SavedUpgradeCardEntry[];
+  onExport: () => void;
+  onImport: () => void;
 }
 
 function Section({
@@ -139,12 +143,33 @@ export default function GroupCardForm({
   statCards,
   crewCards,
   upgradeCards,
+  onExport,
+  onImport,
 }: Props) {
   const update = (patch: Partial<CardGroupData>) =>
     onChange({ ...group, ...patch });
 
   return (
     <Box component="form" onSubmit={(e) => e.preventDefault()} sx={{ p: 2 }}>
+      <Stack direction="row" spacing={1} sx={{ mb: 2.5 }}>
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<ContentPasteIcon />}
+          onClick={onImport}
+        >
+          Import
+        </Button>
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<ContentCopyIcon />}
+          onClick={onExport}
+        >
+          Export
+        </Button>
+      </Stack>
+
       <Section title="Group Info">
         <TextField
           size="small"

@@ -82,6 +82,40 @@ const CREW_SAVES_KEY = "malifaux-saved-crew-cards";
 const UPGRADE_SAVES_KEY = "malifaux-saved-upgrade-cards";
 const GROUP_SAVES_KEY = "malifaux-saved-groups";
 
+const GROUP_EXPORT_KIND = "malifaux-card-group";
+
+interface GroupExport {
+  kind: typeof GROUP_EXPORT_KIND;
+  version: 1;
+  name: string;
+  crewCard: { id: string; card: CrewCardData } | null;
+  statCards: { id: string; card: CardData }[];
+  upgradeCards: { id: string; card: UpgradeCardData }[];
+}
+
+// Updates entries whose id matches an incoming import (so re-importing the
+// same export overwrites in place) and appends the rest as new entries,
+// preserving the imported id rather than minting a fresh one.
+function mergeImportedEntries<T extends { name: string }>(
+  prev: { id: string; label: string; card: T }[],
+  incoming: { id: string; card: T }[],
+  defaults: T,
+): { id: string; label: string; card: T }[] {
+  const updated = prev.map((entry) => {
+    const match = incoming.find((i) => i.id === entry.id);
+    if (!match) return entry;
+    const card = { ...defaults, ...match.card };
+    return { ...entry, label: card.name || "Imported", card };
+  });
+  const newEntries = incoming
+    .filter((i) => !prev.some((entry) => entry.id === i.id))
+    .map((i) => {
+      const card = { ...defaults, ...i.card };
+      return { id: i.id, label: card.name || "Imported", card };
+    });
+  return [...updated, ...newEntries];
+}
+
 // Cards saved before symbols were switched from raw emoji to "[token]"
 // strings still have emoji baked into their JSON. Rewrite it in place
 // (both in dedicated fields like Suit/TriggerActionType and inline within
@@ -366,6 +400,73 @@ export default function App() {
     handleGroupNew();
   };
 
+  const handleGroupExport = async () => {
+    const crewEntry = savedCrewCards.find((e) => e.id === group.crewCardId);
+    const statEntries = group.statCardIds
+      .map((id) => savedCards.find((e) => e.id === id))
+      .filter((e): e is SavedCardEntry => !!e);
+    const upgradeEntries = group.upgradeCardIds
+      .map((id) => savedUpgradeCards.find((e) => e.id === id))
+      .filter((e): e is SavedUpgradeCardEntry => !!e);
+
+    const payload: GroupExport = {
+      kind: GROUP_EXPORT_KIND,
+      version: 1,
+      name: group.name,
+      crewCard: crewEntry ? { id: crewEntry.id, card: crewEntry.card } : null,
+      statCards: statEntries.map((e) => ({ id: e.id, card: e.card })),
+      upgradeCards: upgradeEntries.map((e) => ({ id: e.id, card: e.card })),
+    };
+
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
+    } catch {
+      window.alert("Could not copy the group to the clipboard.");
+    }
+  };
+
+  const handleGroupImport = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      const parsed = JSON.parse(text) as Partial<GroupExport>;
+      if (parsed.kind !== GROUP_EXPORT_KIND) {
+        throw new Error("Not a card group export");
+      }
+
+      const crewCardId = parsed.crewCard?.id ?? null;
+      if (parsed.crewCard) {
+        const importedCrewCard = parsed.crewCard;
+        setSavedCrewCards((prev) =>
+          mergeImportedEntries(prev, [importedCrewCard], defaultCrewCard),
+        );
+      }
+
+      const statCardIds = (parsed.statCards ?? []).map((e) => e.id);
+      if (parsed.statCards?.length) {
+        setSavedCards((prev) =>
+          mergeImportedEntries(prev, parsed.statCards!, defaultCard),
+        );
+      }
+
+      const upgradeCardIds = (parsed.upgradeCards ?? []).map((e) => e.id);
+      if (parsed.upgradeCards?.length) {
+        setSavedUpgradeCards((prev) =>
+          mergeImportedEntries(prev, parsed.upgradeCards!, defaultUpgradeCard),
+        );
+      }
+
+      setGroup({
+        name: parsed.name || "Imported",
+        crewCardId,
+        statCardIds,
+        upgradeCardIds,
+      });
+      setCurrentGroupId(null);
+    } catch {
+      window.alert("Clipboard does not contain a valid card group.");
+    }
+  };
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100dvh" }}>
       <AppBar
@@ -485,6 +586,8 @@ export default function App() {
               statCards={savedCards}
               crewCards={savedCrewCards}
               upgradeCards={savedUpgradeCards}
+              onExport={handleGroupExport}
+              onImport={handleGroupImport}
             />
           </>
         )}

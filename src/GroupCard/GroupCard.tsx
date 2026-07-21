@@ -19,6 +19,8 @@ interface Props {
   statCards: SavedCardEntry[];
   crewCards: SavedCrewCardEntry[];
   upgradeCards: SavedUpgradeCardEntry[];
+  onExport: () => void;
+  onImport: () => void;
 }
 
 export default function GroupCard({
@@ -27,6 +29,8 @@ export default function GroupCard({
   statCards,
   crewCards,
   upgradeCards,
+  onExport,
+  onImport,
 }: Props) {
   const crewEntry = crewCards.find((e) => e.id === group.crewCardId);
   const statEntries = group.statCardIds
@@ -45,6 +49,8 @@ export default function GroupCard({
           statCards={statCards}
           crewCards={crewCards}
           upgradeCards={upgradeCards}
+          onExport={onExport}
+          onImport={onImport}
         />
       }
       preview={
