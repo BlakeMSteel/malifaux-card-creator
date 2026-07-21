@@ -1,6 +1,7 @@
 import type { CrewCardData, Marker, Token } from "../../types";
 import { getFaction } from "../../factions";
 import { renderSymbols } from "../../symbols";
+import { useShrinkToFit } from "../../SharedComponents/useShrinkToFit";
 import CrewCardHeader from "../CrewCardHeader";
 import "../CrewCard.css";
 import "./CrewCardBack.css";
@@ -62,6 +63,10 @@ export default function CrewCardBack({ card }: { card: CrewCardData }) {
   const faction = getFaction(card.faction);
   const hasMarkers = card.markers.length > 0;
   const hasTokens = card.tokens.length > 0;
+  const bodyRef = useShrinkToFit<HTMLDivElement>([card.markers, card.tokens], {
+    maxFontSize: 13,
+    minFontSize: 8,
+  });
 
   return (
     <div className="crew-card">
@@ -70,7 +75,7 @@ export default function CrewCardBack({ card }: { card: CrewCardData }) {
         name={card.name}
         master={card.master}
       />
-      <div className="cc-back-body">
+      <div className="cc-back-body" ref={bodyRef}>
         {hasMarkers && (
           <RefSection title="Markers" color={faction.color}>
             {card.markers.map((m: Marker) => (

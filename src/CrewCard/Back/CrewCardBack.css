@@ -11,7 +11,7 @@
 }
 
 .cc-ref-heading {
-  font-size: 15px;
+  font-size: 1.15em;
   font-weight: bold;
   margin: 0 0 2px;
   text-align: center;
@@ -26,5 +26,5 @@
 
 .cc-ref-entry {
   margin: 0 0 8px;
-  font-size: 13px;
+  font-size: 1em;
 }
