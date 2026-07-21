@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useRef, useState } from "react";
 import type {
   CardGroupData,
   SavedCardEntry,
@@ -6,6 +6,7 @@ import type {
   SavedUpgradeCardEntry,
 } from "../types";
 import CardLayout from "../SharedComponents/CardLayout";
+import { exportContainerToPdf } from "../SharedComponents/exportPdf";
 import GroupCardForm from "./Form/GroupCardForm";
 import StatCardFront from "../StatCard/Front/StatCardFront";
 import StatCardBack from "../StatCard/Back/StatCardBack";
@@ -32,6 +33,9 @@ export default function GroupCard({
   onExport,
   onImport,
 }: Props) {
+  const previewRef = useRef<HTMLDivElement>(null);
+  const [pdfExporting, setPdfExporting] = useState(false);
+
   const crewEntry = crewCards.find((e) => e.id === group.crewCardId);
   const statEntries = group.statCardIds
     .map((id) => statCards.find((e) => e.id === id))
@@ -39,6 +43,21 @@ export default function GroupCard({
   const upgradeEntries = group.upgradeCardIds
     .map((id) => upgradeCards.find((e) => e.id === id))
     .filter((e): e is SavedUpgradeCardEntry => !!e);
+
+  const handleExportPdf = async () => {
+    if (!previewRef.current) return;
+    setPdfExporting(true);
+    try {
+      await exportContainerToPdf(
+        previewRef.current,
+        `${group.name || "group"}.pdf`,
+      );
+    } catch {
+      window.alert("Could not generate the PDF.");
+    } finally {
+      setPdfExporting(false);
+    }
+  };
 
   return (
     <CardLayout
@@ -51,10 +70,12 @@ export default function GroupCard({
           upgradeCards={upgradeCards}
           onExport={onExport}
           onImport={onImport}
+          onExportPdf={handleExportPdf}
+          pdfExporting={pdfExporting}
         />
       }
       preview={
-        <div className="cards-container">
+        <div className="cards-container" ref={previewRef}>
           {crewEntry && (
             <Fragment key={crewEntry.id}>
               <CrewCardFront card={crewEntry.card} />

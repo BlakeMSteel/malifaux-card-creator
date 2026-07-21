@@ -24,6 +24,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 
 interface Props {
   group: CardGroupData;
@@ -33,6 +34,8 @@ interface Props {
   upgradeCards: SavedUpgradeCardEntry[];
   onExport: () => void;
   onImport: () => void;
+  onExportPdf: () => void;
+  pdfExporting: boolean;
 }
 
 function Section({
@@ -145,13 +148,15 @@ export default function GroupCardForm({
   upgradeCards,
   onExport,
   onImport,
+  onExportPdf,
+  pdfExporting,
 }: Props) {
   const update = (patch: Partial<CardGroupData>) =>
     onChange({ ...group, ...patch });
 
   return (
     <Box component="form" onSubmit={(e) => e.preventDefault()} sx={{ p: 2 }}>
-      <Stack direction="row" spacing={1} sx={{ mb: 2.5 }}>
+      <Stack direction="row" spacing={1} sx={{ mb: 2.5, flexWrap: "wrap" }}>
         <Button
           size="small"
           variant="outlined"
@@ -167,6 +172,15 @@ export default function GroupCardForm({
           onClick={onExport}
         >
           Export
+        </Button>
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<PictureAsPdfIcon />}
+          onClick={onExportPdf}
+          disabled={pdfExporting}
+        >
+          {pdfExporting ? "Generating…" : "Export PDF"}
         </Button>
       </Stack>
 
