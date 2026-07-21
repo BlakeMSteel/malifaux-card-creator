@@ -138,6 +138,19 @@ export interface SavedCardEntry {
   card: CardData;
 }
 
+export interface CardGroupData {
+  name: string;
+  crewCardId: string | null;
+  statCardIds: string[];
+  upgradeCardIds: string[];
+}
+
+export interface SavedGroupEntry {
+  id: string;
+  label: string;
+  group: CardGroupData;
+}
+
 export interface CardData {
   name: string;
   title: string;
