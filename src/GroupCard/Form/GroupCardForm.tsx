@@ -97,36 +97,38 @@ function AddCardList({
           );
         })}
       </List>
-      {addable.length > 0 && (
-        <Stack direction="row" spacing={1}>
-          <FormControl size="small" sx={{ flex: 1 }}>
-            <InputLabel>{label}</InputLabel>
-            <Select
-              label={label}
-              value={pending}
-              onChange={(e) => setPending(e.target.value)}
-            >
-              {addable.map((e) => (
-                <MenuItem key={e.id} value={e.id}>
-                  {e.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <Button
-            size="small"
-            variant="outlined"
-            startIcon={<AddIcon />}
-            disabled={!pending}
-            onClick={() => {
-              onAdd(pending);
-              setPending("");
-            }}
+      <Stack direction="row" spacing={1}>
+        <FormControl
+          size="small"
+          sx={{ flex: 1 }}
+          disabled={addable.length === 0}
+        >
+          <InputLabel>{label}</InputLabel>
+          <Select
+            label={label}
+            value={pending}
+            onChange={(e) => setPending(e.target.value)}
           >
-            Add
-          </Button>
-        </Stack>
-      )}
+            {addable.map((e) => (
+              <MenuItem key={e.id} value={e.id}>
+                {e.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <Button
+          size="small"
+          variant="outlined"
+          startIcon={<AddIcon />}
+          disabled={!pending}
+          onClick={() => {
+            onAdd(pending);
+            setPending("");
+          }}
+        >
+          Add
+        </Button>
+      </Stack>
     </Stack>
   );
 }
@@ -160,7 +162,6 @@ export default function GroupCardForm({
           <Select
             label="Crew"
             value={group.crewCardId ?? ""}
-            displayEmpty
             onChange={(e) =>
               update({ crewCardId: (e.target.value as string) || null })
             }
