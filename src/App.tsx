@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { AppBar, Box, Tab, Tabs, Toolbar, Typography } from "@mui/material";
 import { FaIdCard } from "react-icons/fa";
+import MobileNavMenu from "./SharedComponents/MobileNavMenu";
 import type {
   CardData,
   SavedCardEntry,
@@ -156,10 +157,17 @@ function loadSavedGroups(): SavedGroupEntry[] {
   return [];
 }
 
+type TabValue = "stat" | "crew" | "upgrade" | "group";
+
+const TAB_ITEMS: { value: TabValue; label: string }[] = [
+  { value: "stat", label: "Model" },
+  { value: "crew", label: "Crew" },
+  { value: "upgrade", label: "Upgrade" },
+  { value: "group", label: "Group" },
+];
+
 export default function App() {
-  const [activeTab, setActiveTab] = useState<
-    "stat" | "crew" | "upgrade" | "group"
-  >("stat");
+  const [activeTab, setActiveTab] = useState<TabValue>("stat");
 
   // Stat card state
   const [savedCards, setSavedCards] =
@@ -398,17 +406,20 @@ export default function App() {
           </Box>
           <Tabs
             value={activeTab}
-            onChange={(_, v: "stat" | "crew" | "upgrade" | "group") =>
-              setActiveTab(v)
-            }
+            onChange={(_, v: TabValue) => setActiveTab(v)}
             textColor="primary"
             indicatorColor="primary"
+            sx={{ display: { xs: "none", sm: "flex" } }}
           >
-            <Tab label="Model" value="stat" />
-            <Tab label="Crew" value="crew" />
-            <Tab label="Upgrade" value="upgrade" />
-            <Tab label="Group" value="group" />
+            {TAB_ITEMS.map((t) => (
+              <Tab key={t.value} label={t.label} value={t.value} />
+            ))}
           </Tabs>
+          <MobileNavMenu
+            tabs={TAB_ITEMS}
+            activeTab={activeTab}
+            onSelect={setActiveTab}
+          />
         </Toolbar>
       </AppBar>
       <Box
