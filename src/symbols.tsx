@@ -11,7 +11,11 @@ import {
   GiAura,
 } from "react-icons/gi";
 import { GoShieldLock, GoShieldX, GoShield } from "react-icons/go";
-import { FaBoltLightning } from "react-icons/fa6";
+import {
+  FaBoltLightning,
+  FaSquarePlus,
+  FaRegSquareMinus,
+} from "react-icons/fa6";
 import type { Suit, TriggerActionType, DefensiveSymbol } from "./types";
 
 type IconTriggerActionType = Exclude<TriggerActionType, "attack" | "all">;
@@ -67,12 +71,26 @@ export const SIGNATURE_SYMBOL = def(
   <FaBoltLightning />,
 );
 
+export const POSITIVE_SYMBOL = def(
+  "positive",
+  ["pos", "plus", "advantage", "adv"],
+  <FaSquarePlus />,
+);
+
+export const NEGATIVE_SYMBOL = def(
+  "negative",
+  ["neg", "minus", "disadvantage", "disadv"],
+  <FaRegSquareMinus />,
+);
+
 const ALIAS_TO_ICON = new Map<string, ReactElement>();
 for (const sym of [
   ...Object.values(SUIT_SYMBOLS),
   ...Object.values(ACTION_TYPE_SYMBOLS),
   ...Object.values(DEFENSIVE_SYMBOLS),
   SIGNATURE_SYMBOL,
+  POSITIVE_SYMBOL,
+  NEGATIVE_SYMBOL,
 ]) {
   for (const alias of sym.aliases) {
     ALIAS_TO_ICON.set(alias.toLowerCase(), sym.icon);
