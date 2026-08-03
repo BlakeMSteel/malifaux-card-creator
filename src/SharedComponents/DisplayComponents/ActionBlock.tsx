@@ -49,9 +49,9 @@ export function ActionBlock({ action }: { action: Action }) {
           )}
           {rg}
         </span>
-        <span>{action.skl}</span>
+        <span>{renderSymbols(action.skl)}</span>
         <span>{action.rst}</span>
-        <span>{action.tn}</span>
+        <span>{renderSymbols(action.tn)}</span>
         <span>{action.dmg}</span>
       </div>
       <div className="act-text">
