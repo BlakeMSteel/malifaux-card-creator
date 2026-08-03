@@ -9,16 +9,24 @@
   overflow-y: auto;
   overflow-x: hidden;
   border-right: 1px solid #ccc;
-  padding: 16px;
   box-sizing: border-box;
-  transition:
-    max-width 0.25s ease,
-    padding 0.25s ease;
+  transition: max-width 0.25s ease;
 }
 
 .card-layout.collapsed .cl-form-panel {
   max-width: 0;
-  padding: 0;
+}
+
+.cl-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #fafafa;
+}
+
+.cl-form-content {
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 .cl-toggle {

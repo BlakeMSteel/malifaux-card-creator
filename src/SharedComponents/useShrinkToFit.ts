@@ -6,9 +6,6 @@ interface Options {
   step?: number;
 }
 
-// Shrinks an element's font size, starting from maxFontSize, only as far as
-// needed to stop its content from overflowing its (fixed-height) box. Falls
-// back to letting it overflow/scroll if it still doesn't fit at minFontSize.
 export function useShrinkToFit<T extends HTMLElement>(
   deps: DependencyList,
   { maxFontSize, minFontSize, step = 0.25 }: Options,

@@ -1,5 +1,6 @@
 import type { UpgradeCardData } from "../types";
 import CardLayout from "../SharedComponents/CardLayout";
+import SymbolPalette from "../SharedComponents/SymbolPalette";
 import UpgradeCardFront from "./UpgradeCardFront";
 import UpgradeCardForm from "./Form/UpgradeCardForm";
 
@@ -11,6 +12,7 @@ interface Props {
 export default function UpgradeCard({ card, onChange }: Props) {
   return (
     <CardLayout
+      toolbar={<SymbolPalette />}
       form={<UpgradeCardForm card={card} onChange={onChange} />}
       preview={
         <div className="cards-container">

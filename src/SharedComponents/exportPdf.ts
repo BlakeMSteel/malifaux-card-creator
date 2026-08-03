@@ -1,11 +1,8 @@
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
-const PX_TO_PT = 0.75; // 1 CSS px = 1/96in, 1pt = 1/72in
+const PX_TO_PT = 0.75;
 
-// Renders each direct child of `container` (one card face) to its own PDF
-// page, sized to match that face's on-screen dimensions, at 2x resolution
-// for crisper print output.
 export async function exportContainerToPdf(
   container: HTMLElement,
   filename: string,

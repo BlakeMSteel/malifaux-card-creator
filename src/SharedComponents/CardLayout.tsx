@@ -7,14 +7,18 @@ import "./CardLayout.css";
 interface Props {
   form: React.ReactNode;
   preview: React.ReactNode;
+  toolbar?: React.ReactNode;
 }
 
-export default function CardLayout({ form, preview }: Props) {
+export default function CardLayout({ form, preview, toolbar }: Props) {
   const [formOpen, setFormOpen] = useState(true);
 
   return (
     <div className={`card-layout${formOpen ? "" : " collapsed"}`}>
-      <div className="cl-form-panel">{form}</div>
+      <div className="cl-form-panel">
+        {toolbar && <div className="cl-toolbar">{toolbar}</div>}
+        <div className="cl-form-content">{form}</div>
+      </div>
       <IconButton
         size="small"
         onClick={() => setFormOpen((o) => !o)}

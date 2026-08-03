@@ -97,6 +97,24 @@ for (const sym of [
   }
 }
 
+export interface PaletteSymbol {
+  token: string;
+  icon: ReactElement;
+}
+
+export const ALL_SYMBOLS: PaletteSymbol[] = [
+  ...Object.entries(SUIT_SYMBOLS),
+  ...Object.entries(ACTION_TYPE_SYMBOLS),
+  ...Object.entries(DEFENSIVE_SYMBOLS),
+]
+  .map(([token, sym]) => ({ token, icon: sym.icon }))
+  .concat(
+    [SIGNATURE_SYMBOL, POSITIVE_SYMBOL, NEGATIVE_SYMBOL].map((sym) => ({
+      token: `[${sym.aliases[0]}]`,
+      icon: sym.icon,
+    })),
+  );
+
 const TOKEN_PATTERN = /\[([a-zA-Z-]+)\]/g;
 
 /** Renders inline `[token]` placeholders (e.g. "[ram]", "[signature]") found

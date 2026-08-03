@@ -8,8 +8,6 @@ interface Props<T extends string> {
   onSelect: (value: T) => void;
 }
 
-// Keeps its own open/closed state local so opening the menu doesn't force a
-// re-render of whichever heavy card form/preview tree is currently active.
 export default function MobileNavMenu<T extends string>({
   tabs,
   activeTab,
