@@ -29,7 +29,7 @@ import {
   SIGNATURE_SYMBOL,
 } from "../../symbols";
 
-export const RST_VALUES: RstValue[] = ["Df", "Wp", "Sp", "Sz", "X", "*", "-"];
+const RST_VALUES: RstValue[] = ["Df", "Wp", "Sp", "Sz", "X", "*", "-"];
 
 export function ActionEntry({
   action,

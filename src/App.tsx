@@ -18,7 +18,7 @@ import UpgradeCard from "./UpgradeCard/UpgradeCard";
 import GroupCard from "./GroupCard/GroupCard";
 import CardLibrary from "./CardLibrary/CardLibrary";
 
-export const defaultCard: CardData = {
+const defaultCard: CardData = {
   name: "",
   title: "",
   cost: "",
@@ -163,7 +163,9 @@ function loadSavedCards(): SavedCardEntry[] {
       return [entry];
     }
     if (existing) return JSON.parse(migrateEmojiSymbols(existing));
-  } catch {}
+  } catch {
+    // ignore malformed/missing saved data, fall back to default
+  }
   return [];
 }
 
@@ -171,7 +173,9 @@ function loadSavedCrewCards(): SavedCrewCardEntry[] {
   try {
     const existing = localStorage.getItem(CREW_SAVES_KEY);
     if (existing) return JSON.parse(migrateEmojiSymbols(existing));
-  } catch {}
+  } catch {
+    // ignore malformed/missing saved data, fall back to default
+  }
   return [];
 }
 
@@ -179,7 +183,9 @@ function loadSavedUpgradeCards(): SavedUpgradeCardEntry[] {
   try {
     const existing = localStorage.getItem(UPGRADE_SAVES_KEY);
     if (existing) return JSON.parse(migrateEmojiSymbols(existing));
-  } catch {}
+  } catch {
+    // ignore malformed/missing saved data, fall back to default
+  }
   return [];
 }
 
@@ -187,7 +193,9 @@ function loadSavedGroups(): SavedGroupEntry[] {
   try {
     const existing = localStorage.getItem(GROUP_SAVES_KEY);
     if (existing) return JSON.parse(existing);
-  } catch {}
+  } catch {
+    // ignore malformed/missing saved data, fall back to default
+  }
   return [];
 }
 
