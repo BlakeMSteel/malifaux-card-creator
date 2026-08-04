@@ -9,8 +9,10 @@ import {
   GiSparkles,
   GiClawSlashes,
   GiAura,
+  GiHeartShield,
+  GiRosaShield,
 } from "react-icons/gi";
-import { GoShieldLock, GoShieldX, GoShield } from "react-icons/go";
+import { BsShieldFillExclamation } from "react-icons/bs";
 import {
   FaBoltLightning,
   FaSquarePlus,
@@ -52,12 +54,12 @@ export const ACTION_TYPES = Object.keys(
 ) as IconTriggerActionType[];
 
 export const DEFENSIVE_SYMBOLS: Record<IconDefensiveSymbol, SymbolDef> = {
-  "[physical]": def("physical", ["phys", "armor"], <GoShieldLock />),
-  "[magical]": def("magical", ["aegis"], <GoShieldX />),
+  "[physical]": def("physical", ["phys", "armor"], <GiHeartShield />),
+  "[magical]": def("magical", ["aegis"], <GiRosaShield />),
   "[unusual]": def(
     "unusual",
     ["weird", "strange", "bang", "exclamation"],
-    <GoShield />,
+    <BsShieldFillExclamation />,
   ),
 };
 
