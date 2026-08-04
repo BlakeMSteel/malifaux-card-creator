@@ -7,7 +7,7 @@
   grid-template-columns: 1fr 42px 30px 30px 30px 30px;
   gap: 0 2px;
   align-items: baseline;
-  font-size: 12px;
+  font-size: calc(12px * var(--shrink-scale, 1));
   font-weight: bold;
 }
 
@@ -17,7 +17,7 @@
 
 .act-col-headers span {
   text-align: center;
-  font-size: 10px;
+  font-size: calc(10px * var(--shrink-scale, 1));
 }
 
 .act-hr {

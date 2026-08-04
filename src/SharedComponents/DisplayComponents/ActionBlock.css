@@ -7,7 +7,7 @@
   grid-template-columns: 1fr 42px 30px 30px 30px 30px;
   gap: 0 2px;
   align-items: start;
-  font-size: 12px;
+  font-size: calc(12px * var(--shrink-scale, 1));
 }
 
 .act-stat-row span:not(:first-child) {
@@ -19,12 +19,12 @@
 }
 
 .act-sig {
-  font-size: 12px;
+  font-size: calc(12px * var(--shrink-scale, 1));
 }
 
 .act-text {
   margin: 2px 0 0;
-  font-size: 12px;
+  font-size: calc(12px * var(--shrink-scale, 1));
 }
 
 .act-trigger {
@@ -33,10 +33,10 @@
   gap: 0 3px;
   align-items: start;
   margin: 2px 0 0 8px;
-  font-size: 12px;
+  font-size: calc(12px * var(--shrink-scale, 1));
 }
 
 .act-suit {
-  font-size: 10px;
+  font-size: calc(10px * var(--shrink-scale, 1));
   padding-top: 1px;
 }

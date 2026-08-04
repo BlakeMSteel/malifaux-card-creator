@@ -2,6 +2,7 @@ import type { CardData } from "../../types";
 import { GiFloatingCrystal } from "react-icons/gi";
 import { getFaction } from "../../factions";
 import { AbilityRow } from "../../SharedComponents/DisplayComponents";
+import { useShrinkScale } from "../../SharedComponents/useShrinkScale";
 import "./StatCardFront.css";
 
 function buildCharacteristics(card: CardData): string {
@@ -34,6 +35,9 @@ export default function StatCardFront({ card }: { card: CardData }) {
   const isPeon = card.station === "Peon";
   const isMaster = card.station === "Master";
   const faction = getFaction(card.faction);
+  const abilitiesRef = useShrinkScale<HTMLDivElement>([card.abilities], {
+    minScale: 0.7,
+  });
 
   return (
     <div className="card" style={{ background: faction.color }}>
@@ -83,7 +87,7 @@ export default function StatCardFront({ card }: { card: CardData }) {
         </div>
       )}
 
-      <div className="card-abilities">
+      <div className="card-abilities" ref={abilitiesRef}>
         {card.abilities.map((ab) => (
           <AbilityRow key={ab.id} ability={ab} />
         ))}
