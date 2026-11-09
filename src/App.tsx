@@ -13,6 +13,7 @@ import type {
   SavedGroupEntry,
 } from "./types";
 import StatCard from "./StatCard/StatCard";
+import { statCardLabel } from "./StatCard/statCardLabel";
 import CrewCard from "./CrewCard/CrewCard";
 import UpgradeCard from "./UpgradeCard/UpgradeCard";
 import GroupCard from "./GroupCard/GroupCard";
@@ -542,7 +543,10 @@ export default function App() {
         {activeTab === "stat" && (
           <>
             <CardLibrary
-              savedCards={savedCards}
+              savedCards={savedCards.map((entry) => ({
+                id: entry.id,
+                label: statCardLabel(entry.card),
+              }))}
               currentId={currentId}
               onSave={handleSave}
               onNew={handleNew}

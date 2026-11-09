@@ -25,6 +25,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import { statCardLabel } from "../../StatCard/statCardLabel";
 
 interface Props {
   group: CardGroupData;
@@ -218,7 +219,10 @@ export default function GroupCardForm({
       <Section title="Model Cards">
         <AddCardList
           label="Add model"
-          available={statCards}
+          available={statCards.map((entry) => ({
+            id: entry.id,
+            label: statCardLabel(entry.card),
+          }))}
           selectedIds={group.statCardIds}
           onAdd={(id) => update({ statCardIds: [...group.statCardIds, id] })}
           onRemove={(id) =>
